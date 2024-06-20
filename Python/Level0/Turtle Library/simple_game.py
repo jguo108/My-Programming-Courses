@@ -23,9 +23,15 @@ def turn_right():
     player.right(30)
 
 
-def increase_speed():
+def speedup():
     global speed
     speed += 1
+
+
+def slowdown():
+    global speed
+    if speed > 1:
+        speed -= 1
 
 
 def collide(t1, t2):
@@ -55,6 +61,16 @@ window = turtle.Screen()  # TODO: how do we know how large is the screen
 window.bgcolor('lightgreen')
 # Disable screen update. We will update it manually using the 'update' method
 window.tracer(0)
+window.listen()  # make the window listen for key presses
+
+# 'onkeypress' will keep runnig the function as long as the key is
+# being pressed down, whereas 'onkey' will only run the functino once
+# when it is pressed but not when it is being pressed down
+window.onkeypress(turn_left, 'Left')
+window.onkeypress(turn_right, 'Right')
+window.onkey(speedup, 'Up')
+window.onkey(slowdown, 'Down')
+
 
 # Draw border
 my_pen = turtle.Turtle()
@@ -97,14 +113,6 @@ player.color('blue')
 player.shape('turtle')
 player.penup()
 player.speed(0)  # TODO: what does this do?
-
-turtle.listen()  # TODO: what does this do?
-# 'onkeypress' will keep runnig the function as long as the key is
-# being pressed down, whereas 'onkey' will only run the functino once
-# when it is pressed but not when it is being pressed down
-turtle.onkeypress(turn_left, 'Left')
-turtle.onkeypress(turn_right, 'Right')
-turtle.onkey(increase_speed, 'Up')
 
 update_score(0)
 
