@@ -43,6 +43,7 @@ def calculate():
     equation = ''
 
 
+# TODO: understand what this really means
 for r in range(GRID_ROWS):
     window.rowconfigure(r, weight=1)
 for c in range(GRID_COLS):
