@@ -26,45 +26,37 @@ def move(x_direction, y_direction):
     player_y = player.ycor()
     player_row, player_col = coordinates_to_indices(player_x, player_y)
 
+    # Are we going to run into a wall?
     wall_row = player_row - y_direction
     wall_col = player_col + x_direction
 
-    if levels[0][wall_row][wall_col] == 'X':
+    if level[wall_row][wall_col] == 'X':
         return
 
     player.goto(player_x + x_direction * TILE_SIZE,
                 player_y + y_direction * TILE_SIZE)
 
+    # take treasure
+    for t in treasures:
+        if t.xcor() == player_x and t.ycor() == player_y:
+            t.hideturtle()
+            treasures.remove(t)
+            break
+
 
 def up():
-    '''
-    player_x = player.xcor()
-    player_y = player.ycor()
-    player_row, player_col = coordinates_to_indices(player_x, player_y)
-
-    wall_row = player_row - 1
-    wall_col = player_col
-
-    if levels[0][wall_row][wall_col] == 'X':
-        return
-
-    player.goto(player_x, player_y + TILE_SIZE)
-    '''
     move(0, 1)
 
 
 def down():
-    # player.goto(player.xcor(), player.ycor() - TILE_SIZE)
     move(0, -1)
 
 
 def left():
-    # player.goto(player.xcor() - TILE_SIZE, player.ycor())
     move(-1, 0)
 
 
 def right():
-    # player.goto(player.xcor() + TILE_SIZE, player.ycor())
     move(1, 0)
 
 
@@ -91,20 +83,20 @@ player.color('blue')
 player.penup()
 player.speed(0)
 
+treasures = []
 
-levels = []
 
 # 25 rows x 25 columns
-level_1 = [
+level = [
     'XXXXXXXXXXXXXXXXXXXXXXXXX',
     'XP XXXXXXX          XXXXX',
     'X  XXXXXXX  XXXXXX  XXXXX',
     'X       XX  XXXXXX  XXXXX',
-    'X       XX  XXX     XXXXX',
-    'XXXXXX  XX  XXX     XXXXX',
+    'X       XX  XXX        XX',
+    'XXXXXX  XX  XXX        XX',
     'XXXXXX  XX  XXXXXX  XXXXX',
     'XXXXXX  XX    XXXX  XXXXX',
-    'X  XXX        XXXX  XXXXX',
+    'X  XXX        XXXXT XXXXX',
     'X  XXX  XXXXXXXXXXXXXXXXX',
     'X         XXXXXXXXXXXXXXX',
     'X                XXXXXXXX',
@@ -112,17 +104,16 @@ level_1 = [
     'XXXXXXXXXXXXXXX  XXXXX  X',
     'XXX  XXXXXXXXXX         X',
     'XXX                     X',
-    'XXX         XXXXXXXXXXXXX',
+    'XXXT        XXXXXXXXXXXXX',
     'XXXXXXXXXX  XXXXXXXXXXXXX',
     'XXXXXXXXXX              X',
     'XX   XXXXX              X',
     'XX   XXXXXXXXXXXXX  XXXXX',
     'XX    XXXXXXXXXXXX  XXXXX',
     'XX          XXXX        X',
-    'XXXX                    X',
+    'XXXX    T               X',
     'XXXXXXXXXXXXXXXXXXXXXXXXX'
 ]
-levels.append(level_1)
 
 
 def setup_maze(level):
@@ -137,20 +128,16 @@ def setup_maze(level):
                 pen.stamp()
             if character == 'P':
                 player.goto(screen_x, screen_y)
+            if character == 'T':
+                treasure = turtle.Turtle()
+                treasure.shape('circle')
+                treasure.color('yellow')
+                treasure.penup()
+                treasure.speed(0)
+                treasure.goto(screen_x, screen_y)
+                treasures.append(treasure)
 
 
-setup_maze(levels[0])
-
-print(f'({player.xcor()},{player.ycor()})')
-
-
-'''
-player_x = player.xcor()
-player_y = player.ycor()
-
-row, col = coordinates_to_indices(player_x, player_y)
-
-print(f'({row},{col})')
-'''
+setup_maze(level)
 
 window.mainloop()
