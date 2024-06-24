@@ -54,7 +54,7 @@ def animate():
         player.shape('Resources\invader1.gif')
         player.frame = 0
 
-    window.ontimer(animate, 500)
+    window.ontimer(animate, 10)
 
 
 animate()
