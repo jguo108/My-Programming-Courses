@@ -33,21 +33,22 @@ def move(x_direction, y_direction):
     player_row, player_col = coordinates_to_indices(player_x, player_y)
 
     # Are we going to run into a wall?
-    wall_row = player_row - y_direction
-    wall_col = player_col + x_direction
+    next_cell_row = player_row - y_direction
+    next_cell_col = player_col + x_direction
 
-    if level[wall_row][wall_col] == 'X':
+    # if it is a wall ahead, we return and do not move the player
+    if level[next_cell_row][next_cell_col] == 'X':
         return
 
     player.goto(player_x + x_direction * TILE_SIZE,
                 player_y + y_direction * TILE_SIZE)
 
     # take treasure
-    for t in treasures:
-        if t.xcor() == player_x and t.ycor() == player_y:
-            t.hideturtle()
-            treasures.remove(t)
-            break
+    if (next_cell_row, next_cell_col) in treasure_locations:
+        index = treasure_locations.index((next_cell_row, next_cell_col))
+        del treasure_locations[index]
+        treasures[index].hideturtle()
+        del treasures[index]
 
 
 def up():
@@ -72,10 +73,10 @@ window.title('A Maze Game')
 window.setup(700, 700)
 
 window.listen()
-window.onkey(left, 'Left')
-window.onkey(right, 'Right')
-window.onkey(up, 'Up')
-window.onkey(down, 'Down')
+window.onkeypress(left, 'Left')
+window.onkeypress(right, 'Right')
+window.onkeypress(up, 'Up')
+window.onkeypress(down, 'Down')
 
 pen = turtle.Turtle()
 pen.shape('square')
@@ -85,10 +86,8 @@ pen.speed(0)
 
 player = None
 
-PLAYER_START_ROW = 1
-PLAYER_START_COL = 1
-
 treasures = []
+treasure_locations = [(8, 18), (16, 3), (23, 8)]
 
 # 25 rows x 25 columns
 level = [
@@ -100,7 +99,7 @@ level = [
     'XXXXXX  XX  XXX        XX',
     'XXXXXX  XX  XXXXXX  XXXXX',
     'XXXXXX  XX    XXXX  XXXXX',
-    'X  XXX        XXXXT XXXXX',
+    'X  XXX        XXXX  XXXXX',
     'X  XXX  XXXXXXXXXXXXXXXXX',
     'X         XXXXXXXXXXXXXXX',
     'X                XXXXXXXX',
@@ -122,9 +121,6 @@ level = [
 
 def create_treasures():
     global treasures, treasure_locations
-    treasure_locations = [
-        (8, 18)
-    ]
     for x, y in treasure_locations:
         t = turtle.Turtle()
         t.shape('circle')
@@ -132,7 +128,6 @@ def create_treasures():
         t.penup()
         t.speed(0)
         t.goto(indices_to_coordinates(x, y))
-        # t.showturtle()
         treasures.append(t)
 
 
