@@ -21,6 +21,12 @@ def coordinates_to_indices(x, y):
     return row, col
 
 
+def indices_to_coordinates(row, col):
+    x = -288 + (col * TILE_SIZE)
+    y = 288 - (row * TILE_SIZE)
+    return x, y
+
+
 def move(x_direction, y_direction):
     player_x = player.xcor()
     player_y = player.ycor()
@@ -77,19 +83,17 @@ pen.color('white')
 pen.penup()
 pen.speed(0)
 
-player = turtle.Turtle()
-player.shape('square')
-player.color('blue')
-player.penup()
-player.speed(0)
+player = None
+
+PLAYER_START_ROW = 1
+PLAYER_START_COL = 1
 
 treasures = []
-
 
 # 25 rows x 25 columns
 level = [
     'XXXXXXXXXXXXXXXXXXXXXXXXX',
-    'XP XXXXXXX          XXXXX',
+    'X  XXXXXXX          XXXXX',
     'X  XXXXXXX  XXXXXX  XXXXX',
     'X       XX  XXXXXX  XXXXX',
     'X       XX  XXX        XX',
@@ -116,28 +120,51 @@ level = [
 ]
 
 
-def setup_maze(level):
-    for y in range(len(level)):
-        for x in range(len(level[y])):
-            character = level[y][x]
-            screen_x = -288 + (x * TILE_SIZE)
-            screen_y = 288 - (y * TILE_SIZE)
+def create_treasures():
+    global treasures, treasure_locations
+    treasure_locations = [
+        (8, 18)
+    ]
+    for x, y in treasure_locations:
+        t = turtle.Turtle()
+        t.shape('circle')
+        t.color('yellow')
+        t.penup()
+        t.speed(0)
+        t.goto(indices_to_coordinates(x, y))
+        # t.showturtle()
+        treasures.append(t)
+
+
+def create_player():
+    global player
+    player = turtle.Turtle()
+    player.shape('square')
+    player.color('blue')
+    player.penup()
+    player.speed(0)
+    place(player, 1, 1)
+
+
+def place(player, row, col):
+    x, y = indices_to_coordinates(row, col)
+    player.goto(x, y)
+
+
+def create_maze(level):
+    for row in range(len(level)):
+        for col in range(len(level[row])):
+            character = level[row][col]
+            screen_x = -288 + (col * TILE_SIZE)
+            screen_y = 288 - (row * TILE_SIZE)
 
             if character == 'X':
                 pen.goto(screen_x, screen_y)
                 pen.stamp()
-            if character == 'P':
-                player.goto(screen_x, screen_y)
-            if character == 'T':
-                treasure = turtle.Turtle()
-                treasure.shape('circle')
-                treasure.color('yellow')
-                treasure.penup()
-                treasure.speed(0)
-                treasure.goto(screen_x, screen_y)
-                treasures.append(treasure)
 
 
-setup_maze(level)
+create_maze(level)
+create_player()
+create_treasures()
 
 window.mainloop()
