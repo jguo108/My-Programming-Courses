@@ -20,25 +20,29 @@ window.bgcolor('gray10')
 
 face = None
 faces = []
+index = 0
 
 HEAD_RADIUS = 200
 BODY_HEIGHT = 400
 
 
 def animate():
-    global face
+    global face, index
+    index += 1
+    face.shape(faces[index % len(faces)])
 
-    window.ontimer(blink_eyes, 1)
+    window.ontimer(animate, 50)
 
 
 def register_faces():
-    for i in range(10):
+    for i in range(43):
         face_gif = f'Resources/make_a_face/{i+1}.gif'
         turtle.register_shape(face_gif)
         faces.append(face_gif)
 
 
 def build_body():
+    global face
     # Begin!
     body = turtle.Turtle()
 
@@ -73,7 +77,7 @@ def build_body():
     face.speed(0)
     face.penup()
     face.goto(0, 70)
-    face.shape(faces[0])
+    face.shape(faces[index])
     face.shapesize(1, 1)
 
 
