@@ -190,8 +190,9 @@ def setup_window():
     window = turtle.Screen()
     window.setup(SCREEN_WIDTH, SCREEN_HEIGHT)
     window.title('Dodge It!')
-    window.bgcolor('gray10')
-    # window.bgpic('Resources\\bouncing_around\\background.gif')
+    # window.bgcolor('gray10')
+    window.bgpic('Resources\\dodge_it\\bg.gif')
+
     # Disable screen update. We will update it manually using the 'update' method
     window.tracer(0)
     window.listen()  # make the window listen for key presses
