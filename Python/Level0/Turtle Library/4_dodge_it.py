@@ -20,6 +20,7 @@ import random
 SCREEN_WIDTH = 600
 SCREEN_HEIGHT = 600
 INITIAL_ENEMIES = 1
+NUM_OF_ENEMY_COSTUMES = 31
 
 window = None
 
@@ -27,13 +28,22 @@ player = None
 player_speed = 1
 
 enemies = []
-enemy_speed = 2
+enemy_costumes = []
+enemy_costume_index = 0
+enemy_speed = 1
 
 score_pen = None
 score = 0
 
 tick_num = 1
 game_ended = False
+
+
+def register_costumes():
+    for i in range(NUM_OF_ENEMY_COSTUMES):
+        gif = f'Resources/dodge_it/enemy/{i+1}.gif'
+        turtle.register_shape(gif)
+        enemy_costumes.append(gif)
 
 
 def left():
@@ -82,10 +92,18 @@ def update_score():
                         font=('Courier', 14, 'normal'))
 
 
+def animate_enemies():
+    global enemies, enemy_costume_index
+    enemy_costume_index += 1
+    for enemy in enemies:
+        enemy.shape(enemy_costumes[enemy_costume_index % len(enemy_costumes)])
+    window.ontimer(animate_enemies, 100)
+
+
 def create_enemy():
     enemy = turtle.Turtle()
     enemy.color('red')
-    enemy.shape('circle')
+    enemy.shape(enemy_costumes[enemy_costume_index % len(enemy_costumes)])
     enemy.penup()
     enemy.speed(0)
     enemy.goto(
@@ -184,12 +202,14 @@ def setup_window():
     window.onkey(slowdown, 'Down')
 
 
+register_costumes()
 setup_window()
 create_player()
 create_enemies()
 create_score()
+animate_enemies()
 
-# start the program
-tick()
+# start the program after 3 seconds
+window.ontimer(tick, 0)
 
 window.mainloop()
