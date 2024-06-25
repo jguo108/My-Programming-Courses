@@ -7,9 +7,9 @@
 # https://www.freepik.com/free-vector/retro-8-bit-pixel-arcade-computer-game-set-isolated-icons-with-characters-monsters-spacecrafts-vector-illustration_26762888.htm#fromView=search&page=2&position=2&uuid=cdb02372-e6d7-4557-a8a1-a9af8245e5c2
 # https://www.freepik.com/free-photo/panoramic-view-sunset-night_13637281.htm#fromView=search&page=1&position=3&uuid=2857a55d-9599-42c8-8518-cb3d867639c6
 
+import turtle
 import math
 import random
-import turtle
 
 # TODO
 # - add a background image
@@ -22,6 +22,8 @@ SCREEN_HEIGHT = 600
 MAX_ENEMIES = 100
 INITIAL_ENEMIES = 5
 
+window = None
+
 player = None
 player_speed = 1
 
@@ -33,12 +35,12 @@ score = 0
 game_ended = False
 
 
-def turn_left():
+def left():
     global player
     player.left(30)
 
 
-def turn_right():
+def right():
     global player
     player.right(30)
 
@@ -70,12 +72,9 @@ def bounce(t):
 
 
 def update_score():
-    score_pen.undo()
-    score_pen.penup()
-    score_pen.hideturtle()
-    score_pen.setposition(-SCREEN_WIDTH/2 + 10, SCREEN_HEIGHT/2 - 30)
+    score_pen.clear()
     score_pen.write(f'Score: {score}', False, align='left',
-                    font=('Arial', 14, 'normal'))
+                    font=('Courier', 14, 'normal'))
 
 
 def create_enemies():
@@ -93,22 +92,11 @@ def create_enemies():
         enemies.append(enemy)
 
 
-'''
-# Create food
-food = turtle.Turtle()
-food.color('red')
-food.shape('circle')
-food.penup()
-food.speed(0)
-food.setposition(-100, -100)
-'''
-
-
 def create_player():
     global player
     player = turtle.Turtle()
-    player.color('blue')
-    player.shape('turtle')
+    player.color('green')
+    player.shape('square')
     player.penup()
     player.speed(0)  # TODO: what does this do?
 
@@ -116,6 +104,9 @@ def create_player():
 def create_score():
     global score_pen
     score_pen = turtle.Turtle()
+    score_pen.hideturtle()
+    score_pen.color('gray80')
+    score_pen.goto(-SCREEN_WIDTH/2 + 10, SCREEN_HEIGHT/2 - 30)
     update_score()
 
 
@@ -134,10 +125,11 @@ def move_enemies():
 
 
 def check_for_collision():
-    global player, enemies
+    global player, enemies, game_ended
     for enemy in enemies:
         if collide(player, enemy):
             game_ended = True
+            break
 
 
 def tick():
@@ -152,26 +144,33 @@ def tick():
     if game_ended:
         return
 
+    score += 1
+    update_score()
+
     window.ontimer(tick, 10)  # update the screen every 10 milliseconds
 
 
+def setup_window():
+    global window
+    window = turtle.Screen()
+    window.setup(SCREEN_WIDTH, SCREEN_HEIGHT)
+    window.title('Dodge It!')
+    window.bgcolor('gray10')
+    # window.bgpic('Resources\\bouncing_around\\background.gif')
+    # Disable screen update. We will update it manually using the 'update' method
+    window.tracer(0)
+    window.listen()  # make the window listen for key presses
+
+    window.onkey(left, 'Left')
+    window.onkey(right, 'Right')
+    window.onkey(speedup, 'Up')
+    window.onkey(slowdown, 'Down')
+
+
+setup_window()
 create_player()
 create_enemies()
 create_score()
-
-window = turtle.Screen()
-window.setup(SCREEN_WIDTH, SCREEN_HEIGHT)
-window.title('Dodge It!')
-window.bgcolor('gray10')
-# window.bgpic('Resources\\bouncing_around\\background.gif')
-# Disable screen update. We will update it manually using the 'update' method
-window.tracer(0)
-window.listen()  # make the window listen for key presses
-
-window.onkeypress(turn_left, 'Left')
-window.onkeypress(turn_right, 'Right')
-window.onkey(speedup, 'Up')
-window.onkey(slowdown, 'Down')
 
 # start the program
 tick()
