@@ -1,13 +1,22 @@
 ﻿# https://www.youtube.com/watch?v=PTgyzZGknvg&list=PLlEgNdBJEO-n8FdWb-7f_C4dFC07IY9tb&index=1
 
+# Assets:
+# https://scratch.mit.edu/projects/502019480/editor/
+# https://www.freepik.com/free-vector/set-pixel-game-spaceships-isolated_25679780.htm#fromView=search&page=1&position=45&uuid=02df045a-cc4f-46b8-aec6-35389c5be96b
+# https://www.freepik.com/free-ai-image/8-bits-astronaut-characters-gaming-assets_133331454.htm#fromView=search&page=3&position=24&uuid=9271e10b-41b7-483e-bf87-0f3a05c2ab52
+# https://www.freepik.com/free-vector/retro-8-bit-pixel-arcade-computer-game-set-isolated-icons-with-characters-monsters-spacecrafts-vector-illustration_26762888.htm#fromView=search&page=2&position=2&uuid=cdb02372-e6d7-4557-a8a1-a9af8245e5c2
+# https://www.freepik.com/free-photo/panoramic-view-sunset-night_13637281.htm#fromView=search&page=1&position=3&uuid=2857a55d-9599-42c8-8518-cb3d867639c6
+
+import math
+import random
+import turtle
+
+
 # TODO
 # - add a background image
 # - add sound when collide and bounce
 # - change window background color
 
-import turtle
-import random
-import math
 
 speed = 1
 score = 0

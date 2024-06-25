@@ -36,9 +36,8 @@ def create_jellyfish():
     jellyfish.shape(jellyfish_costumes[index])
     jellyfish.penup()
     jellyfish.goto(
-        random.randint(-SCREEN_WIDTH/2+100, SCREEN_WIDTH-100),
+        random.randint(-SCREEN_WIDTH/2+100, SCREEN_WIDTH/2-100),
         random.randint(-SCREEN_HEIGHT/2+100, SCREEN_HEIGHT/2-100))
-    # jellyfish.goto(0, 0)
     jellyfish.setheading(random.randint(0, 360))
 
 
