@@ -34,7 +34,7 @@ window.bgcolor(BACKGROUND_COLOR)
 
 
 def animate_face():
-    global face, index
+    global face, index, faces
     index += 1
     face.shape(faces[index % len(faces)])
 
