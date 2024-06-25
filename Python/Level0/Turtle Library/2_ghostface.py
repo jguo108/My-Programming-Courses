@@ -84,7 +84,6 @@ def build_face():
     global face, faces, index
     face = turtle.Turtle()
     face.speed(0)
-    print(index)
     face.shape(faces[index])
 
     face.penup()
