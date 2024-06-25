@@ -11,15 +11,26 @@ import math
 import random
 import turtle
 
-
 # TODO
 # - add a background image
 # - add sound when collide and bounce
 # - change window background color
 
 
-speed = 1
+SCREEN_WIDTH = 600
+SCREEN_HEIGHT = 600
+MAX_ENEMIES = 100
+INITIAL_ENEMIES = 5
+
+player = None
+player_speed = 1
+
+enemies = []
+
+score_pen = None
 score = 0
+
+game_ended = False
 
 
 def turn_left():
@@ -33,14 +44,14 @@ def turn_right():
 
 
 def speedup():
-    global speed
-    speed += 1
+    global player_speed
+    player_speed += 1
 
 
 def slowdown():
-    global speed
-    if speed > 1:
-        speed -= 1
+    global player_speed
+    if player_speed > 1:
+        player_speed -= 1
 
 
 def collide(t1, t2):
@@ -50,62 +61,37 @@ def collide(t1, t2):
     return distance < 20
 
 
-def hit_border_and_bounce(t):
-    if t.xcor() > 290 or t.xcor() < -290 or t.ycor() > 290 or t.ycor() < -290:
-        t.right(180)
+def bounce(t):
+    if t.xcor() > SCREEN_WIDTH/2-10 or \
+            t.xcor() < -SCREEN_WIDTH/2+10 or \
+            t.ycor() > SCREEN_HEIGHT/2-10 or \
+            t.ycor() < -SCREEN_HEIGHT/2+10:
+        t.right(180 + random.randint(-90, 90))
 
 
-def update_score(score):
-    my_pen.undo()
-    my_pen.penup()
-    my_pen.hideturtle()
-    my_pen.setposition(-290, 310)
-    score_str = f'Score: {score}'
-    my_pen.write(score_str, False, align='left',
-                 font=('Arial', 14, 'normal'))
+def update_score():
+    score_pen.undo()
+    score_pen.penup()
+    score_pen.hideturtle()
+    score_pen.setposition(-SCREEN_WIDTH/2 + 10, SCREEN_HEIGHT/2 - 30)
+    score_pen.write(f'Score: {score}', False, align='left',
+                    font=('Arial', 14, 'normal'))
 
 
-# Fullscreen the canvas
-window = turtle.Screen()  # TODO: how do we know how large is the screen
-window.bgcolor('lightgreen')
-# Disable screen update. We will update it manually using the 'update' method
-window.tracer(0)
-window.listen()  # make the window listen for key presses
+def create_enemies():
+    global enemies
+    for _ in range(INITIAL_ENEMIES):
+        enemy = turtle.Turtle()
+        enemy.color('red')
+        enemy.shape('circle')
+        enemy.penup()
+        enemy.speed(0)
+        enemy.goto(
+            random.randint(-SCREEN_WIDTH/2+100, SCREEN_WIDTH/2-100),
+            random.randint(-SCREEN_HEIGHT/2+100, SCREEN_HEIGHT/2-100))
+        enemy.setheading(random.randint(0, 360))
+        enemies.append(enemy)
 
-# 'onkeypress' will keep runnig the function as long as the key is
-# being pressed down, whereas 'onkey' will only run the functino once
-# when it is pressed but not when it is being pressed down
-window.onkeypress(turn_left, 'Left')
-window.onkeypress(turn_right, 'Right')
-window.onkey(speedup, 'Up')
-window.onkey(slowdown, 'Down')
-
-
-# Draw border
-my_pen = turtle.Turtle()
-my_pen.penup()
-my_pen.setposition(-300, -300)
-my_pen.pendown()
-my_pen.pensize(3)
-for side in range(4):
-    my_pen.forward(600)
-    my_pen.left(90)
-my_pen.hideturtle()
-
-
-# Create more food
-max_food = 5
-all_food = []
-
-for i in range(max_food):
-    food = turtle.Turtle()
-    food.color('red')
-    food.shape('circle')
-    food.penup()
-    food.speed(0)
-    food.setposition(random.randint(-300, 300), random.randint(-300, 300))
-    food.setheading(random.randint(0, 360))
-    all_food.append(food)
 
 '''
 # Create food
@@ -116,39 +102,78 @@ food.penup()
 food.speed(0)
 food.setposition(-100, -100)
 '''
-# Player
-player = turtle.Turtle()
-player.color('blue')
-player.shape('turtle')
-player.penup()
-player.speed(0)  # TODO: what does this do?
-
-update_score(0)
 
 
-def run():
-    global score
-    player.forward(speed)
+def create_player():
+    global player
+    player = turtle.Turtle()
+    player.color('blue')
+    player.shape('turtle')
+    player.penup()
+    player.speed(0)  # TODO: what does this do?
 
+
+def create_score():
+    global score_pen
+    score_pen = turtle.Turtle()
+    update_score()
+
+
+def move_player():
+    global player, player_speed
+    player.forward(player_speed)
     # border check
-    hit_border_and_bounce(player)
+    bounce(player)
 
-    # collision checking
-    for food in all_food:
-        if collide(player, food):
-            food.setposition(random.randint(-300, 300),
-                             random.randint(-300, 300))
-            food.setheading(random.randint(0, 360))
-            score += 1
-            update_score(score)
-        food.forward(2)
-        hit_border_and_bounce(food)
+
+def move_enemies():
+    global enemies
+    for enemy in enemies:
+        enemy.forward(2)
+        bounce(enemy)
+
+
+def check_for_collision():
+    global player, enemies
+    for enemy in enemies:
+        if collide(player, enemy):
+            game_ended = True
+
+
+def tick():
+    global score
+
+    move_player()
+    move_enemies()
+    check_for_collision()
 
     window.update()  # maunall update the screen
-    window.ontimer(run, 10)  # update the screen every 10 milliseconds
 
+    if game_ended:
+        return
+
+    window.ontimer(tick, 10)  # update the screen every 10 milliseconds
+
+
+create_player()
+create_enemies()
+create_score()
+
+window = turtle.Screen()
+window.setup(SCREEN_WIDTH, SCREEN_HEIGHT)
+window.title('Dodge It!')
+window.bgcolor('gray10')
+# window.bgpic('Resources\\bouncing_around\\background.gif')
+# Disable screen update. We will update it manually using the 'update' method
+window.tracer(0)
+window.listen()  # make the window listen for key presses
+
+window.onkeypress(turn_left, 'Left')
+window.onkeypress(turn_right, 'Right')
+window.onkey(speedup, 'Up')
+window.onkey(slowdown, 'Down')
 
 # start the program
-run()
+tick()
 
 window.mainloop()
