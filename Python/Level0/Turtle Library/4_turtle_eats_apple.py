@@ -27,6 +27,7 @@ player = None
 player_speed = 1
 
 enemies = []
+enemy_speed = 2
 
 score_pen = None
 score = 0
@@ -130,7 +131,7 @@ def move_player():
 def move_enemies():
     global enemies
     for enemy in enemies:
-        enemy.forward(2)
+        enemy.forward(enenmy_speed)
         bounce(enemy)
 
 
