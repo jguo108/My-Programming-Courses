@@ -19,8 +19,7 @@ import random
 
 SCREEN_WIDTH = 600
 SCREEN_HEIGHT = 600
-MAX_ENEMIES = 100
-INITIAL_ENEMIES = 5
+INITIAL_ENEMIES = 1
 
 window = None
 
@@ -32,6 +31,7 @@ enemies = []
 score_pen = None
 score = 0
 
+tick_num = 1
 game_ended = False
 
 
@@ -72,24 +72,32 @@ def bounce(t):
 
 
 def update_score():
-    score_pen.clear()
-    score_pen.write(f'Score: {score}', False, align='left',
-                    font=('Courier', 14, 'normal'))
+    global score, tick_num
+    # increase score every 100 ticks
+    if tick_num % 100 == 0:
+        score += 1
+        score_pen.clear()
+        score_pen.write(f'Score: {score}', False, align='left',
+                        font=('Courier', 14, 'normal'))
+
+
+def create_enemy():
+    enemy = turtle.Turtle()
+    enemy.color('red')
+    enemy.shape('circle')
+    enemy.penup()
+    enemy.speed(0)
+    enemy.goto(
+        random.randint(-SCREEN_WIDTH/2+100, SCREEN_WIDTH/2-100),
+        random.randint(-SCREEN_HEIGHT/2+100, SCREEN_HEIGHT/2-100))
+    enemy.setheading(random.randint(0, 360))
+    return enemy
 
 
 def create_enemies():
     global enemies
     for _ in range(INITIAL_ENEMIES):
-        enemy = turtle.Turtle()
-        enemy.color('red')
-        enemy.shape('circle')
-        enemy.penup()
-        enemy.speed(0)
-        enemy.goto(
-            random.randint(-SCREEN_WIDTH/2+100, SCREEN_WIDTH/2-100),
-            random.randint(-SCREEN_HEIGHT/2+100, SCREEN_HEIGHT/2-100))
-        enemy.setheading(random.randint(0, 360))
-        enemies.append(enemy)
+        enemies.append(create_enemy())
 
 
 def create_player():
@@ -104,10 +112,12 @@ def create_player():
 def create_score():
     global score_pen
     score_pen = turtle.Turtle()
+    score_pen.penup()
     score_pen.hideturtle()
     score_pen.color('gray80')
     score_pen.goto(-SCREEN_WIDTH/2 + 10, SCREEN_HEIGHT/2 - 30)
-    update_score()
+    score_pen.write(f'Score: {score}', False, align='left',
+                    font=('Courier', 14, 'normal'))
 
 
 def move_player():
@@ -132,21 +142,28 @@ def check_for_collision():
             break
 
 
+def add_enemy():
+    global enemies, score
+    if score % 5 == 0 and score != 0:
+        print('adding new enemy')
+        enemies.append(create_enemy())
+
+
 def tick():
-    global score
+    global score, tick_num, game_ended
 
     move_player()
     move_enemies()
-    check_for_collision()
-
     window.update()  # maunall update the screen
 
+    check_for_collision()
     if game_ended:
         return
 
-    score += 1
     update_score()
+    add_enemy()
 
+    tick_num += 1
     window.ontimer(tick, 10)  # update the screen every 10 milliseconds
 
 
