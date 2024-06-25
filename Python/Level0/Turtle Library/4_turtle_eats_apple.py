@@ -131,7 +131,7 @@ def move_player():
 def move_enemies():
     global enemies
     for enemy in enemies:
-        enemy.forward(enenmy_speed)
+        enemy.forward(enemy_speed)
         bounce(enemy)
 
 
@@ -145,8 +145,7 @@ def check_for_collision():
 
 def add_enemy():
     global enemies, score
-    if score % 5 == 0 and score != 0:
-        print('adding new enemy')
+    if tick_num % 500 == 0:
         enemies.append(create_enemy())
 
 
