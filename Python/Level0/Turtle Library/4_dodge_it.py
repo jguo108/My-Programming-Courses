@@ -19,13 +19,13 @@ import random
 
 SCREEN_WIDTH = 600
 SCREEN_HEIGHT = 600
-INITIAL_ENEMIES = 1
+INITIAL_ENEMIES = 5
 NUM_OF_ENEMY_COSTUMES = 31
 
 window = None
 
 player = None
-player_speed = 1
+player_speed = 2
 
 enemies = []
 enemy_costumes = []
@@ -44,27 +44,27 @@ def register_costumes():
         gif = f'Resources/dodge_it/enemy/{i+1}.gif'
         turtle.register_shape(gif)
         enemy_costumes.append(gif)
+    turtle.register_shape('Resources/dodge_it/player.gif')
 
 
 def left():
     global player
-    player.left(30)
+    player.setheading(180)
 
 
 def right():
     global player
-    player.right(30)
+    player.setheading(0)
 
 
-def speedup():
-    global player_speed
-    player_speed += 1
+def up():
+    global player
+    player.setheading(90)
 
 
-def slowdown():
-    global player_speed
-    if player_speed > 1:
-        player_speed -= 1
+def down():
+    global player
+    player.setheading(270)
 
 
 def collide(t1, t2):
@@ -123,7 +123,8 @@ def create_player():
     global player
     player = turtle.Turtle()
     player.color('green')
-    player.shape('square')
+    # player.shape('square')
+    player.shape('Resources/dodge_it/player.gif')
     player.penup()
     player.speed(0)  # TODO: what does this do?
 
@@ -199,8 +200,8 @@ def setup_window():
 
     window.onkey(left, 'Left')
     window.onkey(right, 'Right')
-    window.onkey(speedup, 'Up')
-    window.onkey(slowdown, 'Down')
+    window.onkey(up, 'Up')
+    window.onkey(down, 'Down')
 
 
 register_costumes()
