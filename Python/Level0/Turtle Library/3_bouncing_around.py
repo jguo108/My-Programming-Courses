@@ -24,7 +24,7 @@ jellyfish_costumes = []
 index = 0
 
 
-def register_costumes():
+def register_jellyfish_costumes():
     for i in range(NUM_OF_COSTUMES):
         gif = f'Resources/bouncing_around/{i+1}_small.gif'
         turtle.register_shape(gif)
@@ -33,6 +33,9 @@ def register_costumes():
 
 def create_jellyfish():
     global jellyfish
+
+    register_jellyfish_costumes()
+
     jellyfish = turtle.Turtle()
     jellyfish.speed(0)
     jellyfish.shape(jellyfish_costumes[index])
@@ -59,15 +62,16 @@ def move_jellyfish():
 
 
 def animate_jellyfish():
-    global index, jellyfish, jellyfish
+    global index, jellyfish, jellyfish, window
     index += 1
     jellyfish.shape(jellyfish_costumes[index % len(jellyfish_costumes)])
 
     window.ontimer(animate_jellyfish, 200)
 
 
-def create_window():
+def setup_window():
     global window
+
     window = turtle.Screen()
     window.title('Bouncing Around')
     window.setup(SCREEN_WIDTH, SCREEN_HEIGHT)
@@ -75,21 +79,23 @@ def create_window():
     window.tracer(0)
 
 
-def setup():
-    create_window()
-    register_costumes()
-
-
-def tick():
+def gameloop():
     move_jellyfish()
+
     window.update()
-    window.ontimer(tick, 50)
+    window.ontimer(gameloop, 50)
 
 
-setup()
+# 1. setup game window
+setup_window()
+
+# 2. create game objects
 create_jellyfish()
+
+# 3. animate game objects
 animate_jellyfish()
 
-window.ontimer(tick, 0)
+# 4. start game loop
+window.ontimer(gameloop, 0)
 
 window.mainloop()
