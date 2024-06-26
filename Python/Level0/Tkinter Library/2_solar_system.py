@@ -128,18 +128,22 @@ def setup_window():
     window.resizable(False, False)
 
 
-def setup_canvas():
+def create_canvas():
     # Create a canvas widget
     canvas = tk.Canvas(window, width=WIDTH, height=HEIGHT, bg='gray15')
     # Pack the canvas widget into the main window
     canvas.pack()
 
 
-# 1. setup game window
+def setup_gui():
+    create_canvas()
+
+
+    # 1. setup game window
 setup_window()
 
-# 2. create and place canvas
-setup_canvas()
+# 2. setup graphical user interface (GUI)
+setup_gui()
 
 
 load_planets()
