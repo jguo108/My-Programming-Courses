@@ -21,13 +21,19 @@ planets = []
 
 sun_x = WIDTH/2
 sun_y = 200
+SUN_RADIUS = 50
 
 info_display = None
 
 
 def create_sun():
     canvas.create_oval(
-        sun_x - 50, sun_y - 50, sun_x + 50, sun_y + 50, fill="gold", width=0)
+        sun_x - SUN_RADIUS,
+        sun_y - SUN_RADIUS,
+        sun_x + SUN_RADIUS,
+        sun_y + SUN_RADIUS,
+        fill="gold",
+        width=0)
 
 
 def create_planet(planet_info):
@@ -99,23 +105,6 @@ def create_orbits():
             outline="gray")
 
 
-def show_info(event):
-    # 'event' has an attribute 'widget' which is the canvas
-    # 'find_withtag' can be used to get items with the tag under the cursor
-    # 'current' is the tag for the item under the cursor
-    id = event.widget.find_withtag('current')[0]
-    # canvas.itemconfigure(text, text=shape2planet[id]['info'])
-
-
-def hide_info(event):
-    id = event.widget.find_withtag('current')[0]
-    canvas.itemconfigure(info_display, text='')
-
-
-def update_info(info):
-    canvas.itemconfigure(info_display, text=info)
-
-
 def move_planet(planet, angle, planet_radius, distance_to_sun, speed):
     angle += speed
     planet_x = sun_x + distance_to_sun * math.cos(angle)
@@ -150,7 +139,7 @@ def move_planets():
 def create_info_display():
     global info_display, canvas
     info_display = canvas.create_text(
-        200,
+        WIDTH/2,
         430,
         font=('Orbitron', 12),
         width=300,
@@ -201,9 +190,7 @@ create_planets()
 bind_keys()
 
 # 5.
-# start_simulation()
 tick()
-
 
 # Run the main event loop
 window.mainloop()
