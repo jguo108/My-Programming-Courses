@@ -121,21 +121,33 @@ def draw_text():
         200, 430, font=('Orbitron', 12), width=300, justify='center', text='', fill='gray70')
 
 
-# Create the main window
-window = tk.Tk()
-window.resizable(False, False)
+def setup_window():
+    # Create the main window
+    window = tk.Tk()
+    window.title('Solar System')
+    window.resizable(False, False)
 
-# Create a canvas widget
-canvas = tk.Canvas(window, width=WIDTH, height=HEIGHT, bg='gray15')
 
-# Pack the canvas widget into the main window
-canvas.pack()
+def setup_canvas():
+    # Create a canvas widget
+    canvas = tk.Canvas(window, width=WIDTH, height=HEIGHT, bg='gray15')
+    # Pack the canvas widget into the main window
+    canvas.pack()
+
+
+# 1. setup game window
+setup_window()
+
+# 2. create and place canvas
+setup_canvas()
 
 
 load_planets()
 draw_text()
 draw_sun()
 draw_orbits()
+
+
 start_simulation()
 
 # Run the main event loop

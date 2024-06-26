@@ -79,11 +79,11 @@ def setup_window():
     window.tracer(0)
 
 
-def gameloop():
+def tick():
     move_jellyfish()
 
     window.update()
-    window.ontimer(gameloop, 50)
+    window.ontimer(tick, 50)
 
 
 # 1. setup game window
@@ -96,6 +96,6 @@ create_jellyfish()
 animate_jellyfish()
 
 # 4. start game loop
-window.ontimer(gameloop, 0)
+window.ontimer(tick, 0)
 
 window.mainloop()
