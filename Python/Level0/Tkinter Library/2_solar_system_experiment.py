@@ -54,6 +54,7 @@ def load_planet_infos():
         'size': 16,
         'orbit': 150,
         'speed': 0.01,
+        'angle': 0,
         'info': 'The smallest and fastest planet'
     }
     planet_infos.append(planet_info)
@@ -64,6 +65,7 @@ def load_planet_infos():
         'size': 30,
         'orbit': 200,
         'speed': 0.0075,
+        'angle': 0,
         'info': 'The hottest planet in the Solar System. Water would turn to steam and some metals would melt just by being there!'
     }
     planet_infos.append(planet_info)
@@ -74,6 +76,7 @@ def load_planet_infos():
         'size': 35,
         'orbit': 300,
         'speed': 0.005,
+        'angle': 0,
         'info': 'You are here - the only planet we know of that can support life!'
     }
     planet_infos.append(planet_info)
@@ -113,8 +116,7 @@ def update_info(info):
     canvas.itemconfigure(info_display, text=info)
 
 
-def move_planet(planet, planet_radius, angle, distance_to_sun, speed):
-    global window
+def move_planet(planet, angle, planet_radius, distance_to_sun, speed):
     angle += speed
     planet_x = sun_x + distance_to_sun * math.cos(angle)
     planet_y = sun_y + distance_to_sun * math.sin(angle)
@@ -123,13 +125,10 @@ def move_planet(planet, planet_radius, angle, distance_to_sun, speed):
                   planet_y - planet_radius,
                   planet_x + planet_radius,
                   planet_y + planet_radius)
-    window.after(10, move_planet, planet, planet_radius,
-                 angle, distance_to_sun, speed)
 
 
 def bind_keys():
     for planet_info, planet in zip(planet_infos, planets):
-        print(planet_info['info'])
         canvas.tag_bind(planet, '<Enter>',
                         lambda event, info=planet_info['info']:
                             canvas.itemconfigure(info_display, text=info))
@@ -138,13 +137,14 @@ def bind_keys():
                             canvas.itemconfigure(info_display, text=info))
 
 
-def start_simulation():
+def move_planets():
     for planet_info, planet in zip(planet_infos, planets):
         move_planet(planet,
+                    planet_info['angle'],
                     planet_info['size']/2,
-                    0,
                     planet_info['orbit']/2,
                     planet_info['speed'])
+        planet_info['angle'] += planet_info['speed']
 
 
 def create_info_display():
@@ -180,6 +180,11 @@ def setup_gui():
     create_info_display()
 
 
+def tick():
+    move_planets()
+    window.after(10, tick)
+
+
 # 1. setup game window
 setup_window()
 
@@ -196,7 +201,9 @@ create_planets()
 bind_keys()
 
 # 5.
-start_simulation()
+# start_simulation()
+tick()
+
 
 # Run the main event loop
 window.mainloop()
