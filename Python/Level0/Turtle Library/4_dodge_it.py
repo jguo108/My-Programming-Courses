@@ -12,10 +12,9 @@ import math
 import random
 
 # TODO
-# - add a background image
 # - add sound when collide and bounce
-# - change window background color
-
+# - add game over screen
+# - add replay button
 
 SCREEN_WIDTH = 600
 SCREEN_HEIGHT = 600
