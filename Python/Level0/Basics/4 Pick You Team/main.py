@@ -10,7 +10,7 @@ players = [
 """
 
 players = []
-file = open('players.txt', 'r')
+file = open('./players.txt', 'r')
 players = file.read().splitlines()
 
 # print(players)
