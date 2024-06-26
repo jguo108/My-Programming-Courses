@@ -12,7 +12,7 @@
 # - reference for animation: https://scratch.mit.edu/projects/237521692/
 
 face = None
-faces = []
+face_costumes = []
 index = 0
 
 SCREEN_WIDTH = 900
@@ -34,18 +34,18 @@ window.bgcolor(BACKGROUND_COLOR)
 
 
 def animate_face():
-    global face, index, faces
+    global face, index, face_costumes
     index += 1
-    face.shape(faces[index % len(faces)])
+    face.shape(face_costumes[index % len(face_costumes)])
 
     window.ontimer(animate_face, 50)
 
 
-def register_faces():
+def register_costumes():
     for i in range(NUM_OF_IMAGES):
         face_gif = f'Resources/make_a_face/{i+1}.gif'
         turtle.register_shape(face_gif)
-        faces.append(face_gif)
+        face_costumes.append(face_gif)
 
 
 def build_body():
@@ -81,10 +81,10 @@ def build_body():
 
 
 def build_face():
-    global face, faces, index
+    global face, face_costumes, index
     face = turtle.Turtle()
     face.speed(0)
-    face.shape(faces[index])
+    face.shape(face_costumes[index])
 
     face.penup()
     face.goto(0, 70)
@@ -95,7 +95,7 @@ def build_ghost():
     build_face()
 
 
-register_faces()
+register_costumes()
 build_ghost()
 animate_face()
 

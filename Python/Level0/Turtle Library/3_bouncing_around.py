@@ -14,10 +14,12 @@ import random
 
 SCREEN_WIDTH = 600
 SCREEN_HEIGHT = 800
-
 NUM_OF_COSTUMES = 6
 
+window = None
+
 jellyfish = None
+jellyfish_speed = 2
 jellyfish_costumes = []
 index = 0
 
@@ -52,10 +54,8 @@ def bounce(t):
 
 def move_jellyfish():
     global jellyfish
-    jellyfish.forward(2)
+    jellyfish.forward(jellyfish_speed)
     bounce(jellyfish)
-
-    window.ontimer(move_jellyfish, 20)
 
 
 def animate_jellyfish():
@@ -66,15 +66,30 @@ def animate_jellyfish():
     window.ontimer(animate_jellyfish, 200)
 
 
-window = turtle.Screen()
-window.title('Bouncing Around')
-window.setup(SCREEN_WIDTH, SCREEN_HEIGHT)
-window.bgpic('Resources\\bouncing_around\\background.gif')
+def create_window():
+    global window
+    window = turtle.Screen()
+    window.title('Bouncing Around')
+    window.setup(SCREEN_WIDTH, SCREEN_HEIGHT)
+    window.bgpic('Resources\\bouncing_around\\background.gif')
+    window.tracer(0)
 
 
-register_costumes()
+def setup():
+    create_window()
+    register_costumes()
+
+
+def tick():
+    move_jellyfish()
+    window.update()
+    window.ontimer(tick, 50)
+
+
+setup()
 create_jellyfish()
 animate_jellyfish()
-move_jellyfish()
+
+window.ontimer(tick, 0)
 
 window.mainloop()
