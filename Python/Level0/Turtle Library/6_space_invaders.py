@@ -11,7 +11,7 @@ INITIAL_INVADERS = 5
 NUM_OF_INVADER_COSTUMES = 2
 
 PLAYER_SPEED = 10
-INVADER_MAX_SPEED = 1
+INVADER_Y_SPEED = 1
 BULLET_SPEED = 10
 
 window = None
@@ -21,6 +21,7 @@ player = None
 invaders = []
 invader_costumes = []
 invader_costume_index = 0
+invader_x_speed = 1
 
 
 bullet = None
@@ -98,7 +99,7 @@ def create_invader():
     invader.speed(0)
     invader.goto(
         random.randint(-SCREEN_WIDTH/2+50, SCREEN_WIDTH/2-50),
-        SCREEN_WIDTH/2 + random.randint(0, 100))
+        SCREEN_WIDTH/2 + random.randint(-100, 0))
     invader.setheading(random.randint(0, 360))
     return invader
 
@@ -175,13 +176,17 @@ def animate_invaders():
 
 
 def move_invaders():
-    global invaders
+    global invaders, invader_x_speed
     for invader in invaders:
-        invader.sety(invader.ycor()-INVADER_MAX_SPEED)
-        if invader.ycor() < -SCREEN_HEIGHT/2:
-            invader.goto(
-                random.randint(-SCREEN_WIDTH/2+50, SCREEN_WIDTH/2-50),
-                SCREEN_WIDTH/2)
+        invader.setx(invader.xcor() + invader_x_speed)
+        if invader.xcor() > SCREEN_WIDTH/2 or invader.xcor() < -SCREEN_WIDTH/2:
+            invader_x_speed *= -1
+
+            invader.sety(invader.ycor()-INVADER_Y_SPEED)
+            if invader.ycor() < -SCREEN_HEIGHT/2:
+                invader.goto(
+                    random.randint(-SCREEN_WIDTH/2+50, SCREEN_WIDTH/2-50),
+                    SCREEN_WIDTH/2)
 
 
 def move_bullet():
