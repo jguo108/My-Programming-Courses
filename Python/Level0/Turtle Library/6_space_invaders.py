@@ -1,5 +1,8 @@
 ﻿# https://www.youtube.com/watch?v=QvtlEj_T55o&list=PLlEgNdBJEO-lqvqL5nNNZC6KoRdSrhQwK
 
+# TODO:
+# - add sound effects
+
 import turtle
 import math
 import random
@@ -245,7 +248,7 @@ def bind_keys():
     window.listen()  # make the window listen for key presses
     window.onkeypress(left, 'Left')
     window.onkeypress(right, 'Right')
-    window.onkey(fire, 'space')
+    window.onkeypress(fire, 'space')
 
 
 # 1. Set up game window
