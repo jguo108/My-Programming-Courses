@@ -11,7 +11,7 @@ INITIAL_INVADERS = 5
 NUM_OF_INVADER_COSTUMES = 2
 
 PLAYER_SPEED = 10
-INVADER_Y_SPEED = 1
+INVADER_Y_SPEED = 5
 BULLET_SPEED = 10
 
 window = None
@@ -177,11 +177,14 @@ def animate_invaders():
 
 def move_invaders():
     global invaders, invader_x_speed
+    move_down = False
     for invader in invaders:
         invader.setx(invader.xcor() + invader_x_speed)
         if invader.xcor() > SCREEN_WIDTH/2 or invader.xcor() < -SCREEN_WIDTH/2:
             invader_x_speed *= -1
+            move_down = True
 
+        if move_down:
             invader.sety(invader.ycor()-INVADER_Y_SPEED)
             if invader.ycor() < -SCREEN_HEIGHT/2:
                 invader.goto(
