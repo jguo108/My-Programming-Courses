@@ -25,8 +25,7 @@ invader_x_speed = 1
 
 
 bullet = None
-# 'ready' or 'fired'
-bullet_state = 'ready'
+bullet_fired = False
 
 score_pen = None
 score = 0
@@ -140,11 +139,11 @@ def right():
 
 
 def fire():
-    global bullet_state
-    if bullet_state == 'ready':
+    global bullet_fired
+    if not bullet_fired:
+        bullet_fired = True
         bullet.goto(player.xcor(), player.ycor()+15)
         bullet.showturtle()
-        bullet_state = 'fired'
 
 
 def collide(t1, t2):
@@ -184,7 +183,8 @@ def move_invaders():
             invader_x_speed *= -1
             move_down = True
 
-        if move_down:
+    if move_down:
+        for invader in invaders:
             invader.sety(invader.ycor()-INVADER_Y_SPEED)
             if invader.ycor() < -SCREEN_HEIGHT/2:
                 invader.goto(
@@ -193,20 +193,20 @@ def move_invaders():
 
 
 def move_bullet():
-    global bullet_state
-    if bullet_state == 'fired':
+    global bullet_fired
+    if bullet_fired:
         bullet.sety(bullet.ycor() + BULLET_SPEED)
         if bullet.ycor() > SCREEN_HEIGHT/2:
             bullet.hideturtle()
-            bullet_state = 'ready'
+            bullet_fired = False
 
 
 def check_for_collision():
-    global player, invaders, game_ended, bullet_state
+    global player, invaders, game_ended, bullet_fired
     for invader in invaders:
         if collide(bullet, invader):
             bullet.hideturtle()
-            bullet_state = 'ready'
+            bullet_fired = False
             bullet.goto(0, -SCREEN_HEIGHT/2)
             invader.goto(
                 random.randint(-SCREEN_WIDTH/2+50, SCREEN_WIDTH/2-50),
