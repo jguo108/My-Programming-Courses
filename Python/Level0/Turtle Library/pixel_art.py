@@ -28,7 +28,6 @@ ts.tracer(0)
 n_cols = 20
 x_val = -150
 y_val = 0
-
 for jj in range(n_cols):
     if jj < 5:
         draw_rectangle(x_val, y_val, 20, 20, "red")
@@ -37,7 +36,6 @@ for jj in range(n_cols):
     else:
         draw_rectangle(x_val, y_val, 20, 20, "green")
     x_val = x_val + 20
-
 t.hideturtle()
 
 # Now show the drawing
@@ -62,6 +60,7 @@ for kk in range(n_rows):
 ts.update()
 t.clear()
 t.hideturtle()
+
 
 ts.tracer(0)
 n_rows = 20
