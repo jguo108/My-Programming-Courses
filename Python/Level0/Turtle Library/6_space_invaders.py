@@ -8,11 +8,11 @@ import random
 SCREEN_WIDTH = 600
 SCREEN_HEIGHT = 600
 INITIAL_INVADERS = 5
-NUM_OF_INVADER_COSTUMES = 31
+NUM_OF_INVADER_COSTUMES = 2
 
 PLAYER_SPEED = 10
 INVADER_MAX_SPEED = 1
-BULLET_SPEED = 3
+BULLET_SPEED = 10
 
 window = None
 
@@ -52,9 +52,9 @@ def create_player():
     register_player_costume()
 
     player = turtle.Turtle()
-    player.color('green')
-    player.shape('square')
-    # player.shape('Resources/dodge_it/player.gif')
+    # player.color('green')
+    # player.shape('square')
+    player.shape('Resources/space_invaders/spaceship.gif')
     player.penup()
     player.setheading(90)
     player.goto(0, -(SCREEN_HEIGHT/2-100))
@@ -64,10 +64,12 @@ def create_player():
 def create_bullet():
     global bullet
 
+    register_bullet_costume()
+
     bullet = turtle.Turtle()
     bullet.color('yellow')
-    bullet.shape('triangle')
-    # bullet.shape('Resources/dodge_it/player.gif')
+    # bullet.shape('triangle')
+    bullet.shape('Resources/space_invaders/bullet.gif')
     bullet.penup()
     bullet.setheading(90)
     bullet.shapesize(0.5, 0.5)
@@ -104,19 +106,22 @@ def create_invader():
 def create_invaders():
     global invaders
 
-    # register_invader_costumes()
+    register_invader_costumes()
     for _ in range(INITIAL_INVADERS):
         invaders.append(create_invader())
 
 
 def register_player_costume():
-    gif = f'Resources/dodge_it/player.gif'
-    turtle.register_shape('Resources/dodge_it/player.gif')
+    turtle.register_shape('Resources/space_invaders/spaceship.gif')
+
+
+def register_bullet_costume():
+    turtle.register_shape('Resources/space_invaders/bullet.gif')
 
 
 def register_invader_costumes():
     for i in range(NUM_OF_INVADER_COSTUMES):
-        gif = f'Resources/dodge_it/invader/{i+1}.gif'
+        gif = f'Resources/space_invaders/invader/{i+1}.gif'
         turtle.register_shape(gif)
         invader_costumes.append(gif)
 
@@ -223,7 +228,7 @@ def tick():
     tick_num += 1
 
     window.update()  # maunall update the screen
-    window.ontimer(tick, 10)  # update the screen every 10 milliseconds
+    window.ontimer(tick, 20)  # update the screen every 10 milliseconds
 
 
 def bind_keys():
@@ -248,7 +253,7 @@ create_score()
 bind_keys()
 
 # 4. Animate game objects
-# animate_invaders()
+animate_invaders()
 
 # 5. Start game loop
 window.ontimer(tick, 0)
