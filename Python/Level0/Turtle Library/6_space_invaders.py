@@ -7,12 +7,12 @@ import random
 
 SCREEN_WIDTH = 600
 SCREEN_HEIGHT = 600
-INITIAL_INVADERS = 1
+INITIAL_INVADERS = 5
 NUM_OF_INVADER_COSTUMES = 31
 
 PLAYER_SPEED = 10
-INVADER_SPEED = 1
-BULLET_SPEED = 1
+INVADER_MAX_SPEED = 1
+BULLET_SPEED = 3
 
 window = None
 
@@ -21,9 +21,11 @@ player = None
 invaders = []
 invader_costumes = []
 invader_costume_index = 0
-invader_speed = 1
+
 
 bullet = None
+# 'ready' or 'fired'
+bullet_state = 'ready'
 
 score_pen = None
 score = 0
@@ -70,6 +72,7 @@ def create_bullet():
     bullet.setheading(90)
     bullet.shapesize(0.5, 0.5)
     bullet.speed(0)
+    bullet.hideturtle()
 
 
 def create_score():
@@ -93,7 +96,7 @@ def create_invader():
     invader.speed(0)
     invader.goto(
         random.randint(-SCREEN_WIDTH/2+50, SCREEN_WIDTH/2-50),
-        SCREEN_WIDTH/2-50)
+        SCREEN_WIDTH/2 + random.randint(0, 100))
     invader.setheading(random.randint(0, 360))
     return invader
 
@@ -130,14 +133,12 @@ def right():
         player.setx(player.xcor() + PLAYER_SPEED)
 
 
-def up():
-    global player
-    player.setheading(90)
-
-
-def down():
-    global player
-    player.setheading(270)
+def fire():
+    global bullet_state
+    if bullet_state == 'ready':
+        bullet.goto(player.xcor(), player.ycor()+15)
+        bullet.showturtle()
+        bullet_state = 'fired'
 
 
 def collide(t1, t2):
@@ -147,22 +148,12 @@ def collide(t1, t2):
     return distance < 20
 
 
-def bounce(t):
-    if t.xcor() > SCREEN_WIDTH/2-10 or \
-            t.xcor() < -SCREEN_WIDTH/2+10 or \
-            t.ycor() > SCREEN_HEIGHT/2-10 or \
-            t.ycor() < -SCREEN_HEIGHT/2+10:
-        t.right(180 + random.randint(-90, 90))
-
-
-def update_score():
-    global score, tick_num
-    # increase score every 100 ticks
-    if tick_num % 100 == 0:
-        score += 1
-        score_pen.clear()
-        score_pen.write(f'Score: {score}', False, align='left',
-                        font=('Courier', 14, 'normal'))
+def increase_score():
+    global score
+    score += 1
+    score_pen.clear()
+    score_pen.write(f'Score: {score}', False, align='left',
+                    font=('Courier', 14, 'normal'))
 
 
 def animate_invaders():
@@ -181,12 +172,33 @@ def animate_invaders():
 def move_invaders():
     global invaders
     for invader in invaders:
-        invader.sety(invader.ycor()-INVADER_SPEED)
+        invader.sety(invader.ycor()-INVADER_MAX_SPEED)
+        if invader.ycor() < -SCREEN_HEIGHT/2:
+            invader.goto(
+                random.randint(-SCREEN_WIDTH/2+50, SCREEN_WIDTH/2-50),
+                SCREEN_WIDTH/2)
+
+
+def move_bullet():
+    global bullet_state
+    if bullet_state == 'fired':
+        bullet.sety(bullet.ycor() + BULLET_SPEED)
+        if bullet.ycor() > SCREEN_HEIGHT/2:
+            bullet.hideturtle()
+            bullet_state = 'ready'
 
 
 def check_for_collision():
-    global player, invaders, game_ended
+    global player, invaders, game_ended, bullet_state
     for invader in invaders:
+        if collide(bullet, invader):
+            bullet.hideturtle()
+            bullet_state = 'ready'
+            bullet.goto(0, -SCREEN_HEIGHT/2)
+            invader.goto(
+                random.randint(-SCREEN_WIDTH/2+50, SCREEN_WIDTH/2-50),
+                SCREEN_WIDTH/2)
+            increase_score()
         if collide(player, invader):
             game_ended = True
             break
@@ -205,8 +217,8 @@ def tick():
         return
 
     move_invaders()
-    # check_for_collision()
-    # update_score()
+    move_bullet()
+    check_for_collision()
     # add_invader()
     tick_num += 1
 
@@ -220,6 +232,7 @@ def bind_keys():
     window.listen()  # make the window listen for key presses
     window.onkeypress(left, 'Left')
     window.onkeypress(right, 'Right')
+    window.onkey(fire, 'space')
 
 
 # 1. Set up game window
@@ -229,7 +242,7 @@ setup_window()
 create_player()
 create_invaders()
 create_bullet()
-# create_score()
+create_score()
 
 # 3. Bind control keys
 bind_keys()
