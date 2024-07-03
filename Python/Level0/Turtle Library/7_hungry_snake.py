@@ -58,7 +58,6 @@ def place_food():
     x = random.randint(-SCREEN_WIDTH/2, SCREEN_WIDTH/2)
     y = random.randint(-SCREEN_HEIGHT/2, SCREEN_HEIGHT/2)
     food.goto(TILE_SIZE * int(x / TILE_SIZE), TILE_SIZE * int(y / TILE_SIZE))
-    print(f'Food placed at: {food.xcor()}, {food.ycor()}')
 
 
 def create_food():
@@ -83,11 +82,7 @@ def create_score():
 
 
 def collide(t1, t2):
-    #    return int(t1.xcor()) == int(t2.xcor()) and int(t1.ycor()) == int(t2.ycor())
-    distance = math.sqrt(
-        math.pow(t1.xcor()-t2.xcor(), 2) +
-        math.pow(t1.ycor()-t2.ycor(), 2))
-    return distance < 20
+    return t1.distance(t2) < 20
 
 
 def update_score():
@@ -105,9 +100,15 @@ def move_snake():
         snake[i].goto(snake[i-1].pos())
 
     snake[0].forward(TILE_SIZE)
-    print(f'Snake head: {snake[0].xcor()}, {snake[0].ycor()}')
     if abs(snake[0].xcor()) > SCREEN_WIDTH/2 or abs(snake[0].ycor()) > SCREEN_HEIGHT/2:
         game_ended = True
+
+    # check for body collision
+    for segment in snake[1:]:
+        if collide(snake[0], segment):
+            print('body collision happened')
+            game_ended = True
+            break
 
 
 def grow_snake():
@@ -115,13 +116,14 @@ def grow_snake():
     new_segment = turtle.Turtle()
     new_segment.color(random.choice(['#fad5ca', '#fdf0eb', '#f3a695']))
     new_segment.shape('circle')
+    new_segment.shapesize(0.8)
     new_segment.penup()
     new_segment.speed(0)
     new_segment.goto(snake[-1].pos())
     snake.append(new_segment)
 
 
-def check_for_collision():
+def eat_food():
     if collide(snake[0], food):
         update_score()
         place_food()
@@ -135,20 +137,40 @@ def tick():
         return
 
     move_snake()
-    check_for_collision()
+    eat_food()
 
     window.update()  # maunall update the screen
     window.ontimer(tick, 200)  # update the screen every 10 milliseconds
+
+
+def left():
+    snake[0].setheading(180)
+    snake[0].shape('Resources/hungry_snake/head_left.gif')
+
+
+def right():
+    snake[0].setheading(0)
+    snake[0].shape('Resources/hungry_snake/head_right.gif')
+
+
+def up():
+    snake[0].setheading(90)
+    snake[0].shape('Resources/hungry_snake/head_up.gif')
+
+
+def down():
+    snake[0].setheading(270)
+    snake[0].shape('Resources/hungry_snake/head_down.gif')
 
 
 def bind_keys():
     global window
 
     window.listen()  # make the window listen for key presses
-    window.onkey(lambda: snake[0].setheading(180), 'Left')
-    window.onkey(lambda: snake[0].setheading(0), 'Right')
-    window.onkey(lambda: snake[0].setheading(90), 'Up')
-    window.onkey(lambda: snake[0].setheading(270), 'Down')
+    window.onkey(left, 'Left')
+    window.onkey(right, 'Right')
+    window.onkey(up, 'Up')
+    window.onkey(down, 'Down')
 
 
 # 1. Set up game window
