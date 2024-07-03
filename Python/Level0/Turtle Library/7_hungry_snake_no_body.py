@@ -8,11 +8,14 @@ import random
 
 SCREEN_WIDTH = 600
 SCREEN_HEIGHT = 600
-TILE_SIZE = 24
+INITIAL_ENEMIES = 5
+NUM_OF_ENEMY_COSTUMES = 31
 
 window = None
 
-snake = []
+snake_head = None
+snake_body = []
+snake_speed = 1.5
 
 food = None
 
@@ -34,21 +37,14 @@ def setup_window():
     window.tracer(0)
 
 
-def create_snake():
-    global snake
+def create_snake_head():
+    global snake_head
 
     snake_head = turtle.Turtle()
     snake_head.color('green')
-    snake_head.shape('circle')
+    snake_head.shape('square')
     snake_head.penup()
-    snake_head.speed(0)
-    snake.append(snake_head)
-
-
-def place_food():
-    x = random.randint(-SCREEN_WIDTH/2, SCREEN_WIDTH/2)
-    y = random.randint(-SCREEN_HEIGHT/2, SCREEN_HEIGHT/2)
-    food.goto(TILE_SIZE * int(x / TILE_SIZE), TILE_SIZE * int(y / TILE_SIZE))
+    snake_head.speed(0)  # TODO: what does this do?
 
 
 def create_food():
@@ -58,7 +54,8 @@ def create_food():
     food.shape('circle')
     food.penup()
     food.speed(0)
-    place_food()
+    food.goto(random.randint(-SCREEN_WIDTH/2+50, SCREEN_WIDTH/2-50),
+              random.randint(-SCREEN_HEIGHT/2+50, SCREEN_HEIGHT/2-50))
 
 
 def create_score():
@@ -72,8 +69,27 @@ def create_score():
                     font=('Courier', 14, 'normal'))
 
 
+def left():
+    snake_head.setheading(180)
+
+
+def right():
+    snake_head.setheading(0)
+
+
+def up():
+    snake_head.setheading(90)
+
+
+def down():
+    snake_head.setheading(270)
+
+
 def collide(t1, t2):
-    return int(t1.xcor()) == int(t2.xcor()) and int(t1.ycor()) == int(t2.ycor())
+    distance = math.sqrt(
+        math.pow(t1.xcor()-t2.xcor(), 2) +
+        math.pow(t1.ycor()-t2.ycor(), 2))
+    return distance < 20
 
 
 def update_score():
@@ -86,30 +102,27 @@ def update_score():
 
 def move_snake():
     global game_ended
-
-    for i in range(len(snake)-1, 0, -1):
-        snake[i].goto(snake[i-1].pos())
-
-    snake[0].forward(TILE_SIZE)
-    if abs(snake[0].xcor()) > SCREEN_WIDTH/2 or abs(snake[0].ycor()) > SCREEN_HEIGHT/2:
+    snake_head.forward(snake_speed)
+    if abs(snake_head.xcor()) > SCREEN_WIDTH/2 or abs(snake_head.ycor()) > SCREEN_HEIGHT/2:
         game_ended = True
 
 
 def grow_snake():
-    global snake
+    global snake_body
     new_segment = turtle.Turtle()
     new_segment.color('gray80')
-    new_segment.shape('circle')
+    new_segment.shape('square')
     new_segment.penup()
     new_segment.speed(0)
-    new_segment.goto(snake[-1].pos())
-    snake.append(new_segment)
+    snake_body.append(new_segment)
 
 
 def check_for_collision():
-    if collide(snake[0], food):
+    if collide(snake_head, food):
         update_score()
-        place_food()
+        food.goto(random.randint(-SCREEN_WIDTH/2+50, SCREEN_WIDTH/2-50),
+                  random.randint(-SCREEN_HEIGHT/2+50, SCREEN_HEIGHT/2-50))
+
         grow_snake()
 
 
@@ -123,24 +136,24 @@ def tick():
     check_for_collision()
 
     window.update()  # maunall update the screen
-    window.ontimer(tick, 200)  # update the screen every 10 milliseconds
+    window.ontimer(tick, 10)  # update the screen every 10 milliseconds
 
 
 def bind_keys():
     global window
 
     window.listen()  # make the window listen for key presses
-    window.onkey(lambda: snake[0].setheading(180), 'Left')
-    window.onkey(lambda: snake[0].setheading(0), 'Right')
-    window.onkey(lambda: snake[0].setheading(90), 'Up')
-    window.onkey(lambda: snake[0].setheading(270), 'Down')
+    window.onkey(lambda: snake_head.setheading(180), 'Left')
+    window.onkey(lambda: snake_head.setheading(0), 'Right')
+    window.onkey(lambda: snake_head.setheading(90), 'Up')
+    window.onkey(lambda: snake_head.setheading(270), 'Down')
 
 
 # 1. Set up game window
 setup_window()
 
 # 2. Create game objects
-create_snake()
+create_snake_head()
 create_food()
 create_score()
 
