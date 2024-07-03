@@ -4,9 +4,9 @@ import turtle
 import time
 import random
 
-game_ended = False
-
 TILE_SIZE = 24
+
+window = None
 
 player = None
 
@@ -15,6 +15,8 @@ treasure_locations = [(8, 18), (16, 3), (23, 8)]
 
 enemies = []
 enemy_locations = [(5, 21), (10, 4), (19, 13), (22, 5)]
+
+game_ended = False
 
 # 25 rows x 25 columns
 level = [
@@ -148,12 +150,14 @@ def right():
     move_player(player, 1, 0)
 
 
-window = turtle.Screen()
-window.bgcolor('black')
-window.title('A Maze Game')
-window.setup(700, 700)
-window.tracer(0)
-window.listen()
+def setup_window():
+    global window
+    window = turtle.Screen()
+    window.bgcolor('black')
+    window.title('A Maze Game')
+    window.setup(700, 700)
+    window.tracer(0)
+    window.listen()
 
 
 def bind_keys(functions, keys):
@@ -229,11 +233,14 @@ def tick():
     window.ontimer(tick, 200)
 
 
+setup_window()
+
+bind_keys([left, right, up, down], ['Left', 'Right', 'Up', 'Down'])
+
 create_maze(level)
 create_player()
 create_treasures()
 create_enemies()
-bind_keys([left, right, up, down], ['Left', 'Right', 'Up', 'Down'])
 
 tick()
 # move_enemies()
