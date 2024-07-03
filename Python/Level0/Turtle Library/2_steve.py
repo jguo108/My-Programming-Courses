@@ -29,7 +29,7 @@ def draw_pixel(x, y, size, color):
 
 
 window = turtle.Screen()
-window.bgcolor('Gray30')
+window.bgcolor('#123135')
 window.title('Steve')
 window.setup(SCREEN_WIDTH, SCREEN_HEITGH)
 window.tracer(0)

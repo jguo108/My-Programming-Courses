@@ -1,5 +1,12 @@
 ﻿# https://www.youtube.com/watch?v=BP7KMlbvtOo&list=PLlEgNdBJEO-n8k9SR49AshB9j7b5Iw7hZ
 
+# Assets:
+# https://www.freepik.com/free-vector/flat-snake-background_4149945.htm#fromView=search&page=2&position=36&uuid=90107521-77ac-4093-9851-86d0df4b256c
+# https://www.freepik.com/free-vector/top-view-hand-drawn-snake-background_4231226.htm#fromView=search&page=5&position=16&uuid=90107521-77ac-4093-9851-86d0df4b256c
+# https://www.freepik.com/free-vector/colorful-flat-snake-illustration_4453110.htm#fromView=search&page=5&position=52&uuid=90107521-77ac-4093-9851-86d0df4b256c
+# https://www.freepik.com/free-vector/flat-striped-snake-background_4182522.htm#fromView=search&page=7&position=36&uuid=90107521-77ac-4093-9851-86d0df4b256c
+
+
 import turtle
 import math
 import random
@@ -38,8 +45,10 @@ def create_snake():
     global snake
 
     snake_head = turtle.Turtle()
-    snake_head.color('green')
-    snake_head.shape('circle')
+    # snake_head.color('green')
+    # snake_head.shape('circle')
+    snake_head.setheading(90)
+    snake_head.shape('Resources/hungry_snake/head_up.gif')
     snake_head.penup()
     snake_head.speed(0)
     snake.append(snake_head)
@@ -49,6 +58,7 @@ def place_food():
     x = random.randint(-SCREEN_WIDTH/2, SCREEN_WIDTH/2)
     y = random.randint(-SCREEN_HEIGHT/2, SCREEN_HEIGHT/2)
     food.goto(TILE_SIZE * int(x / TILE_SIZE), TILE_SIZE * int(y / TILE_SIZE))
+    print(f'Food placed at: {food.xcor()}, {food.ycor()}')
 
 
 def create_food():
@@ -73,7 +83,11 @@ def create_score():
 
 
 def collide(t1, t2):
-    return int(t1.xcor()) == int(t2.xcor()) and int(t1.ycor()) == int(t2.ycor())
+    #    return int(t1.xcor()) == int(t2.xcor()) and int(t1.ycor()) == int(t2.ycor())
+    distance = math.sqrt(
+        math.pow(t1.xcor()-t2.xcor(), 2) +
+        math.pow(t1.ycor()-t2.ycor(), 2))
+    return distance < 20
 
 
 def update_score():
@@ -91,6 +105,7 @@ def move_snake():
         snake[i].goto(snake[i-1].pos())
 
     snake[0].forward(TILE_SIZE)
+    print(f'Snake head: {snake[0].xcor()}, {snake[0].ycor()}')
     if abs(snake[0].xcor()) > SCREEN_WIDTH/2 or abs(snake[0].ycor()) > SCREEN_HEIGHT/2:
         game_ended = True
 
@@ -98,7 +113,7 @@ def move_snake():
 def grow_snake():
     global snake
     new_segment = turtle.Turtle()
-    new_segment.color('gray80')
+    new_segment.color(random.choice(['#fad5ca', '#fdf0eb', '#f3a695']))
     new_segment.shape('circle')
     new_segment.penup()
     new_segment.speed(0)
@@ -138,6 +153,12 @@ def bind_keys():
 
 # 1. Set up game window
 setup_window()
+
+
+turtle.register_shape('Resources/hungry_snake/head_up.gif')
+turtle.register_shape('Resources/hungry_snake/head_down.gif')
+turtle.register_shape('Resources/hungry_snake/head_right.gif')
+turtle.register_shape('Resources/hungry_snake/head_left.gif')
 
 # 2. Create game objects
 create_snake()
