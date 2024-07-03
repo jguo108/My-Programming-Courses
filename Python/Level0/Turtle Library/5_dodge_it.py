@@ -108,22 +108,18 @@ def register_enemy_costumes():
 
 
 def left():
-    global player
     player.setheading(180)
 
 
 def right():
-    global player
     player.setheading(0)
 
 
 def up():
-    global player
     player.setheading(90)
 
 
 def down():
-    global player
     player.setheading(270)
 
 
