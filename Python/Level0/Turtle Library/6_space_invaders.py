@@ -150,10 +150,7 @@ def fire():
 
 
 def collide(t1, t2):
-    distance = math.sqrt(
-        math.pow(t1.xcor()-t2.xcor(), 2) +
-        math.pow(t1.ycor()-t2.ycor(), 2))
-    return distance < 20
+    return t1.distance(t2) < 20
 
 
 def increase_score():
