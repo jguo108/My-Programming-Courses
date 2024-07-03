@@ -147,22 +147,22 @@ def tick():
 
 
 def left():
-    if snake[0].heading != 0:
+    if snake[0].heading() != 0:
         snake[0].setheading(180)
 
 
 def right():
-    if snake[0].heading != 180:
+    if snake[0].heading() != 180:
         snake[0].setheading(0)
 
 
 def up():
-    if snake[0].heading != 270:
+    if snake[0].heading() != 270:
         snake[0].setheading(90)
 
 
 def down():
-    if snake[0].heading != 90:
+    if snake[0].heading() != 90:
         snake[0].setheading(270)
 
 
