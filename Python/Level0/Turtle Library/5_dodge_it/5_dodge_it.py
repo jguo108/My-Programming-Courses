@@ -42,7 +42,7 @@ def setup_window():
     global window
     window = turtle.Screen()
     window.title('Dodge It!')
-    window.bgpic('Resources\\dodge_it\\bg.gif')
+    window.bgpic('5_dodge_it/Resources/bg.gif')
     # window.bgcolor('gray10')
     window.setup(SCREEN_WIDTH, SCREEN_HEIGHT)
 
@@ -58,7 +58,7 @@ def create_player():
     player = turtle.Turtle()
     player.color('green')
     # player.shape('square')
-    player.shape('Resources/dodge_it/player.gif')
+    player.shape('5_dodge_it/Resources/player.gif')
     player.penup()
     player.speed(0)  # TODO: what does this do?
 
@@ -96,13 +96,13 @@ def create_enemies():
 
 
 def register_player_costume():
-    gif = f'Resources/dodge_it/player.gif'
-    turtle.register_shape('Resources/dodge_it/player.gif')
+    gif = f'5_dodge_it/Resources/player.gif'
+    turtle.register_shape(gif)
 
 
 def register_enemy_costumes():
     for i in range(NUM_OF_ENEMY_COSTUMES):
-        gif = f'Resources/dodge_it/enemy/{i+1}.gif'
+        gif = f'5_dodge_it/Resources/enemy/{i+1}.gif'
         turtle.register_shape(gif)
         enemy_costumes.append(gif)
 

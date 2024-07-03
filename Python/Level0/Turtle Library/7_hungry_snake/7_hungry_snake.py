@@ -33,7 +33,7 @@ def setup_window():
     global window
     window = turtle.Screen()
     window.title('Hungry Snake')
-    # window.bgpic('Resources\\dodge_it\\bg.gif')
+    # window.bgpic('7_hungry_snake/Resources/bg.gif')
     window.bgcolor('gray10')
     window.setup(SCREEN_WIDTH, SCREEN_HEIGHT)
 

@@ -26,7 +26,7 @@ index = 0
 
 def register_jellyfish_costumes():
     for i in range(NUM_OF_COSTUMES):
-        gif = f'Resources/bouncing_around/{i+1}_small.gif'
+        gif = f'4_bouncing_around/Resources/{i+1}_small.gif'
         turtle.register_shape(gif)
         jellyfish_costumes.append(gif)
 
@@ -50,7 +50,7 @@ def bounce(t):
     margin = 60
     if t.xcor() > SCREEN_WIDTH/2-margin or \
             t.xcor() < -SCREEN_WIDTH/2+margin or \
-        t.ycor() > SCREEN_HEIGHT/2-margin or \
+    t.ycor() > SCREEN_HEIGHT/2-margin or \
             t.ycor() < -SCREEN_HEIGHT/2+margin:
         t.right(180 + random.randint(-90, 90))
 
@@ -75,7 +75,8 @@ def setup_window():
     window = turtle.Screen()
     window.title('Bouncing Around')
     window.setup(SCREEN_WIDTH, SCREEN_HEIGHT)
-    window.bgpic('Resources\\bouncing_around\\background.gif')
+    window.bgpic(
+        '4_bouncing_around/Resources/background.gif')
     window.tracer(0)
 
 

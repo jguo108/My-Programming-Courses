@@ -1,4 +1,5 @@
 ﻿import turtle
+import os
 
 # This should be a project that shows how you can create
 # some animation by switching costumes in Python
@@ -47,7 +48,7 @@ def animate_face():
 
 def register_costumes():
     for i in range(NUM_OF_IMAGES):
-        face_gif = f'Resources/make_a_face/{i+1}.gif'
+        face_gif = f'3_ghostface/Resources/{i+1}.gif'
         turtle.register_shape(face_gif)
         face_costumes.append(face_gif)
 
@@ -97,6 +98,8 @@ def draw_ghost():
     draw_body()
     draw_face()
 
+
+print(os.getcwd())
 
 setup_window()
 
