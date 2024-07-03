@@ -3,94 +3,112 @@
 import turtle
 from random import randint
 
-# Fullwindow the canvas
-window = turtle.Screen()
-window.title('Modern Art')
-window.setup(600, 600)  # width and height of the window
-window.bgcolor('gray10')
+SCREEN_WIDTH = 600
+SCREEN_HEIGHT = 600
 
-# Begin!
-t = turtle.Turtle()  # create a Turtle and it always start at (0, 0)
-t.shape("turtle")
-t.speed(0)
+window = None
+pen = None
 
 
-def randomcolour():
+def setup_window():
+    global window
+    window = turtle.Screen()
+    window.title('Modern Art')
+    window.setup(SCREEN_WIDTH, SCREEN_HEIGHT)  # width and height of the window
+    window.bgcolor('gray10')
+
+
+def create_pen():
+    global pen
+    pen = turtle.Turtle()  # create a Turtle and it always start at (0, 0)
+    pen.shape("turtle")
+    pen.speed(0)
+
+
+def pick_colour():
     turtle.colormode(255)
     red = randint(0, 255)
     green = randint(0, 255)
     blue = randint(0, 255)
-    t.pencolor(red, green, blue)
-    t.fillcolor(red, green, blue)
+    pen.pencolor(red, green, blue)
+    pen.fillcolor(red, green, blue)
 
 
-def randomplace():
-    t.penup()
+def pick_position():
+    pen.penup()
     x = randint(-200, 200)
     y = randint(-200, 200)
-    t.goto(x, y)
-    t.pendown()
+    pen.goto(x, y)
+    pen.pendown()
 
 
-def randomheading():
+def pick_heading():
     heading = randint(0, 360)
-    t.setheading(heading)
+    pen.setheading(heading)
 
 
-def drawrectangle():
-    t.hideturtle()
+def draw_rectangle():
+    pen.hideturtle()
     length = randint(10, 150)
     height = randint(10, 150)
 
-    t.begin_fill()
+    pen.begin_fill()
     for _ in range(2):
-        t.forward(length)
-        t.right(90)
-        t.forward(height)
-        t.right(90)
-    t.end_fill()
+        pen.forward(length)
+        pen.right(90)
+        pen.forward(height)
+        pen.right(90)
+    pen.end_fill()
 
 
-def drawsquare():
-    t.hideturtle()
+def draw_square():
+    pen.hideturtle()
     side_length = randint(10, 150)
 
-    t.begin_fill()
+    pen.begin_fill()
     for _ in range(4):
-        t.forward(side_length)
-        t.right(90)
-    t.end_fill()
+        pen.forward(side_length)
+        pen.right(90)
+    pen.end_fill()
 
 
-def drawcircle():
-    t.hideturtle()
+def draw_circle():
+    pen.hideturtle()
     radius = randint(10, 100)
 
-    t.begin_fill()
-    t.circle(radius)
-    t.end_fill()
+    pen.begin_fill()
+    pen.circle(radius)
+    pen.end_fill()
 
 
-def drawstar():
-    t.hideturtle()
+def draw_star():
+    pen.hideturtle()
     size = randint(50, 150)
     num_points = randint(2, 5) * 2 + 1
     angle = 180 - (180/num_points)
 
-    t.begin_fill()
+    pen.begin_fill()
     for _ in range(num_points):
-        t.forward(size)
-        t.right(angle)
-    t.end_fill()
+        pen.forward(size)
+        pen.right(angle)
+    pen.end_fill()
 
 
-for i in range(50):
-    randomcolour()
-    randomplace()
-    randomheading()
-    # drawrectangle()
-    # drawsquare()
-    # drawcircle()
-    drawstar()
+def create_art():
+    for i in range(50):
+        pick_colour()
+        pick_position()
+        pick_heading()
+        # draw_rectangle()
+        # draw_square()
+        # draw_circle()
+        draw_star()
+
+
+setup_window()
+
+create_pen()
+
+create_art()
 
 window.mainloop()
