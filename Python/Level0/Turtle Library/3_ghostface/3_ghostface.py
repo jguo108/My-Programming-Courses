@@ -99,8 +99,6 @@ def draw_ghost():
     draw_face()
 
 
-print(os.getcwd())
-
 setup_window()
 
 register_costumes()

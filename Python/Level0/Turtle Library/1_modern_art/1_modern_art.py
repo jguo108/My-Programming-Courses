@@ -1,4 +1,6 @@
-﻿# https://www.notion.so/Modern-Art-Drawing-b5381c39e76e4a09b2881e8a470a6c07
+﻿# Note:
+# https://www.notion.so/1-Modern-Art-b5381c39e76e4a09b2881e8a470a6c07
+
 
 import turtle
 from random import randint

@@ -1,4 +1,7 @@
-﻿# https://scratch.mit.edu/projects/274837412/editor/
+﻿# Note:
+# https://www.notion.so/2-Steve-02666384de29457a93e48d4ab20f0381
+
+# https://scratch.mit.edu/projects/274837412/editor/
 # https://pickcoloronline.com/
 
 import turtle
