@@ -26,11 +26,15 @@ NUM_OF_IMAGES = 43
 BACKGROUND_COLOR = 'gray10'
 GHOST_COLOR = 'ivory'
 
+window = None
 
-window = turtle.Screen()
-window.title('Make a Face')
-window.setup(SCREEN_WIDTH, SCREEN_HEIGHT)
-window.bgcolor(BACKGROUND_COLOR)
+
+def setup_window():
+    global window
+    window = turtle.Screen()
+    window.title('Make a Face')
+    window.setup(SCREEN_WIDTH, SCREEN_HEIGHT)
+    window.bgcolor(BACKGROUND_COLOR)
 
 
 def animate_face():
@@ -48,8 +52,7 @@ def register_costumes():
         face_costumes.append(face_gif)
 
 
-def build_body():
-   # Begin!
+def draw_body():
     body = turtle.Turtle()
 
     body.shape("turtle")
@@ -80,7 +83,7 @@ def build_body():
     body.hideturtle()
 
 
-def build_face():
+def draw_face():
     global face, face_costumes, index
     face = turtle.Turtle()
     face.speed(0)
@@ -90,13 +93,17 @@ def build_face():
     face.goto(0, 70)
 
 
-def build_ghost():
-    build_body()
-    build_face()
+def draw_ghost():
+    draw_body()
+    draw_face()
 
+
+setup_window()
 
 register_costumes()
-build_ghost()
+
+draw_ghost()
+
 animate_face()
 
 window.mainloop()
