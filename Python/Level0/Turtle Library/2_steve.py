@@ -3,6 +3,9 @@
 
 import turtle
 
+SCREEN_WIDTH = 700
+SCREEN_HEITGH = 700
+
 PIXEL_SIZE = 50
 HEAD_X_PIXELS = 8
 HEAD_Y_PIXELS = 8
@@ -10,34 +13,8 @@ HEAD_Y_PIXELS = 8
 HEAD_WIDTH = PIXEL_SIZE * HEAD_X_PIXELS
 HEAD_HEIGHT = PIXEL_SIZE * HEAD_Y_PIXELS
 
-SCREEN_WIDTH = 700
-SCREEN_HEITGH = 700
-
-
-def draw_pixel(x, y, size, color):
-    global pen
-    pen.up()
-    pen.goto(x, y)
-    pen.down()
-    pen.fillcolor(color)
-    pen.pencolor(color)
-    pen.begin_fill()
-    for i in range(4):
-        pen.forward(size)
-        pen.right(90)
-    pen.end_fill()
-
-
-window = turtle.Screen()
-window.bgcolor('#123135')
-window.title('Steve')
-window.setup(SCREEN_WIDTH, SCREEN_HEITGH)
-window.tracer(0)
-
-pen = turtle.Turtle()  # create a Turtle and it always start at (0, 0)
-pen.shape("turtle")
-# pen.speed(0)
-pen.hideturtle()
+window = None
+pen = None
 
 head = [
     ['#2f200d', '#2d2315', '#312417', '#312417',
@@ -58,17 +35,56 @@ head = [
         '#432616', '#432616', '#7d543e', '#744e37'],
 ]
 
-count = 0
-current_x = -(HEAD_WIDTH / 2)
-current_y = HEAD_HEIGHT / 2
-for r in range(HEAD_Y_PIXELS):
-    for c in range(HEAD_X_PIXELS):
-        draw_pixel(current_x, current_y, PIXEL_SIZE, head[r][c])
-        current_x += PIXEL_SIZE
-        count += 1
-    current_x = -(HEAD_WIDTH / 2)
-    current_y -= PIXEL_SIZE
 
-pen.up()
+def draw_pixel(x, y, size, color):
+    global pen
+    pen.up()
+    pen.goto(x, y)
+    pen.down()
+    pen.fillcolor(color)
+    pen.pencolor(color)
+    pen.begin_fill()
+    for i in range(4):
+        pen.forward(size)
+        pen.right(90)
+    pen.end_fill()
+
+
+def setup_window():
+    global window
+    window = turtle.Screen()
+    window.bgcolor('#123135')
+    window.title('Steve')
+    window.setup(SCREEN_WIDTH, SCREEN_HEITGH)
+    window.tracer(0)
+
+
+def create_pen():
+    global pen
+    pen = turtle.Turtle()  # create a Turtle and it always start at (0, 0)
+    pen.shape("turtle")
+    # pen.speed(0)
+    pen.hideturtle()
+
+
+def paint():
+    count = 0
+    current_x = -(HEAD_WIDTH / 2)
+    current_y = HEAD_HEIGHT / 2
+    for r in range(HEAD_Y_PIXELS):
+        for c in range(HEAD_X_PIXELS):
+            draw_pixel(current_x, current_y, PIXEL_SIZE, head[r][c])
+            current_x += PIXEL_SIZE
+            count += 1
+        current_x = -(HEAD_WIDTH / 2)
+        current_y -= PIXEL_SIZE
+    pen.up()
+
+
+setup_window()
+
+create_pen()
+
+paint()
 
 window.mainloop()
