@@ -41,17 +41,20 @@ def setup_window():
     window.tracer(0)
 
 
+def create_segment(shape, color):
+    segment = turtle.Turtle()
+    # segment.color(random.choice(['#fad5ca', '#fdf0eb', '#f3a695']))
+    segment.color(color)
+    segment.shape(shape)
+    segment.penup()
+    segment.speed(0)
+    return segment
+
+
 def create_snake():
     global snake
-
-    snake_head = turtle.Turtle()
-    # snake_head.color('green')
-    # snake_head.shape('circle')
-    snake_head.setheading(90)
-    snake_head.shape('Resources/hungry_snake/head_up.gif')
-    snake_head.penup()
-    snake_head.speed(0)
-    snake.append(snake_head)
+    head = create_segment('circle', '#e8829b')
+    snake.append(head)
 
 
 def place_food():
@@ -63,8 +66,10 @@ def place_food():
 def create_food():
     global food
     food = turtle.Turtle()
-    food.color('red')
-    food.shape('circle')
+    food.color(random.choice(
+        ['#F6FFDE', '#E3F2C1', '#C9DBB2', '#AAC8A7', '#C3EDC0', '#E9FFC2', '#FDFFAE']))
+    food.shape('square')
+    food.shapesize(0.7, 0.7)
     food.penup()
     food.speed(0)
     place_food()
@@ -100,27 +105,25 @@ def move_snake():
         snake[i].goto(snake[i-1].pos())
 
     snake[0].forward(TILE_SIZE)
+
+    # check for border collision
     if abs(snake[0].xcor()) > SCREEN_WIDTH/2 or abs(snake[0].ycor()) > SCREEN_HEIGHT/2:
         game_ended = True
 
     # check for body collision
     for segment in snake[1:]:
         if collide(snake[0], segment):
-            print('body collision happened')
             game_ended = True
             break
 
 
 def grow_snake():
     global snake
-    new_segment = turtle.Turtle()
-    new_segment.color(random.choice(['#fad5ca', '#fdf0eb', '#f3a695']))
-    new_segment.shape('circle')
-    new_segment.shapesize(0.8)
-    new_segment.penup()
-    new_segment.speed(0)
-    new_segment.goto(snake[-1].pos())
-    snake.append(new_segment)
+    body_part = create_segment('circle', random.choice(
+        ['#fad5ca', '#fdf0eb', '#f3a695']))
+
+    body_part.goto(snake[-1].pos())
+    snake.append(body_part)
 
 
 def eat_food():
@@ -144,23 +147,23 @@ def tick():
 
 
 def left():
-    snake[0].setheading(180)
-    snake[0].shape('Resources/hungry_snake/head_left.gif')
+    if snake[0].heading != 0:
+        snake[0].setheading(180)
 
 
 def right():
-    snake[0].setheading(0)
-    snake[0].shape('Resources/hungry_snake/head_right.gif')
+    if snake[0].heading != 180:
+        snake[0].setheading(0)
 
 
 def up():
-    snake[0].setheading(90)
-    snake[0].shape('Resources/hungry_snake/head_up.gif')
+    if snake[0].heading != 270:
+        snake[0].setheading(90)
 
 
 def down():
-    snake[0].setheading(270)
-    snake[0].shape('Resources/hungry_snake/head_down.gif')
+    if snake[0].heading != 90:
+        snake[0].setheading(270)
 
 
 def bind_keys():
@@ -175,12 +178,6 @@ def bind_keys():
 
 # 1. Set up game window
 setup_window()
-
-
-turtle.register_shape('Resources/hungry_snake/head_up.gif')
-turtle.register_shape('Resources/hungry_snake/head_down.gif')
-turtle.register_shape('Resources/hungry_snake/head_right.gif')
-turtle.register_shape('Resources/hungry_snake/head_left.gif')
 
 # 2. Create game objects
 create_snake()
