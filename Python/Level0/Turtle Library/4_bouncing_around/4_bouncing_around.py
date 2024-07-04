@@ -1,4 +1,7 @@
-﻿# This should be a project that shows how you can create some animation
+﻿# Note:
+# https://www.notion.so/4-Bouncing-Around-676b4d4c8a76452b82282dd84d3ddd19
+
+# This should be a project that shows how you can create some animation
 # by moving a turtle in Python
 
 # Idea: an object bouncing around in an enclosed space.
@@ -48,10 +51,8 @@ def create_jellyfish():
 
 def bounce(t):
     margin = 60
-    if t.xcor() > SCREEN_WIDTH/2-margin or \
-            t.xcor() < -SCREEN_WIDTH/2+margin or \
-    t.ycor() > SCREEN_HEIGHT/2-margin or \
-            t.ycor() < -SCREEN_HEIGHT/2+margin:
+    if abs(t.xcor()) > SCREEN_WIDTH/2 - margin or \
+            abs(t.ycor()) > SCREEN_HEIGHT/2 - margin:
         t.right(180 + random.randint(-90, 90))
 
 

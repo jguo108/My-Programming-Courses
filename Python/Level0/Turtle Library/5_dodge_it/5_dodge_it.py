@@ -1,4 +1,7 @@
-﻿# https://www.youtube.com/watch?v=PTgyzZGknvg&list=PLlEgNdBJEO-n8FdWb-7f_C4dFC07IY9tb&index=1
+﻿# Note:
+# https://www.notion.so/5-Dodge-It-93e5fc0c71514f8eaea8e791af06c705
+
+# https://www.youtube.com/watch?v=PTgyzZGknvg&list=PLlEgNdBJEO-n8FdWb-7f_C4dFC07IY9tb&index=1
 
 # Assets:
 # https://scratch.mit.edu/projects/502019480/editor/

@@ -1,4 +1,7 @@
-﻿import turtle
+﻿# Note:
+# https://www.notion.so/3-Ghostface-d7c5dbb168da413984cc66243d14f497
+
+import turtle
 import os
 
 # This should be a project that shows how you can create
