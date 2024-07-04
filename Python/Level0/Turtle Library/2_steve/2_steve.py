@@ -5,6 +5,7 @@
 # https://pickcoloronline.com/
 
 import turtle
+import csv
 
 SCREEN_WIDTH = 700
 SCREEN_HEITGH = 700
@@ -20,6 +21,7 @@ window = None
 pen = None
 
 head = []
+
 
 '''
 head = [
@@ -45,6 +47,7 @@ head = [
 
 def draw_pixel(x, y, size, color):
     global pen
+    print(color)
     pen.up()
     pen.goto(x, y)
     pen.down()
@@ -88,9 +91,22 @@ def paint():
     pen.up()
 
 
+def load_head():
+    global head
+
+
+def load_head():
+    global head
+    with open('2_steve/Resources/head_csv/skeleton.csv', 'r') as file:
+        reader = csv.reader(file)
+        head = list(reader)
+
+
 setup_window()
 
 create_pen()
+
+load_head()
 
 paint()
 
