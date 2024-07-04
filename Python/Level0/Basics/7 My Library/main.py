@@ -2,75 +2,73 @@
 # https://www.notion.so/7-My-Book-Shelf-6a983484395647ce988b1cec5e2f966b
 
 # Create an empty dictionary for books
-movies = {}
+books = {}
 
 
-def add_movie(title, genre, year, actor):
-    # Create a dictionary for the movie details
-    movie_details = {"genre": genre, "year": year, "actor": actor}
-    # Add the new movie and details to the movies dictionary
-    movies.update({title: movie_details})
-
-
-def find_movie(title):
-    # Get the movie details using get (returns None if not found)
-    movie_info = movies.get(title)
-    if movie_info:
-        print(f"Title: {title}")
-        print(f"  Genre: {movie_info['genre']}")
-        print(f"  Year: {movie_info['year']}")
-        print(f"  Main Actor: {movie_info['actor']}")
-    else:
-        print(f"Movie '{title}' not found.")
-
-
-def list_movies():
-    # Loop through all movies and print details
-    if not movies:
-        print("No movies added yet!")
-        return
-    print("All Movies:")
-    for title, details in movies.items():
-        print(f"  - {title} ({details['genre']}, {details['year']})")
-
-
-def list_movies_by_genre(genre):
-    # Loop through all movies and print details if genre matches
-    print(f"Movies in genre '{genre}':")
-    found = False
-    for title, details in movies.items():
-        if details["genre"] == genre:
-            print(f"  - {title}")
-            found = True
-    if not found:
-        print("  No movies found in that genre.")
-
-
-# Option to add new movies
-while True:
-    choice = input("Do you want to add a new movie (y/n)? ")
-    if choice.lower() != 'y':
-        break
-    title = input("Enter movie title: ")
-    genre = input("Enter movie genre: ")
+def add_book():
+    title = input("Enter book title: ")
+    genre = input("Enter book genre: ")
     year = int(input("Enter year of release: "))
-    actor = input("Enter main actor: ")
-    add_movie(title, genre, year, actor)
+    author = input("Enter main author: ")
+    book_details = {"genre": genre, "year": year, "author": author}
+    books.update({title: book_details})
 
-# Option to search for movies or list all
+
+def find_book():
+    title = input("Enter book title to find: ")
+
+    book_info = books.get(title)
+    if book_info:
+        print(f"Title: {title}")
+        print(f"  Genre: {book_info['genre']}")
+        print(f"  Year: {book_info['year']}")
+        print(f"  Main Author: {book_info['author']}")
+    else:
+        print(f"book '{title}' not found.")
+
+
+def list_books():
+    choice = int(
+        input("Do you want to list books by (1)genre, (2)year, (3)author, (4)all or (5)exit? "))
+
+    if choice == 1:
+        genre = input("Enter genre: ")
+        list_books_by('genre', genre)
+    elif choice == 2:
+        year = input("Enter year: ")
+        list_books_by('year', year)
+    elif choice == 3:
+        author = input("Enter author: ")
+        list_books_by('author', author)
+    elif choice == 4:
+        print("All books:")
+        for title, details in books.items():
+            print(
+                f"  - {title} ({details['genre']}, {details['year']}, {details['author']})")
+    elif choice == 5:
+        return
+    else:
+        print("Invalid choice.")
+
+
+def list_books_by(criteria, value):
+    print(f"All books with {criteria} '{value}':")
+
+    for title, details in books.items():
+        if details[criteria] == value:
+            print(
+                f"  - {title} ({details['genre']}, {details['year']}, {details['author']})")
+
+
 while True:
-    choice = input("What would you like to do (search/list/exit)? ")
-    if choice.lower() == 'exit':
+    choice = int(input("Do you want to (1)add, (2)find, (3)list or (4)exit? "))
+    if choice == 1:
+        add_book()
+    elif choice == 2:
+        find_book()
+    elif choice == 3:
+        list_books()
+    elif choice == 4:
         break
-    elif choice.lower() == 'search':
-        title = input("Enter movie title to search: ")
-        find_movie(title)
-    elif choice.lower() == 'list':
-        choice = input("List all movies (y/n) or by genre (enter genre)? ")
-        if choice.lower() == 'y':
-            list_movies()
-        else:
-            genre = choice
-            list_movies_by_genre(genre)
     else:
         print("Invalid choice. Please try again.")
