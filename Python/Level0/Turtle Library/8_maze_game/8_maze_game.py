@@ -22,31 +22,31 @@ game_ended = False
 
 # 25 rows x 25 columns
 level = [
-    'XXXXXXXXXXXXXXXXXXXXXXXXX',
-    'XP XXXXXXX          XXXXX',
-    'X  XXXXXXX  XXXXXX  XXXXX',
-    'X       XX  XXXXXX  XXXXX',
-    'X       XX  XXX        XX',
-    'XXXXXX  XX  XXX      E XX',
-    'XXXXXX  XX  XXXXXX  XXXXX',
-    'XXXXXX  XX    XXXX  XXXXX',
-    'X  XXX        XXXXT XXXXX',
-    'X  XXX  XXXXXXXXXXXXXXXXX',
-    'X   E     XXXXXXXXXXXXXXX',
-    'X                XXXXXXXX',
-    'XXXXXXXXXXXX     XXXXX  X',
-    'XXXXXXXXXXXXXXX  XXXXX  X',
-    'XXX  XXXXXXXXXX         X',
-    'XXX                     X',
-    'XXXT        XXXXXXXXXXXXX',
-    'XXXXXXXXXX  XXXXXXXXXXXXX',
-    'XXXXXXXXXX              X',
-    'XX   XXXXX   E          X',
-    'XX   XXXXXXXXXXXXX  XXXXX',
-    'XX    XXXXXXXXXXXX  XXXXX',
-    'XX    E     XXXX        X',
-    'XXXX    T               X',
-    'XXXXXXXXXXXXXXXXXXXXXXXXX'
+    '*************************',
+    '*P *******          *****',
+    '*  *******  ******  *****',
+    '*       **  ******  *****',
+    '*       **  ***        **',
+    '******  **  ***      E **',
+    '******  **  ******  *****',
+    '******  **    ****  *****',
+    '*  ***        ****T *****',
+    '*  ***  *****************',
+    '*   E     ***************',
+    '*                ********',
+    '************     *****  *',
+    '***************  *****  *',
+    '***  **********         *',
+    '***                     *',
+    '*** T       *************',
+    '**********  *************',
+    '**********              *',
+    '**   *****   E          *',
+    '**   *************  *****',
+    '**    ************  *****',
+    '**    E     ****        *',
+    '****    T               *',
+    '*************************'
 ]
 
 
@@ -100,7 +100,7 @@ def move_enemies():
         next_cell_col = enemy_col + x_direction
 
         # if it is a wall ahead, we return and do not move the enenmy
-        if level[next_cell_row][next_cell_col] != 'X':
+        if level[next_cell_row][next_cell_col] != '*':
             enemy.goto(enemy_x + x_direction * TILE_SIZE,
                        enemy_y + y_direction * TILE_SIZE)
 
@@ -122,7 +122,7 @@ def move_player(player, x_direction, y_direction):
     next_cell_col = player_col + x_direction
 
     # if it is a wall ahead, we return and do not move the player
-    if level[next_cell_row][next_cell_col] == 'X':
+    if level[next_cell_row][next_cell_col] == '*':
         return
 
     player.goto(player_x + x_direction * TILE_SIZE,
@@ -221,7 +221,7 @@ def setup_maze(level):
             screen_x = -288 + (col * TILE_SIZE)
             screen_y = 288 - (row * TILE_SIZE)
 
-            if character == 'X':
+            if character == '*':
                 pen.goto(screen_x, screen_y)
                 pen.stamp()
             elif character == 'P':
