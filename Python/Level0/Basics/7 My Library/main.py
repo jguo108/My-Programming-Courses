@@ -5,26 +5,36 @@
 books = {}
 
 
+def print_book(info):
+    pass
+
+
 def add_book():
-    title = input("Enter book title: ")
-    genre = input("Enter book genre: ")
-    year = int(input("Enter year of release: "))
-    author = input("Enter main author: ")
-    book_details = {"genre": genre, "year": year, "author": author}
-    books.update({title: book_details})
+    title = input('Enter book title: ')
+    genre = input('Enter book genre: ')
+    year = input('Enter year of release: ')
+    author = input('Enter main author: ')
+    book_info = {'genre': genre, 'year': year, 'author': author}
+    books.update({title: book_info})
 
 
 def find_book():
-    title = input("Enter book title to find: ")
+    keyword = input('Enter keyword of book title to find: ')
 
-    book_info = books.get(title)
-    if book_info:
-        print(f"Title: {title}")
-        print(f"  Genre: {book_info['genre']}")
-        print(f"  Year: {book_info['year']}")
-        print(f"  Main Author: {book_info['author']}")
-    else:
-        print(f"book '{title}' not found.")
+    matching_titles = []
+    for title in books.keys():
+        if keyword in title:
+            matching_titles.append(title)
+
+    for title in matching_titles:
+        book_info = books.get(title)
+        if book_info:
+            print(f"Title: {title}")
+            print(f"  Genre: {book_info['genre']}")
+            print(f"  Year: {book_info['year']}")
+            print(f"  Main Author: {book_info['author']}")
+        else:
+            print(f"book '{title}' not found.")
 
 
 def list_books():
