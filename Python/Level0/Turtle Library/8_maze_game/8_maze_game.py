@@ -4,6 +4,8 @@ import turtle
 import time
 import random
 
+SCREEN_WIDTH = 700
+SCREEN_HEIGHT = 700
 TILE_SIZE = 24
 
 window = None
@@ -11,7 +13,7 @@ window = None
 player = None
 
 treasures = []
-treasure_locations = [(8, 18), (16, 3), (23, 8)]
+treasure_locations = []
 
 enemies = []
 enemy_locations = [(5, 21), (10, 4), (19, 13), (22, 5)]
@@ -21,16 +23,16 @@ game_ended = False
 # 25 rows x 25 columns
 level = [
     'XXXXXXXXXXXXXXXXXXXXXXXXX',
-    'X  XXXXXXX          XXXXX',
+    'XP XXXXXXX          XXXXX',
     'X  XXXXXXX  XXXXXX  XXXXX',
     'X       XX  XXXXXX  XXXXX',
     'X       XX  XXX        XX',
-    'XXXXXX  XX  XXX        XX',
+    'XXXXXX  XX  XXX      E XX',
     'XXXXXX  XX  XXXXXX  XXXXX',
     'XXXXXX  XX    XXXX  XXXXX',
-    'X  XXX        XXXX  XXXXX',
+    'X  XXX        XXXXT XXXXX',
     'X  XXX  XXXXXXXXXXXXXXXXX',
-    'X         XXXXXXXXXXXXXXX',
+    'X   E     XXXXXXXXXXXXXXX',
     'X                XXXXXXXX',
     'XXXXXXXXXXXX     XXXXX  X',
     'XXXXXXXXXXXXXXX  XXXXX  X',
@@ -39,10 +41,10 @@ level = [
     'XXXT        XXXXXXXXXXXXX',
     'XXXXXXXXXX  XXXXXXXXXXXXX',
     'XXXXXXXXXX              X',
-    'XX   XXXXX              X',
+    'XX   XXXXX   E          X',
     'XX   XXXXXXXXXXXXX  XXXXX',
     'XX    XXXXXXXXXXXX  XXXXX',
-    'XX          XXXX        X',
+    'XX    E     XXXX        X',
     'XXXX    T               X',
     'XXXXXXXXXXXXXXXXXXXXXXXXX'
 ]
@@ -135,19 +137,19 @@ def move_player(player, x_direction, y_direction):
 
 
 def up():
-    move_player(player, 0, 1)
+    move_player(player, x_direction=0, y_direction=1)
 
 
 def down():
-    move_player(player, 0, -1)
+    move_player(player, x_direction=0, y_direction=-1)
 
 
 def left():
-    move_player(player, -1, 0)
+    move_player(player, x_direction=-1, y_direction=0)
 
 
 def right():
-    move_player(player, 1, 0)
+    move_player(player, x_direction=1, y_direction=0)
 
 
 def setup_window():
@@ -155,64 +157,64 @@ def setup_window():
     window = turtle.Screen()
     window.bgcolor('black')
     window.title('A Maze Game')
-    window.setup(700, 700)
+    window.setup(SCREEN_WIDTH, SCREEN_HEIGHT)
     window.tracer(0)
     window.listen()
 
 
-def bind_keys(functions, keys):
-    for f, k in zip(functions, keys):
-        window.onkey(f, k)
+def bind_keys():
+    window.onkey(left, 'Left')
+    window.onkey(right, 'Right')
+    window.onkey(up, 'Up')
+    window.onkey(down, 'Down')
 
 
-pen = turtle.Turtle()
-pen.shape('square')
-pen.color('white')
-pen.penup()
-pen.speed(0)
+def create_enemy(row, col):
+    enemy = turtle.Turtle()
+    enemy.shape('square')
+    enemy.color('red')
+    enemy.penup()
+    enemy.speed(0)
+    place(enemy, row, col)
+
+    enemies.append(enemy)
+    enemy_locations.append((row, col))
 
 
-def create_enemies():
-    global enemies, enemy_locations
-    for x, y in enemy_locations:
-        t = turtle.Turtle()
-        t.shape('square')
-        t.color('red')
-        t.penup()
-        t.speed(0)
-        t.goto(indices_to_coordinates(x, y))
-        enemies.append(t)
-    # move_enemies()
+def create_treasure(row, col):
+    treasure = turtle.Turtle()
+    treasure.shape('circle')
+    treasure.color('yellow')
+    treasure.penup()
+    treasure.speed(0)
+    place(treasure, row, col)
+
+    treasures.append(treasure)
+    treasure_locations.append((row, col))
 
 
-def create_treasures():
-    global treasures, treasure_locations
-    for x, y in treasure_locations:
-        t = turtle.Turtle()
-        t.shape('circle')
-        t.color('yellow')
-        t.penup()
-        t.speed(0)
-        t.goto(indices_to_coordinates(x, y))
-        treasures.append(t)
-
-
-def create_player():
+def create_player(row, col):
     global player
     player = turtle.Turtle()
     player.shape('square')
     player.color('green')
     player.penup()
     player.speed(0)
-    place(player, 1, 1)
+    place(player, row, col)
 
 
-def place(player, row, col):
+def place(t, row, col):
     x, y = indices_to_coordinates(row, col)
-    player.goto(x, y)
+    t.goto(x, y)
 
 
-def create_maze(level):
+def setup_maze(level):
+    pen = turtle.Turtle()
+    pen.shape('square')
+    pen.color('white')
+    pen.penup()
+    pen.speed(0)
+
     for row in range(len(level)):
         for col in range(len(level[row])):
             character = level[row][col]
@@ -222,6 +224,12 @@ def create_maze(level):
             if character == 'X':
                 pen.goto(screen_x, screen_y)
                 pen.stamp()
+            elif character == 'P':
+                create_player(row, col)
+            elif character == 'T':
+                create_treasure(row, col)
+            elif character == 'E':
+                create_enemy(row, col)
 
 
 def tick():
@@ -235,12 +243,9 @@ def tick():
 
 setup_window()
 
-bind_keys([left, right, up, down], ['Left', 'Right', 'Up', 'Down'])
+bind_keys()
 
-create_maze(level)
-create_player()
-create_treasures()
-create_enemies()
+setup_maze(level)
 
 tick()
 # move_enemies()
