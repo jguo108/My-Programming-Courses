@@ -17,8 +17,8 @@ def add_book():
     genre = input('Enter book genre: ')
     year = input('Enter year of release: ')
     author = input('Enter main author: ')
-    book_info = {'genre': genre, 'year': year, 'author': author}
-    books.update({title: book_info})
+    info = {'genre': genre, 'year': year, 'author': author}
+    books.update({title: info})
 
 
 def find_book():
@@ -65,8 +65,7 @@ def list_books_by(criteria, value):
 
     for title, info in books.items():
         if info[criteria] == value:
-            print(
-                f"  - {title} ({info['genre']}, {info['year']}, {info['author']})")
+            print_book(title, info)
 
 
 while True:
