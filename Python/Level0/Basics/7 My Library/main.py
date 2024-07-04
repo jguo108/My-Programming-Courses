@@ -5,6 +5,14 @@
 books = {}
 
 
+def load_books():
+    pass
+
+
+def save_books():
+    pass
+
+
 def print_book(title, info):
     print(f"Title: {title}")
     print(f"  Genre: {info['genre']}")
@@ -21,7 +29,7 @@ def add_book():
     books.update({title: info})
 
 
-def find_book():
+def find_books():
     keyword = input('Enter keyword of book title to find: ')
 
     matching_titles = []
@@ -68,15 +76,18 @@ def list_books_by(criteria, value):
             print_book(title, info)
 
 
+load_books()
+
 while True:
     choice = int(input("Do you want to (1)add, (2)find, (3)list or (4)exit? "))
     if choice == 1:
         add_book()
     elif choice == 2:
-        find_book()
+        find_books()
     elif choice == 3:
         list_books()
     elif choice == 4:
+        save_books()
         break
     else:
         print("Invalid choice. Please try again.")
