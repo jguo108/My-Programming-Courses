@@ -54,10 +54,10 @@ def list_books():
 def list_books_by(criteria, value):
     print(f"All books with {criteria} '{value}':")
 
-    for title, details in books.items():
-        if details[criteria] == value:
+    for title, info in books.items():
+        if info[criteria] == value:
             print(
-                f"  - {title} ({details['genre']}, {details['year']}, {details['author']})")
+                f"  - {title} ({info['genre']}, {info['year']}, {info['author']})")
 
 
 while True:
