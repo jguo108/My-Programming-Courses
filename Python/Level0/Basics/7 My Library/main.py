@@ -1,7 +1,7 @@
 ﻿# Notes:
 # https://www.notion.so/7-My-Book-Shelf-6a983484395647ce988b1cec5e2f966b
 
-# Create an empty dictionary for movies
+# Create an empty dictionary for books
 movies = {}
 
 
