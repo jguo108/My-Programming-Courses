@@ -19,6 +19,9 @@ HEAD_HEIGHT = PIXEL_SIZE * HEAD_Y_PIXELS
 window = None
 pen = None
 
+head = []
+
+'''
 head = [
     ['#2f200d', '#2d2315', '#312417', '#312417',
         '#271e11', '#292013', '#2d2315', '#2c2215'],
@@ -37,6 +40,7 @@ head = [
     ['#6a4531', '#68442f', '#402515', '#412113',
         '#432616', '#432616', '#7d543e', '#744e37'],
 ]
+'''
 
 
 def draw_pixel(x, y, size, color):
