@@ -107,8 +107,6 @@ def create_invader():
 
 
 def create_invaders():
-    global invaders
-
     register_invader_costumes()
     for _ in range(INITIAL_INVADERS):
         invaders.append(create_invader())
@@ -130,13 +128,11 @@ def register_invader_costumes():
 
 
 def left():
-    global player
     if player.xcor() > -SCREEN_WIDTH/2+20:
         player.setx(player.xcor() - PLAYER_SPEED)
 
 
 def right():
-    global player
     if player.xcor() < SCREEN_WIDTH/2-20:
         player.setx(player.xcor() + PLAYER_SPEED)
 
@@ -162,7 +158,7 @@ def increase_score():
 
 
 def animate_invaders():
-    global invaders, invader_costume_index
+    global invader_costume_index
 
     if game_ended:
         return
@@ -175,7 +171,7 @@ def animate_invaders():
 
 
 def move_invaders():
-    global invaders, invader_x_speed
+    global invader_x_speed
     move_down = False
     for invader in invaders:
         invader.setx(invader.xcor() + invader_x_speed)
@@ -202,7 +198,7 @@ def move_bullet():
 
 
 def check_for_collision():
-    global player, invaders, game_ended, bullet_fired
+    global game_ended, bullet_fired
     for invader in invaders:
         if collide(bullet, invader):
             bullet.hideturtle()
@@ -218,13 +214,12 @@ def check_for_collision():
 
 
 def add_invader():
-    global invaders, score
     if tick_num % 500 == 0:
         invaders.append(create_invader())
 
 
 def tick():
-    global score, tick_num, game_ended
+    global tick_num
 
     if game_ended:
         return

@@ -22,7 +22,6 @@ pen = None
 
 head = []
 
-
 '''
 head = [
     ['#2f200d', '#2d2315', '#312417', '#312417',
@@ -46,8 +45,6 @@ head = [
 
 
 def draw_pixel(x, y, size, color):
-    global pen
-    print(color)
     pen.up()
     pen.goto(x, y)
     pen.down()
@@ -89,10 +86,6 @@ def paint():
         current_x = -(HEAD_WIDTH / 2)
         current_y -= PIXEL_SIZE
     pen.up()
-
-
-def load_head():
-    global head
 
 
 def load_head():

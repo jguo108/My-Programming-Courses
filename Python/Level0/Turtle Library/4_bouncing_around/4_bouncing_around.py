@@ -57,13 +57,12 @@ def bounce(t):
 
 
 def move_jellyfish():
-    global jellyfish
     jellyfish.forward(jellyfish_speed)
     bounce(jellyfish)
 
 
 def animate_jellyfish():
-    global index, jellyfish, jellyfish, window
+    global index
     index += 1
     jellyfish.shape(jellyfish_costumes[index % len(jellyfish_costumes)])
 

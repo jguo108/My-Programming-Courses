@@ -52,7 +52,6 @@ def create_segment(shape, color):
 
 
 def create_snake():
-    global snake
     head = create_segment('circle', '#e8829b')
     snake.append(head)
 
@@ -118,7 +117,6 @@ def move_snake():
 
 
 def grow_snake():
-    global snake
     body_part = create_segment('circle', random.choice(
         ['#fad5ca', '#fdf0eb', '#f3a695']))
 
@@ -134,8 +132,6 @@ def eat_food():
 
 
 def tick():
-    global score, game_ended
-
     if game_ended:
         return
 

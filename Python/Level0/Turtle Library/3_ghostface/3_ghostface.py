@@ -1,8 +1,6 @@
 ﻿# Note:
 # https://www.notion.so/3-Ghostface-d7c5dbb168da413984cc66243d14f497
 
-import turtle
-import os
 
 # This should be a project that shows how you can create
 # some animation by switching costumes in Python
@@ -14,6 +12,9 @@ import os
 # Idea: draw a animated ghost face
 # - reference for costumes:https://www.freepik.com/free-vector/collection-cute-halloween-ghosts_1319212.htm#fromView=search&page=1&position=29&uuid=cf5b65a7-71d0-4fe3-982e-44272b07ac6e
 # - reference for animation: https://scratch.mit.edu/projects/237521692/
+
+import turtle
+import os
 
 face = None
 face_costumes = []
@@ -42,7 +43,7 @@ def setup_window():
 
 
 def animate_face():
-    global face, index, face_costumes
+    global index
     index += 1
     face.shape(face_costumes[index % len(face_costumes)])
 
@@ -88,7 +89,7 @@ def draw_body():
 
 
 def draw_face():
-    global face, face_costumes, index
+    global face
     face = turtle.Turtle()
     face.speed(0)
     face.shape(face_costumes[index])

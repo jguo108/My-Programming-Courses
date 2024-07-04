@@ -91,8 +91,6 @@ def create_enemy():
 
 
 def create_enemies():
-    global enemies
-
     register_enemy_costumes()
     for _ in range(INITIAL_ENEMIES):
         enemies.append(create_enemy())
@@ -137,7 +135,7 @@ def bounce(t):
 
 
 def update_score():
-    global score, tick_num
+    global score
     # increase score every 100 ticks
     if tick_num % 100 == 0:
         score += 1
@@ -147,7 +145,7 @@ def update_score():
 
 
 def animate_enemies():
-    global enemies, enemy_costume_index
+    global enemy_costume_index
 
     if game_ended:
         return
@@ -159,21 +157,19 @@ def animate_enemies():
 
 
 def move_player():
-    global player, player_speed
     player.forward(player_speed)
     # border check
     bounce(player)
 
 
 def move_enemies():
-    global enemies
     for enemy in enemies:
         enemy.forward(enemy_speed)
         bounce(enemy)
 
 
 def check_for_collision():
-    global player, enemies, game_ended
+    global game_ended
     for enemy in enemies:
         if collide(player, enemy):
             game_ended = True
@@ -181,13 +177,12 @@ def check_for_collision():
 
 
 def add_enemy():
-    global enemies, score
     if tick_num % 500 == 0:
         enemies.append(create_enemy())
 
 
 def tick():
-    global score, tick_num, game_ended
+    global tick_num
 
     if game_ended:
         return
