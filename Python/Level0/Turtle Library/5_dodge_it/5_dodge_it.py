@@ -131,10 +131,8 @@ def collide(t1, t2):
 
 
 def bounce(t):
-    if t.xcor() > SCREEN_WIDTH/2-10 or \
-            t.xcor() < -SCREEN_WIDTH/2+10 or \
-            t.ycor() > SCREEN_HEIGHT/2-10 or \
-            t.ycor() < -SCREEN_HEIGHT/2+10:
+    if abs(t.xcor()) > SCREEN_WIDTH/2-10 or \
+            abs(t.ycor()) > SCREEN_HEIGHT/2-10:
         t.right(180 + random.randint(-90, 90))
 
 
