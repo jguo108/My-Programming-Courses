@@ -5,8 +5,11 @@
 books = {}
 
 
-def print_book(info):
-    pass
+def print_book(title, info):
+    print(f"Title: {title}")
+    print(f"  Genre: {info['genre']}")
+    print(f"  Year: {info['year']}")
+    print(f"  Main Author: {info['author']}")
 
 
 def add_book():
@@ -29,10 +32,7 @@ def find_book():
     for title in matching_titles:
         book_info = books.get(title)
         if book_info:
-            print(f"Title: {title}")
-            print(f"  Genre: {book_info['genre']}")
-            print(f"  Year: {book_info['year']}")
-            print(f"  Main Author: {book_info['author']}")
+            print_book(title, info)
         else:
             print(f"book '{title}' not found.")
 
@@ -52,9 +52,8 @@ def list_books():
         list_books_by('author', author)
     elif choice == 4:
         print("All books:")
-        for title, details in books.items():
-            print(
-                f"  - {title} ({details['genre']}, {details['year']}, {details['author']})")
+        for title, info in books.items():
+            print_book(title, info)
     elif choice == 5:
         return
     else:
