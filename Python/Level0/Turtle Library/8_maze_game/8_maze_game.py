@@ -21,7 +21,7 @@ enemy_locations = [(5, 21), (10, 4), (19, 13), (22, 5)]
 game_ended = False
 
 # 25 rows x 25 columns
-level = [
+maze = [
     '*************************',
     '*P *******          *****',
     '*  *******  ******  *****',
@@ -100,7 +100,7 @@ def move_enemies():
         next_cell_col = enemy_col + x_direction
 
         # if it is a wall ahead, we return and do not move the enenmy
-        if level[next_cell_row][next_cell_col] != '*':
+        if maze[next_cell_row][next_cell_col] != '*':
             enemy.goto(enemy_x + x_direction * TILE_SIZE,
                        enemy_y + y_direction * TILE_SIZE)
 
@@ -122,7 +122,7 @@ def move_player(player, x_direction, y_direction):
     next_cell_col = player_col + x_direction
 
     # if it is a wall ahead, we return and do not move the player
-    if level[next_cell_row][next_cell_col] == '*':
+    if maze[next_cell_row][next_cell_col] == '*':
         return
 
     player.goto(player_x + x_direction * TILE_SIZE,
@@ -208,21 +208,20 @@ def place(t, row, col):
     t.goto(x, y)
 
 
-def setup_maze(level):
+def setup_maze():
     pen = turtle.Turtle()
     pen.shape('square')
     pen.color('white')
     pen.penup()
     pen.speed(0)
 
-    for row in range(len(level)):
-        for col in range(len(level[row])):
-            character = level[row][col]
-            screen_x = -288 + (col * TILE_SIZE)
-            screen_y = 288 - (row * TILE_SIZE)
+    for row in range(len(maze)):
+        for col in range(len(maze[row])):
+            character = maze[row][col]
+            x, y = indices_to_coordinates(row, col)
 
             if character == '*':
-                pen.goto(screen_x, screen_y)
+                pen.goto(x, y)
                 pen.stamp()
             elif character == 'P':
                 create_player(row, col)
@@ -245,9 +244,8 @@ setup_window()
 
 bind_keys()
 
-setup_maze(level)
+setup_maze()
 
 tick()
-# move_enemies()
 
 window.mainloop()
