@@ -6,6 +6,8 @@ import random
 
 SCREEN_WIDTH = 700
 SCREEN_HEIGHT = 700
+MAZE_WIDTH = 600
+MAZE_HEIGHT = 600
 TILE_SIZE = 24
 
 window = None
@@ -58,12 +60,8 @@ def collide(player, enemies):
 
 
 def maze_indices(x, y):
-    x += 300
-
-    if y <= 0:
-        y = abs(y) + 300
-    else:
-        y = 300 - y
+    x = MAZE_WIDTH/2 + x
+    y = MAZE_HEIGHT/2 - y
 
     row = int(y / TILE_SIZE)
     col = int(x / TILE_SIZE)
