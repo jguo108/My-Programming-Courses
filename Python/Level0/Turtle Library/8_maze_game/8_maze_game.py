@@ -16,7 +16,7 @@ treasures = []
 treasure_locations = []
 
 enemies = []
-enemy_locations = [(5, 21), (10, 4), (19, 13), (22, 5)]
+enemy_locations = []
 
 game_ended = False
 
@@ -51,16 +51,13 @@ maze = [
 
 
 def collide(player, enemies):
-    player_x = player.xcor()
-    player_y = player.ycor()
     for enemy in enemies:
-        if player_x == enemy.xcor() and player_y == enemy.ycor():
-            game_ended = True
+        if player.distance(enemy) < 20:
             return True
     return False
 
 
-def coordinates_to_indices(x, y):
+def maze_indices(x, y):
     x += 300
 
     if y <= 0:
@@ -82,7 +79,7 @@ def move_enemies():
     for enemy in enemies:
         enemy_x = enemy.xcor()
         enemy_y = enemy.ycor()
-        enemy_row, enemy_col = coordinates_to_indices(enemy_x, enemy_y)
+        enemy_row, enemy_col = maze_indices(enemy_x, enemy_y)
 
         # up, down, left and right
         direction = random.choice([(0, 1), (0, -1), (-1, 0), (1, 0)])
@@ -101,15 +98,11 @@ def move_enemies():
     if collide(player, enemies):
         game_ended = True
 
-    # window.ontimer(move_enemies, random.randint(100, 300))
-
 
 def move_player(player, x_direction, y_direction):
-    global game_ended
-
     player_x = player.xcor()
     player_y = player.ycor()
-    player_row, player_col = coordinates_to_indices(player_x, player_y)
+    player_row, player_col = maze_indices(player_x, player_y)
 
     # Are we going to run into a wall?
     next_cell_row = player_row - y_direction
