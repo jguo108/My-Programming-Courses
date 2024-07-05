@@ -1,5 +1,15 @@
 ﻿# https://www.youtube.com/watch?v=inocKE13DEA&list=PLlEgNdBJEO-lNDJgg90fmfAq9RzORkQWP
 
+# Assets:
+# https://www.freepik.com/free-vector/flat-design-pixel-art-element-collection_38680436.htm#fromView=search&page=1&position=31&uuid=b75bdb87-79b5-4f17-a39f-74f3cf2f56fa
+# https://www.freepik.com/free-vector/arcade-computer-game-interface-pixel-art-composition-with-retro-space-shooter-screen-aliens-combat-spacecraft_16221369.htm#fromView=search&page=2&position=4&uuid=b75bdb87-79b5-4f17-a39f-74f3cf2f56fa
+# https://www.freepik.com/free-vector/flat-design-pixel-art-food-illustration_38680511.htm#fromView=search&page=2&position=37&uuid=0f669d21-60ac-4667-9e82-e1b5ed5a30e5
+# https://www.freepik.com/free-vector/flat-design-pixel-art-food-illustration_38680521.htm#fromView=search&page=3&position=6&uuid=0f669d21-60ac-4667-9e82-e1b5ed5a30e5
+# https://www.freepik.com/free-vector/pixel-art-pets-icons-8-bit-dogs-cats-pets-cat-dog-pixel-art-illustration-breed-pets_13031396.htm#fromView=search&page=4&position=50&uuid=0f669d21-60ac-4667-9e82-e1b5ed5a30e5
+# https://www.freepik.com/free-vector/retro-8-bit-pixel-arcade-computer-game-set-isolated-icons-with-characters-monsters-spacecrafts-vector-illustration_26762888.htm#fromView=search&page=1&position=14&uuid=ae60ace2-e5bb-42c7-b59e-a0d632f6d819
+# https://www.freepik.com/free-vector/different-wall-textures_959312.htm#fromView=search&page=1&position=36&uuid=8cadd5c4-16ae-430a-8354-f4e5fbacf990
+# https://www.freepik.com/free-vector/abstract-shapes-textile-pattern_852280.htm#fromView=search&page=4&position=0&uuid=8ab47ac6-79be-4edd-9d27-0ceae2c770d3
+
 import turtle
 import time
 import random
