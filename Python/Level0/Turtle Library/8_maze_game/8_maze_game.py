@@ -74,12 +74,6 @@ def coordinates_to_indices(x, y):
     return row, col
 
 
-def indices_to_coordinates(row, col):
-    x = -288 + (col * TILE_SIZE)
-    y = 288 - (row * TILE_SIZE)
-    return x, y
-
-
 def move_enemies():
     global game_ended
     if game_ended:
@@ -169,43 +163,34 @@ def bind_keys():
     window.onkey(down, 'Down')
 
 
-def create_enemy(row, col):
+def create_enemy(x, y):
     enemy = turtle.Turtle()
     enemy.shape('square')
     enemy.color('red')
     enemy.penup()
     enemy.speed(0)
-    place(enemy, row, col)
-
+    enemy.goto(x, y)
     enemies.append(enemy)
-    enemy_locations.append((row, col))
 
 
-def create_treasure(row, col):
+def create_treasure(x, y):
     treasure = turtle.Turtle()
     treasure.shape('circle')
     treasure.color('yellow')
     treasure.penup()
     treasure.speed(0)
-    place(treasure, row, col)
-
+    treasure.goto(x, y)
     treasures.append(treasure)
-    treasure_locations.append((row, col))
 
 
-def create_player(row, col):
+def create_player(x, y):
     global player
     player = turtle.Turtle()
     player.shape('square')
     player.color('green')
     player.penup()
     player.speed(0)
-    place(player, row, col)
-
-
-def place(t, row, col):
-    x, y = indices_to_coordinates(row, col)
-    t.goto(x, y)
+    player.goto(x, y)
 
 
 def setup_maze():
@@ -217,18 +202,21 @@ def setup_maze():
 
     for row in range(len(maze)):
         for col in range(len(maze[row])):
-            character = maze[row][col]
-            x, y = indices_to_coordinates(row, col)
+            cell = maze[row][col]
+            x = -288 + (col * TILE_SIZE)
+            y = 288 - (row * TILE_SIZE)
 
-            if character == '*':
+            if cell == '*':
                 pen.goto(x, y)
                 pen.stamp()
-            elif character == 'P':
-                create_player(row, col)
-            elif character == 'T':
-                create_treasure(row, col)
-            elif character == 'E':
-                create_enemy(row, col)
+            elif cell == 'P':
+                create_player(x, y)
+            elif cell == 'T':
+                create_treasure(x, y)
+                treasure_locations.append((row, col))
+            elif cell == 'E':
+                create_enemy(x, y)
+                enemy_locations.append((row, col))
 
 
 def tick():
@@ -236,8 +224,8 @@ def tick():
         return
     move_enemies()
 
-    turtle.update()
-    window.ontimer(tick, 200)
+    window.update()
+    window.ontimer(tick, 150)
 
 
 setup_window()
