@@ -118,9 +118,9 @@ def move_player(player, x_direction, y_direction):
     # take treasure
     if (next_cell_row, next_cell_col) in treasure_locations:
         index = treasure_locations.index((next_cell_row, next_cell_col))
-        del treasure_locations[index]
         treasures[index].hideturtle()
         del treasures[index]
+        del treasure_locations[index]
 
 
 def up():
