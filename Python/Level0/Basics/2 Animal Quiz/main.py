@@ -12,7 +12,7 @@ def check_answer(answer, guess):
         score = score + 1
     else:
         # KP: string concatenation
-        print("Oops! This answer shoud be: " + answer)
+        print("Oops! The answer shoud be: " + answer)
 
 
 print("Welcome to the Animal Quiz!")
