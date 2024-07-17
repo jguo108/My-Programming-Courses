@@ -32,7 +32,7 @@ option = int(input('Do you want to encrypt(1) or decrypt(2)? '))
 
 if option == 1:
     # Encode
-    message = input('Enter your message: ')
+    message = input('Enter a message: ')
     key = int(input('Enter a key: '))
     message = cipher(message, key)
     print('Encoded message: ', message)
