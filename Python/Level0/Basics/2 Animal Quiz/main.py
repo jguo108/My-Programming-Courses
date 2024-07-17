@@ -16,15 +16,15 @@ def check_answer(answer, guess):
 
 
 print("Welcome to the Animal Quiz!")
-answer1 = input("Which is the fastest land animal?")
-# check_answer(answer1, "cheetah")
-check_answer(answer=answer1, guess="cheetah")
-answer2 = input("Which is the largest animal?")
-# check_answer(answer2, "blue whale")
-check_answer(answer=answer2, guess="blue whale")
-answer3 = input("Which land animal can't jump?")
-# check_answer(answer3, "elephant")
-check_answer(answer=answer3, guess="elephant")
+answer = input("Which is the fastest land animal?")
+# check_answer(answer, "cheetah")
+check_answer(answer=answer, guess="cheetah")
+answer = input("Which is the largest animal?")
+# check_answer(answer, "blue whale")
+check_answer(answer=answer, guess="blue whale")
+answer = input("Which land animal can't jump?")
+# check_answer(answer, "elephant")
+check_answer(answer=answer, guess="elephant")
 
 # print("Your score is ", score)
 print("Your score is " + str(score))  # KP: convert number to string
