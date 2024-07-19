@@ -5,15 +5,31 @@ def print_character(character):
     print(character)
 '''
 
+'''
+def encrypt_character(character):
+    index = alphabet.find(character)
+    new_index = index + key
+    new_character = alphabet[new_index]
+    # print(character)
+    # print(index)
+    # print(new_index)
+    # print(new_character)
+    return new_character
+'''
+
 
 def encrypt_character(character):
-    print(character)
+    index = alphabet.find(character)
+    new_index = index + key
+    new_character = alphabet[new_index]
+    return new_character
 
 
-alphabet = 'abcdefghijklmnopqrstuvwxyz'
+alphabet = "abcdefghijklmnopqrstuvwxyz"
+new_message = ""
 
-message = input('Enter a message: ')
-key = int(input('Enter a key: '))
+message = input("Enter a message: ")
+key = int(input("Enter a key: "))
 # print(message)
 # print(key)
 
@@ -36,4 +52,10 @@ key = int(input('Enter a key: '))
 #    print_character(character)
 
 for character in message:
-    encrypt_character(character)
+    # encrypt_character(character)
+    new_character = encrypt_character(character)
+    # new_message + new_character
+    new_message = new_message + new_character
+    # print(new_character)
+
+print("The encrypted message is:", new_message)
