@@ -17,12 +17,26 @@ def encrypt_character(character):
     return new_character
 '''
 
-
+'''
 def encrypt_character(character):
-    index = alphabet.find(character)
+    lower_character = character.lower()
+    index = alphabet.find(lower_character)
     new_index = index + key
     new_character = alphabet[new_index]
     return new_character
+'''
+
+
+def encrypt_character(character):
+    lower_character = character.lower()
+    index = alphabet.find(lower_character)
+    new_index = index + key
+    new_character = alphabet[new_index]
+    if character.isupper():
+        new_character = new_character.upper()
+        return new_character
+    else:
+        return new_character
 
 
 alphabet = "abcdefghijklmnopqrstuvwxyz"
