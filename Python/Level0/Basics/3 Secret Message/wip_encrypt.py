@@ -26,7 +26,7 @@ def encrypt_character(character):
     return new_character
 '''
 
-
+'''
 def encrypt_character(character):
     lower_character = character.lower()
     index = alphabet.find(lower_character)
@@ -37,6 +37,23 @@ def encrypt_character(character):
         return new_character
     else:
         return new_character
+'''
+
+
+def encrypt_character(character):
+    if character.isalpha():
+        lower_character = character.lower()
+        index = alphabet.find(lower_character)
+        new_index = index + key
+        # new_character = alphabet[new_index]
+        new_character = alphabet[new_index % 26]
+        if character.isupper():
+            new_character = new_character.upper()
+            return new_character
+        else:
+            return new_character
+    else:
+        return character
 
 
 alphabet = "abcdefghijklmnopqrstuvwxyz"
@@ -69,7 +86,8 @@ for character in message:
     # encrypt_character(character)
     new_character = encrypt_character(character)
     # new_message + new_character
-    new_message = new_message + new_character
+    # new_message = new_message + new_character
+    new_message += new_character
     # print(new_character)
 
 print("The encrypted message is:", new_message)
