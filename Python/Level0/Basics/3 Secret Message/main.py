@@ -28,15 +28,15 @@ def cipher(message, key):
 
 
 # Get message and shift value from user
-option = int(input('Do you want to encrypt(1) or decrypt(2)? '))
+choice = int(input('Do you want to encrypt(1) or decrypt(2)? '))
 
-if option == 1:
+if choice == 1:
     # Encode
     message = input('Enter a message: ')
     key = int(input('Enter a key: '))
     message = cipher(message, key)
     print('Encoded message: ', message)
-elif option == 2:
+elif choice == 2:
     # Decode
     message = input('Enter your message: ')
     key = int(input('Enter a key: '))
