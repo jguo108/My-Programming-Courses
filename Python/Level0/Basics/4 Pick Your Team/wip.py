@@ -2,9 +2,13 @@
 
 students = ["Harry", "Alice", "William",
             "Mary", "James", "Alex", "Sara", "Jenifer"]
+
+team_A = []
+team_B = []
+
+
 # print(students)
 print("Students:",)
-
 
 # all_names = ""
 # for student in students:
