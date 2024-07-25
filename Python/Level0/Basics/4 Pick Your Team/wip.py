@@ -32,3 +32,14 @@ while len(students) != 0:
     # print(students)
     team_A.append(student_picked)
     # print(team_A)
+
+    student_picked = choice(students)
+    students.remove(student_picked)
+    team_B.append(student_picked)
+
+
+print("Team A:",)
+print(",".join(team_A))
+
+print("Team B:",)
+print(",".join(team_B))
