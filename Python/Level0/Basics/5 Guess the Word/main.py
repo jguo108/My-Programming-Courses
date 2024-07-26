@@ -4,12 +4,12 @@
 from random import *
 
 
-def update_partial_word(guessed_letter, secret_word, partial_word):
+def update_answer(guessed, secret_word, answer):
     index = 0
     while index < len(secret_word):
-        if guessed_letter == secret_word[index]:
-            partial_word[index] = guessed_letter
-        index = index + 1
+        if guessed == secret_word[index]:
+            answer[index] = guessed
+        index += 1
 
 
 words = ["pizza", "fairy", "teeth", "shirt", "otter", "plane"]
@@ -18,31 +18,31 @@ words = ["pizza", "fairy", "teeth", "shirt", "otter", "plane"]
 # words = file.read().splitlines()
 
 # short cut to create a list of charaters
-partial_word = list(5 * '*')
-# partial_word = list('*****')
-# partial_word = ['*','*','*','*','*']
+answer = list(5 * '*')
+# answer = list('*****')
+# answer = ['*','*','*','*','*']
 
-guessed_correctly = False
+bingo = False
 attempts_left = 9
 
 # use 'choice' to choose a random item from a list
 secret_word = choice(words)
-print("The secret word is: {secret_word}")
+print(f"The secret word is: {secret_word}")
 
-while attempts_left > 0 and not guessed_correctly:
-    print(" ".join(partial_word))
-    print("Attempts left: {attempts_left}")
+while attempts_left > 0 and not bingo:
+    print(" ".join(answer))
+    print(f"Attempts left: {attempts_left}")
     guess = input("Guess a letter or the whole word: ")
 
     if guess == secret_word:
-        guessed_correctly = True
+        bingo = True
     elif guess in secret_word:
-        update_partial_word(guess, secret_word, partial_word)
+        update_answer(guess, secret_word, answer)
     else:
-        print("Oops! You guessed it wrong!")
+        print("Oops! You guessed it wrong! Try again.")
         attempts_left -= 1
 
-if guessed_correctly:
+if bingo:
     print(f"You won! The secret word was: {secret_word}")
     # print('You won! The secret word was ' + secret_word)
 else:
