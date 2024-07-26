@@ -27,7 +27,7 @@ attempts_left = 9
 
 # use 'choice' to choose a random item from a list
 secret_word = choice(words)
-print("Secret word is: '{secret_word}'")
+print("The secret word is: {secret_word}")
 
 while attempts_left > 0 and not guessed_correctly:
     print(" ".join(partial_word))
@@ -39,12 +39,12 @@ while attempts_left > 0 and not guessed_correctly:
     elif guess in secret_word:
         update_partial_word(guess, secret_word, partial_word)
     else:
-        print("Opoos! You guessed it wrong!")
-        attempts_left = attempts_left - 1
+        print("Oops! You guessed it wrong!")
+        attempts_left -= 1
 
 if guessed_correctly:
-    print(f"You won! The secret word was '{secret_word}'")
+    print(f"You won! The secret word was: {secret_word}")
     # print('You won! The secret word was ' + secret_word)
 else:
-    print(f"You lost! The secret word was '{secret_word}'")
+    print(f"You lost! The secret word was: {secret_word}")
     # print('You lost! The secret word was ' + secret_word)
