@@ -22,9 +22,16 @@ while True:
     print(f"Attempts left: {attempts_left}")
     guess = input("Guess a letter or the whole word: ")
 
-    if len(guess) == 1 secret_word.find(guess):
-        pass
-    # if len(guess) == 1 and secret_word.find(guess)
+    if len(guess) == 1 and secret_word.find(guess) != -1:
+        # pass
+        print("Guess is a single character in secret word")
+        for character in secret_word:
+            if character == guess:
+                answer[secret_word.find(character)] = guess
+
+        for index in range(len(secret_word)):
+            if secret_word[index] == guess:
+                answer[index] = guess
 
 
 print("End of game")
