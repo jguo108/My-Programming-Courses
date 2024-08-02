@@ -1,7 +1,7 @@
 ﻿
 
-countries = ["canada", "china", "france", "egypt", "germany", "uk"]
-capitals = ["ottawa", "beijing", "paris", "cairo", "berlin", "london"]
+# countries = ["canada", "china", "france", "egypt", "germany", "uk"]
+# capitals = ["ottawa", "beijing", "paris", "cairo", "berlin", "london"]
 
 
 world = {"china": "beijing", "germany": "berlin",
@@ -28,8 +28,9 @@ while True:
 
             capital = input(
                 f"I do not know the capital of {country}. Could you tell me?")
-            countries.append(country.lower())
-            capitals.append(capital.lower())
+            # countries.append(country.lower())
+            # capitals.append(capital.lower())
+            world[country] = capital
 
         '''
         if country.lower() in countries:
