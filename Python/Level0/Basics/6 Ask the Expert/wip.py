@@ -3,6 +3,10 @@
 countries = ["canada", "china", "france", "egypt", "germany", "uk"]
 capitals = ["ottawa", "beijing", "paris", "cairo", "berlin", "london"]
 
+
+world = {"china": "beijing", "germany": "berlin",
+         "france": "paris", "egypt": "cairo", "uk": "london"}
+
 while True:
     choice = input("Do you want to(1) learn about capitals or (2) quit?")
 
@@ -10,12 +14,22 @@ while True:
         country = input("Type the name of a country:")
 
         # if countries.count(country) != 0:
-        if country in countries:
-            capital = ""
+        # if country.lower() in countries:
+        if country.lower() in world:
+            # index = countries.index(country)
+            # index = countries.index(country.lower())
+            # capital = ""
+            # capital = capitals[index]
+            capital = world[country.lower()]
             print(f"The capital of {country} is {capital}.")
         else:
-            print(
+            # print(
+            #   f"I do not know the capital of {country}. Could you tell me?")
+
+            capital = input(
                 f"I do not know the capital of {country}. Could you tell me?")
+            countries.append(country.lower())
+            capitals.append(capital.lower())
 
         '''
         if country.lower() in countries:
