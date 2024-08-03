@@ -1,0 +1,5 @@
+china,beijing
+germany,berlin
+france,paris
+egypt,cairo
+uk,london

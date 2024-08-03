@@ -7,6 +7,11 @@
 world = {"china": "beijing", "germany": "berlin",
          "france": "paris", "egypt": "cairo", "uk": "london"}
 
+file = open("6 Ask the Expert/world.txt", "r")
+content = file.read()
+world_from_file = content.splitlines()
+print(world_from_file)
+
 while True:
     choice = input("Do you want to(1) learn about capitals or (2) quit?")
 
