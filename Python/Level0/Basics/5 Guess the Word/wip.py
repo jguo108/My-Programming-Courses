@@ -3,6 +3,8 @@
 
 file = open("5 Guess the Word/words.txt", "r")
 content = file.read()
+file.close()
+
 # print(content)
 # lines = content.splitlines()
 words = content.splitlines()

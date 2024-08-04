@@ -4,13 +4,25 @@
 # capitals = ["ottawa", "beijing", "paris", "cairo", "berlin", "london"]
 
 
-world = {"china": "beijing", "germany": "berlin",
-         "france": "paris", "egypt": "cairo", "uk": "london"}
+# world = {"china": "beijing", "germany": "berlin",
+#         "france": "paris", "egypt": "cairo", "uk": "london"}
 
-file = open("6 Ask the Expert/world.txt", "r")
+world = {}
+
+file = open("6 Ask the Expert/world.bk.txt", "r")
 content = file.read()
-world_from_file = content.splitlines()
-print(world_from_file)
+file.close()
+lines = content.splitlines()
+# print(lines)
+for line in lines:
+    pair = line.split(",")
+    country = pair[0]
+    capital = pair[1]
+    world[country] = capital
+
+# print(world)
+
+file = open("6 Ask the Expert/world.txt", "w")
 
 while True:
     choice = input("Do you want to(1) learn about capitals or (2) quit?")
@@ -36,6 +48,8 @@ while True:
             # countries.append(country.lower())
             # capitals.append(capital.lower())
             world[country] = capital
+            file.write(f"{country},{capital}")
+            print(f"Writing: {country},{capital}")
 
         '''
         if country.lower() in countries:
@@ -54,3 +68,5 @@ while True:
         break
     else:
         print("Invalid choice. Please try again.")
+
+file.close()
