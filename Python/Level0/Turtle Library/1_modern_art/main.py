@@ -97,13 +97,28 @@ def draw_star():
 
 
 def create_art():
-    for i in range(50):
+    for i in range(10):
         pick_colour()
         pick_position()
         pick_heading()
-        # draw_rectangle()
-        # draw_square()
-        # draw_circle()
+        draw_square()
+
+    for i in range(10):
+        pick_colour()
+        pick_position()
+        pick_heading()
+        draw_rectangle()
+
+    for i in range(10):
+        pick_colour()
+        pick_position()
+        pick_heading()
+        draw_circle()
+
+    for i in range(10):
+        pick_colour()
+        pick_position()
+        pick_heading()
         draw_star()
 
 
