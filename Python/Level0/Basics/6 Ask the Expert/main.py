@@ -1,58 +1,38 @@
-﻿# Notes:
-# https://www.notion.so/6-Ask-the-Expert-b19271c75b0047c991b05a4f95da0bd4
+﻿
 
-import csv
+world = {}
 
-PATH = '6 Ask the Expert/world.csv'
+file = open("6 Ask the Expert/world.txt", "r")
+content = file.read()
+file.close()
+lines = content.splitlines()
+for line in lines:
+    pair = line.split(",")
+    country = pair[0]
+    capital = pair[1]
+    world[country] = capital
 
-the_world = {}
-
-'''
-the_world = {
-    'Canada': 'Ottawa',
-    'China': 'Beijing',
-    'France': 'Paris',
-    'Egypt': 'Cairo',
-    'Germany': 'Berlin',
-    'UK': 'London'
-}
-'''
-
-
-def load_world(file):
-    with open(file, 'r') as file:
-        reader = csv.reader(file)
-        for row in reader:
-            country = row[0]
-            capital = row[1]
-            the_world[country] = capital
-
-
-def save_world(file):
-    with open(file, 'w', newline='') as file:
-        writer = csv.writer(file)
-        for country, capital in the_world.items():
-            writer.writerow([country, capital])
-
-
-load_world(file=PATH)
+file = open("6 Ask the Expert/world.txt", "a")
 
 while True:
-    choice = int(input('Do you want to (1) ask the expert or (2) exit?'))
+    choice = input("Do you want to(1) learn about capitals or (2) quit?")
 
-    if choice == 1:
+    if choice == "1":
         country = input("Type the name of a country:")
 
-        if country is not None:
-            if country in the_world:
-                result = the_world[country]
-                print(f'The capital of {country} is {result}')
-            else:
-                city = input("Can you tell me the capital of " + country + "?")
-                if city is not None:
-                    the_world[country.lower()] = city.lower()
-    elif choice == 2:
-        save_world(file=PATH)
+        if country.lower() in world:
+            capital = world[country.lower()]
+            print(f"The capital of {country} is {capital}.")
+        else:
+            capital = input(
+                f"I do not know the capital of {country}. Could you tell me?")
+            world[country] = capital
+            file.write(f"{country},{capital}")
+            file.write("\n")
+            file.flush()
+    elif choice == "2":
         break
     else:
         print("Invalid choice. Please try again.")
+
+file.close()

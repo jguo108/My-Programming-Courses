@@ -20,7 +20,7 @@ for line in lines:
     capital = pair[1]
     world[country] = capital
 
-print(world)
+# print(world)
 
 # file = open("6 Ask the Expert/world.txt", "w")
 file = open("6 Ask the Expert/world.txt", "a")
