@@ -9,7 +9,7 @@
 
 world = {}
 
-file = open("6 Ask the Expert/world.bk.txt", "r")
+file = open("6 Ask the Expert/world.txt", "r")
 content = file.read()
 file.close()
 lines = content.splitlines()
@@ -20,9 +20,10 @@ for line in lines:
     capital = pair[1]
     world[country] = capital
 
-# print(world)
+print(world)
 
-file = open("6 Ask the Expert/world.txt", "w")
+# file = open("6 Ask the Expert/world.txt", "w")
+file = open("6 Ask the Expert/world.txt", "a")
 
 while True:
     choice = input("Do you want to(1) learn about capitals or (2) quit?")
@@ -49,7 +50,8 @@ while True:
             # capitals.append(capital.lower())
             world[country] = capital
             file.write(f"{country},{capital}")
-            print(f"Writing: {country},{capital}")
+            file.write("\n")
+            file.flush()
 
         '''
         if country.lower() in countries:

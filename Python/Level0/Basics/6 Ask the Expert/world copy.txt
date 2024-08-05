@@ -3,5 +3,3 @@ germany,berlin
 france,paris
 egypt,cairo
 uk,london
-japan,tokyo
-kenya,nairobi
