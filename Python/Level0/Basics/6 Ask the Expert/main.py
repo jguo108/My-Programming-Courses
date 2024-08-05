@@ -27,8 +27,7 @@ while True:
             capital = input(
                 f"I do not know the capital of {country}. Could you tell me?")
             world[country] = capital
-            file.write(f"{country},{capital}")
-            file.write("\n")
+            file.write(f"{country},{capital}\n")
             file.flush()
     elif choice == "2":
         break

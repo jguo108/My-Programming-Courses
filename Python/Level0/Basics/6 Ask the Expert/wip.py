@@ -49,8 +49,9 @@ while True:
             # countries.append(country.lower())
             # capitals.append(capital.lower())
             world[country] = capital
-            file.write(f"{country},{capital}")
-            file.write("\n")
+            # file.write(f"{country},{capital}")
+            # file.write("\n")
+            file.write(f"{country},{capital}\n")
             file.flush()
 
         '''
