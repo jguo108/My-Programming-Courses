@@ -1,22 +1,67 @@
 ﻿import turtle
+from random import randint
+
+window_width = 600
+window_height = 600
 
 
 def setup_window():
     window.title("Modern Art")
-    window.setup(600, 600)
+    # window.setup(600, 600)
+    window.setup(window_width, window_height)
     window.bgcolor("gray30")
 
 
 def setup_pen():
     pen.shape("turtle")
     pen.color("DarkOrange")
+    turtle.colormode(255)
+
+
+def pick_position():
+    # x = randint(-300, 300)
+    # y = randint(-300, 300)
+    # x = randint(-200, 200)
+    # y = randint(-200, 200)
+    x = randint(-window_width/2 + 100, window_width/2 - 100)
+    y = randint(-window_height/2 + 100, window_height/2 - 100)
+    pen.penup()
+    pen.goto(x, y)
+    pen.pendown()
+
+
+def pick_color():
+    # pen.color("LightPink")
+    red = randint(0, 255)
+    green = randint(0, 255)
+    blue = randint(0, 255)
+    pen.color(red, green, blue)
+
+
+def pick_direction():
+    pen.setheading(randint(0, 360))
 
 
 def draw_square():
+    '''
+    x = randint(-300, 300)
+    y = randint(-300, 300)
+    pen.penup()
+    pen.goto(x, y)
+    pen.pendown()
+    '''
+    pick_position()
+    '''
     pen.color("LightPink")
+    '''
+    pick_color()
+    pick_direction()
+
+    side_length = randint(10, 150)
     pen.begin_fill()
     for _ in range(4):
-        pen.forward(100)
+        # pen.forward(100)
+        pen.forward(side_length)
         pen.left(90)
     pen.end_fill()
 
