@@ -41,6 +41,18 @@ def draw_body():
         pen.left(90)
     pen.end_fill()
 
+    pen.forward(body_height)
+    pen.left(90)
+    pen.forward(head_width)
+    pen.left(90)
+
+    # pen.color("red", "red")
+    pen.fillcolor("red")
+
+    pen.begin_fill()
+    pen.circle(40, 180)
+    pen.end_fill()
+
 
 def draw_face():
     pass
