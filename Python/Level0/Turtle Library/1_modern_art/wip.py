@@ -9,7 +9,7 @@ def setup_window():
     window.title("Modern Art")
     # window.setup(600, 600)
     window.setup(window_width, window_height)
-    window.bgcolor("gray30")
+    window.bgcolor("gray10")
 
 
 def setup_pen():

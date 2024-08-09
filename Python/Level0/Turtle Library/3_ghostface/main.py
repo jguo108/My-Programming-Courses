@@ -52,7 +52,7 @@ def animate_face():
 
 def register_costumes():
     for i in range(NUM_OF_IMAGES):
-        face_gif = f'3_ghostface/Resources/{i+1}.gif'
+        face_gif = f'3_ghostface/Resources/Faces/{i+1}.gif'
         turtle.register_shape(face_gif)
         face_costumes.append(face_gif)
 
@@ -109,6 +109,6 @@ register_costumes()
 
 draw_ghost()
 
-animate_face()
+# animate_face()
 
 window.mainloop()
