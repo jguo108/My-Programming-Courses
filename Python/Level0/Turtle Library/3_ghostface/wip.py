@@ -8,15 +8,20 @@ head_height = 100
 
 body_height = 400
 
+# background_color = "gray50"
+background_color = "gray10"
+
 
 def setup_window():
     window.title("Ghost Face")
     window.setup(window_width, window_height)
-    window.bgcolor("gray10")
+    # window.bgcolor("gray50")
+    window.bgcolor(background_color)
 
 
 def setup_pen():
     pen.color("ivory")
+    pen.speed(0)
 
 
 def draw_head():
@@ -33,6 +38,7 @@ def draw_head():
 
 def draw_body():
     # pass
+    pen.penup()
     pen.begin_fill()
     for _ in range(2):
         pen.forward(body_height)
@@ -46,11 +52,19 @@ def draw_body():
     pen.forward(head_width)
     pen.left(90)
 
-    # pen.color("red", "red")
-    pen.fillcolor("red")
+    # pen.color("red")
+    # pen.color("gray50")
+    pen.color(background_color)
 
     pen.begin_fill()
-    pen.circle(40, 180)
+    '''
+    # pen.circle(40, 180)
+    pen.circle((head_width/5)/2, 180)
+    pen.left(180)
+    '''
+    for _ in range(5):
+        pen.circle((head_width/5)/2, 180)
+        pen.left(180)
     pen.end_fill()
 
 
