@@ -70,6 +70,7 @@ def draw_body():
 
 # def draw_face():
 def create_face():
+    window.addshape("3_ghostface/Resources/Faces/1.gif")
     # face.shape("turtle")
     face.shape("3_ghostface/Resources/Faces/1.gif")
 
@@ -87,6 +88,7 @@ face = turtle.Turtle()
 
 setup_window()
 setup_pen()
+
 
 '''
 draw_head()
