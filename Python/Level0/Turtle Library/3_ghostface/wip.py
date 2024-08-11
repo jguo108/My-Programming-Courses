@@ -68,18 +68,22 @@ def draw_body():
     pen.end_fill()
 
 
-def draw_face():
-    pass
+# def draw_face():
+def create_face():
+    # face.shape("turtle")
+    face.shape("3_ghostface/Resources/Faces/1.gif")
 
 
 def draw_ghost():
     draw_head()
     draw_body()
-    draw_face()
+    # draw_face()
+    create_face()
 
 
 window = turtle.Screen()
 pen = turtle.Turtle()
+face = turtle.Turtle()
 
 setup_window()
 setup_pen()
