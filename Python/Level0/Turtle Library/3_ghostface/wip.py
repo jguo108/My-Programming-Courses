@@ -1,4 +1,5 @@
 ﻿import turtle
+import time
 
 window_width = 900
 window_height = 900
@@ -14,6 +15,8 @@ num_of_face_costumes = 43
 
 # background_color = "gray50"
 background_color = "gray10"
+
+face_costumes = []
 
 
 def setup_window():
@@ -80,7 +83,11 @@ def create_face():
     for i in range(num_of_face_costumes):
         # window.addshape("3_ghostface/Resources/Faces/1.gif")
         # window.addshape(f"3_ghostface/Resources/Faces/{i}.gif")
-        window.addshape(f"3_ghostface/Resources/Faces/{i+1}.gif")
+        path = f"3_ghostface/Resources/Faces/{i+1}.gif"
+        # window.addshape(f"3_ghostface/Resources/Faces/{i+1}.gif")
+        # face_costumes.append(f"3_ghostface/Resources/Faces/{i+1}.gif")
+        window.addshape(path)
+        face_costumes.append(path)
 
     # face.shape("turtle")
     face.shape("3_ghostface/Resources/Faces/1.gif")
@@ -98,8 +105,22 @@ def draw_ghost():
 
 def animate_face():
     # pass
+    '''
     for i in range(num_of_face_costumes):
-        face.shape(f"3_ghostface/Resources/Faces/{i+1}.gif")
+        # face.shape(f"3_ghostface/Resources/Faces/{i+1}.gif")
+        face.shape(face_costumes[i])
+        # time.sleep(1)
+        # time.sleep(0.1)
+        time.sleep(0.05)
+    '''
+
+    i = 0
+    while True:
+        if i == num_of_face_costumes:
+            i = 0
+        face.shape(face_costumes[i])
+        time.sleep(0.05)
+        i += 1
 
 
 window = turtle.Screen()
