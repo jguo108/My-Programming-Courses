@@ -8,6 +8,10 @@ head_height = 100
 
 body_height = 400
 
+face_height = 70
+
+num_of_face_costumes = 43
+
 # background_color = "gray50"
 background_color = "gray10"
 
@@ -70,9 +74,19 @@ def draw_body():
 
 # def draw_face():
 def create_face():
-    window.addshape("3_ghostface/Resources/Faces/1.gif")
+    # window.addshape("3_ghostface/Resources/Faces/1.gif")
+    # for _ in range(43):
+    # for i in range(43):
+    for i in range(num_of_face_costumes):
+        # window.addshape("3_ghostface/Resources/Faces/1.gif")
+        # window.addshape(f"3_ghostface/Resources/Faces/{i}.gif")
+        window.addshape(f"3_ghostface/Resources/Faces/{i+1}.gif")
+
     # face.shape("turtle")
     face.shape("3_ghostface/Resources/Faces/1.gif")
+    face.speed(0)
+    face.penup()
+    face.goto(0, face_height)
 
 
 def draw_ghost():
@@ -80,6 +94,12 @@ def draw_ghost():
     draw_body()
     # draw_face()
     create_face()
+
+
+def animate_face():
+    # pass
+    for i in range(num_of_face_costumes):
+        face.shape(f"3_ghostface/Resources/Faces/{i+1}.gif")
 
 
 window = turtle.Screen()
@@ -96,5 +116,7 @@ draw_body()
 draw_face()
 '''
 draw_ghost()
+
+animate_face()
 
 window.mainloop()
