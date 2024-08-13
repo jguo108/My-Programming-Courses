@@ -123,6 +123,21 @@ def animate_face():
         i += 1
 
 
+i = 0
+
+
+def switch_face_costume():
+    global i
+    # i = 0
+    face.shape(face_costumes[i])
+    i += 1
+    window.ontimer(switch_face_costume, 50)
+
+
+def animate_arms():
+    print("Animating arms!")
+
+
 window = turtle.Screen()
 pen = turtle.Turtle()
 face = turtle.Turtle()
@@ -138,6 +153,12 @@ draw_face()
 '''
 draw_ghost()
 
-animate_face()
+# animate_face()
+
+# window.ontimer(switch_face_costume, 1000)
+# window.ontimer(switch_face_costume, 0)
+switch_face_costume()
+
+animate_arms()
 
 window.mainloop()
