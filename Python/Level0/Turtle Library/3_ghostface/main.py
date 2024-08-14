@@ -1,114 +1,108 @@
-﻿# Note:
-# https://www.notion.so/3-Ghostface-d7c5dbb168da413984cc66243d14f497
+﻿import turtle
+import time
 
+window_width = 900
+window_height = 900
 
-# This should be a project that shows how you can create
-# some animation by switching costumes in Python
-# https://scratch.mit.edu/projects/237521692/
-# https://scratch.mit.edu/projects/25383083/editor/
-# https://scratch.mit.edu/projects/456587459/editor/
+head_width = 400
+head_height = 100
 
+body_height = 400
 
-# Idea: draw a animated ghost face
-# - reference for costumes:https://www.freepik.com/free-vector/collection-cute-halloween-ghosts_1319212.htm#fromView=search&page=1&position=29&uuid=cf5b65a7-71d0-4fe3-982e-44272b07ac6e
-# - reference for animation: https://scratch.mit.edu/projects/237521692/
+face_height = 70
 
-import turtle
-import os
+num_of_face_costumes = 43
 
-face = None
+background_color = "gray10"
+
 face_costumes = []
-index = 0
 
-SCREEN_WIDTH = 900
-SCREEN_HEIGHT = 900
-
-HEAD_RADIUS = 200
-BODY_HEIGHT = 400
-
-NUM_OF_IMAGES = 43
-
-BACKGROUND_COLOR = 'gray10'
-GHOST_COLOR = 'ivory'
-
-window = None
+i = 0
 
 
 def setup_window():
-    global window
-    window = turtle.Screen()
-    window.title('Make a Face')
-    window.setup(SCREEN_WIDTH, SCREEN_HEIGHT)
-    window.bgcolor(BACKGROUND_COLOR)
+    window.title("Ghost Face")
+    window.setup(window_width, window_height)
+    window.bgcolor(background_color)
 
 
-def animate_face():
-    global index
-    index += 1
-    face.shape(face_costumes[index % len(face_costumes)])
-
-    window.ontimer(animate_face, 50)
+def setup_pen():
+    pen.color("ivory")
+    pen.speed(0)
 
 
-def register_costumes():
-    for i in range(NUM_OF_IMAGES):
-        face_gif = f'3_ghostface/Resources/Faces/{i+1}.gif'
-        turtle.register_shape(face_gif)
-        face_costumes.append(face_gif)
+def draw_head():
+    # pass
+    pen.penup()
+    pen.goto(head_width/2, head_height)
+    pen.pendown()
+    pen.left(90)
+    pen.begin_fill()
+    pen.circle(head_width/2, 180)
+    pen.end_fill()
 
 
 def draw_body():
-    body = turtle.Turtle()
+    # pass
+    pen.penup()
+    pen.begin_fill()
+    for _ in range(2):
+        pen.forward(body_height)
+        pen.left(90)
+        pen.forward(head_width)
+        pen.left(90)
+    pen.end_fill()
 
-    body.shape("turtle")
-    body.speed(0)
-    body.penup()
+    pen.forward(body_height)
+    pen.left(90)
+    pen.forward(head_width)
+    pen.left(90)
 
-    body.goto(HEAD_RADIUS, 100)
-    body.left(90)
+    pen.color(background_color)
 
-    body.fillcolor(GHOST_COLOR)
-    body.begin_fill()
-    body.circle(HEAD_RADIUS, 180)
-    body.forward(BODY_HEIGHT)
-    body.left(90)
-    body.forward(HEAD_RADIUS * 2)
-    body.left(90)
-    body.forward(BODY_HEIGHT)
-    body.end_fill()
-
-    body.goto(HEAD_RADIUS, 100 - BODY_HEIGHT)
-    body.fillcolor(BACKGROUND_COLOR)
-    body.begin_fill()
-
+    pen.begin_fill()
     for _ in range(5):
-        body.circle(HEAD_RADIUS/5, 180)
-        body.right(180)
-    body.end_fill()
-    body.hideturtle()
+        pen.circle((head_width/5)/2, 180)
+        pen.left(180)
+    pen.end_fill()
 
 
-def draw_face():
-    global face
-    face = turtle.Turtle()
+def create_face():
+    for i in range(num_of_face_costumes):
+        path = f"3_ghostface/Resources/Faces/{i+1}.gif"
+        window.addshape(path)
+        face_costumes.append(path)
+
+    face.shape("3_ghostface/Resources/Faces/1.gif")
     face.speed(0)
-    face.shape(face_costumes[index])
-
     face.penup()
-    face.goto(0, 70)
+    face.goto(0, face_height)
 
 
 def draw_ghost():
+    draw_head()
     draw_body()
-    draw_face()
+    create_face()
 
+
+def switch_face_costume():
+    global i
+    if i == num_of_face_costumes:
+        i = 0
+    face.shape(face_costumes[i])
+    i += 1
+    window.ontimer(switch_face_costume, 50)
+
+
+window = turtle.Screen()
+pen = turtle.Turtle()
+face = turtle.Turtle()
 
 setup_window()
-
-register_costumes()
+setup_pen()
 
 draw_ghost()
 
-# animate_face()
+switch_face_costume()
 
 window.mainloop()

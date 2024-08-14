@@ -128,6 +128,8 @@ def animate_face():
 def switch_face_costume():
     # i = 0
     global i
+    if i == num_of_face_costumes:
+        i = 0
     face.shape(face_costumes[i])
     i += 1
     window.ontimer(switch_face_costume, 50)
