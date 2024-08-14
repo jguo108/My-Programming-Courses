@@ -18,6 +18,8 @@ background_color = "gray10"
 
 face_costumes = []
 
+i = 0
+
 
 def setup_window():
     window.title("Ghost Face")
@@ -123,12 +125,9 @@ def animate_face():
         i += 1
 
 
-i = 0
-
-
 def switch_face_costume():
-    global i
     # i = 0
+    global i
     face.shape(face_costumes[i])
     i += 1
     window.ontimer(switch_face_costume, 50)
