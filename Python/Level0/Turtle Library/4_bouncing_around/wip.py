@@ -2,6 +2,7 @@
 import random
 import time
 
+# window_width = 800
 window_width = 600
 window_height = 800
 
@@ -11,29 +12,37 @@ jellyfish_speed = 2
 
 i = 0
 
+border_width = 100
+
 
 def setup_window():
     window.title("Bouncing Around")
     window.setup(window_width, window_height)
-    # window.bgpic(
-    #    '4_bouncing_around/Resources/background.gif')
-    window.bgcolor("black")
+    # window.bgcolor("black")
+    window.bgpic(
+        '4_bouncing_around/Resources/Background/background.gif')
 
 
 def create_jellyfish():
     for i in range(num_of_jellyfish_costumes):
-        path = f'4_bouncing_around/Resources/{i+1}_small.gif'
+        path = f'4_bouncing_around/Resources/Jellyfish/{i+1}_small.gif'
         window.addshape(path)
         jellyfish_costumes.append(path)
 
     # jellyfish.shape(jellyfish_costumes[0])
-    jellyfish.shape("4_bouncing_around/Resources/1_small.gif")
+    jellyfish.shape("4_bouncing_around/Resources/Jellyfish/1_small.gif")
     jellyfish.penup()
-    '''
     jellyfish.speed(0)
+    '''
     jellyfish.goto(
-        random.randint(-window_width/2+100, window_width/2-100),
-        random.randint(-window_height/2+100, window_height/2-100))
+        random.randint(-window_width/2, window_width/2),
+        random.randint(-window_height/2, window_height/2))
+    '''
+    jellyfish.goto(
+        random.randint(-window_width/2 + border_width,
+                       window_width/2 - border_width),
+        random.randint(-window_height/2 + border_width, window_height/2 - border_width))
+    '''
     jellyfish.setheading(random.randint(0, 360))
     '''
 
