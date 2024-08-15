@@ -42,9 +42,7 @@ def create_jellyfish():
         random.randint(-window_width/2 + border_width,
                        window_width/2 - border_width),
         random.randint(-window_height/2 + border_width, window_height/2 - border_width))
-    '''
     jellyfish.setheading(random.randint(0, 360))
-    '''
 
 
 def switch_jellyfish_costume():
@@ -86,5 +84,17 @@ create_jellyfish()
 switch_jellyfish_costume()
 
 # game_loop()
+
+while True:
+    jellyfish.forward(jellyfish_speed)
+    # print(f"({jellyfish.xcor()},{jellyfish.ycor()})")
+    if jellyfish.xcor() >= window_width/2 or \
+            jellyfish.xcor() <= -window_width/2 or \
+            jellyfish.ycor() >= window_height/2 or \
+            jellyfish.ycor() <= -window_height/2:
+        # print("Bouncing back!")
+        # jellyfish.left(180)
+        jellyfish.left(180+random.randint(-90, 90))
+
 
 window.mainloop()
