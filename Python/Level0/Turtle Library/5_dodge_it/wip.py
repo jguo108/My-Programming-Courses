@@ -183,25 +183,6 @@ def add_enemy():
         enemies.append(create_enemy())
 
 
-'''
-def tick():
-    global tick_num
-
-    if game_ended:
-        return
-
-    move_player()
-    move_enemies()
-    check_for_collision()
-    update_score()
-    add_enemy()
-    tick_num += 1
-
-    window.update()  # maunall update the screen
-    window.ontimer(tick, 10)  # update the screen every 10 milliseconds
-'''
-
-
 def bind_keys():
     global window
 
@@ -227,8 +208,6 @@ bind_keys()
 animate_enemies()
 
 # 5. Start game loop
-# window.ontimer(tick, 0)
-
 while True:
     if game_ended:
         break

@@ -21,6 +21,7 @@ def setup_window():
     # window.bgcolor("black")
     window.bgpic(
         '4_bouncing_around/Resources/Background/background.gif')
+    # window.tracer(0)
 
 
 def create_jellyfish():
@@ -95,6 +96,8 @@ while True:
         # print("Bouncing back!")
         # jellyfish.left(180)
         jellyfish.left(180+random.randint(-90, 90))
+    # window.update()
+    # time.sleep(0.01)
 
 
 window.mainloop()
