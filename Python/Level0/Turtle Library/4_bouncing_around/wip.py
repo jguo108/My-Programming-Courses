@@ -60,7 +60,7 @@ def bounce(t):
     margin = 60
     if abs(t.xcor()) > window_width/2 - margin or \
             abs(t.ycor()) > window_height/2 - margin:
-        t.right(180 + random.randint(-90, 90))
+        t.right(180 + random.randint(-45, 45))
 
 
 def move_jellyfish():
