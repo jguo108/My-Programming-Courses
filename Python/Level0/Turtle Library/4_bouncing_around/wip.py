@@ -14,6 +14,8 @@ i = 0
 
 border_width = 100
 
+paused = False
+
 
 def setup_window():
     window.title("Bouncing Around")
@@ -69,16 +71,32 @@ def move_jellyfish():
     bounce(jellyfish)
 
 
+def bind_keys():
+    window.onkey(pause_and_resume, "space")
+    window.listen()
+
+
 def game_loop():
     while True:
         move_jellyfish()
         time.sleep(0.005)
 
 
+def pause_and_resume():
+    print("Space key pressed!")
+    paused = True
+
+
 window = turtle.Screen()
 jellyfish = turtle.Turtle()
 
 setup_window()
+
+'''
+window.onkey(pause_and_resume, "space")
+window.listen()
+'''
+bind_keys()
 
 create_jellyfish()
 
@@ -87,6 +105,7 @@ switch_jellyfish_costume()
 # game_loop()
 
 while True:
+    '''
     jellyfish.forward(jellyfish_speed)
     # print(f"({jellyfish.xcor()},{jellyfish.ycor()})")
     if jellyfish.xcor() >= window_width/2 or \
@@ -98,6 +117,14 @@ while True:
         jellyfish.left(180+random.randint(-90, 90))
     # window.update()
     # time.sleep(0.01)
+    '''
+    if not paused:
+        jellyfish.forward(jellyfish_speed)
+        if jellyfish.xcor() >= window_width/2 or \
+                jellyfish.xcor() <= -window_width/2 or \
+                jellyfish.ycor() >= window_height/2 or \
+                jellyfish.ycor() <= -window_height/2:
+            jellyfish.left(180+random.randint(-90, 90))
 
 
 window.mainloop()
