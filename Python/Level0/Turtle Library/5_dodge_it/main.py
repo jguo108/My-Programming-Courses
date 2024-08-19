@@ -49,12 +49,11 @@ def setup_window():
 
 
 def create_player():
-    window.register_shape(f'5_dodge_it/Resources/Player/player.gif')
+    window.addshape(f'5_dodge_it/Resources/Player/player.gif')
 
     player.color('green')
     player.shape('5_dodge_it/Resources/Player/player.gif')
     player.penup()
-    player.speed(0)  # TODO: what does this do?
 
 
 def create_score():
@@ -81,7 +80,7 @@ def create_enemy():
 def create_enemies():
     for i in range(num_of_enemy_costumes):
         gif = f'5_dodge_it/Resources/Enemy/{i+1}.gif'
-        window.register_shape(gif)
+        window.addshape(gif)
         enemy_costumes.append(gif)
 
     for _ in range(initial_enemies):
@@ -105,8 +104,10 @@ def down():
 
 
 def bounce(t):
-    if abs(t.xcor()) > screen_width/2 or \
-            abs(t.ycor()) > screen_height/2:
+    if t.xcor() > screen_width/2 or \
+        t.xcor() < -screen_width/2 or \
+            t.ycor() > screen_height/2 or\
+            t.ycor() < -screen_height/2:
         t.right(180 + random.randint(-45, 45))
 
 
