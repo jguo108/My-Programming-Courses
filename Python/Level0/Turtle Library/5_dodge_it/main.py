@@ -33,10 +33,9 @@ enemy_costumes = []
 enemy_costume_index = 0
 enemy_speed = 1
 
-score_pen = None
-score = 0
+score = None
+points = 0
 
-tick_num = 1
 stopped = False
 
 
@@ -50,7 +49,7 @@ def setup_window():
 
 
 def create_player():
-    register_player_costume()
+    window.register_shape(f'5_dodge_it/Resources/Player/player.gif')
 
     player.color('green')
     player.shape('5_dodge_it/Resources/Player/player.gif')
@@ -59,14 +58,12 @@ def create_player():
 
 
 def create_score():
-    global score_pen
-    score_pen = turtle.Turtle()
-    score_pen.penup()
-    score_pen.hideturtle()
-    score_pen.color('gray80')
-    score_pen.goto(-screen_width/2 + 10, screen_height/2 - 30)
-    score_pen.write(f'Score: {score}', False, align='left',
-                    font=('Courier', 14, 'normal'))
+    score.penup()
+    score.hideturtle()
+    score.color('gray80')
+    score.goto(-screen_width/2 + 10, screen_height/2 - 30)
+    score.write(f'Score: {points}', False, align='left',
+                font=('Courier', 14, 'normal'))
 
 
 def create_enemy():
@@ -82,21 +79,13 @@ def create_enemy():
 
 
 def create_enemies():
-    register_enemy_costumes()
-    for _ in range(initial_enemies):
-        enemies.append(create_enemy())
-
-
-def register_player_costume():
-    gif = f'5_dodge_it/Resources/Player/player.gif'
-    turtle.register_shape(gif)
-
-
-def register_enemy_costumes():
     for i in range(num_of_enemy_costumes):
         gif = f'5_dodge_it/Resources/Enemy/{i+1}.gif'
-        turtle.register_shape(gif)
+        window.register_shape(gif)
         enemy_costumes.append(gif)
+
+    for _ in range(initial_enemies):
+        enemies.append(create_enemy())
 
 
 def left():
@@ -115,10 +104,6 @@ def down():
     player.setheading(270)
 
 
-def collide(t1, t2):
-    return t1.distance(t2) < 20
-
-
 def bounce(t):
     if abs(t.xcor()) > screen_width/2 or \
             abs(t.ycor()) > screen_height/2:
@@ -126,13 +111,12 @@ def bounce(t):
 
 
 def update_score():
-    global score
-    # increase score every 100 ticks
-    if tick_num % 100 == 0:
-        score += 1
-        score_pen.clear()
-        score_pen.write(f'Score: {score}', False, align='left',
-                        font=('Courier', 14, 'normal'))
+    global points
+    points += 1
+    score.clear()
+    score.write(f'Score: {points}', False, align='left',
+                font=('Courier', 14, 'normal'))
+    window.ontimer(update_score, 1000)
 
 
 def animate_enemies():
@@ -159,22 +143,21 @@ def move_enemies():
         bounce(enemy)
 
 
-def check_for_collision():
+def check_collision():
     global stopped
     for enemy in enemies:
-        if collide(player, enemy):
+        if player.distance(enemy) < 20:
             stopped = True
             break
 
 
 def add_enemy():
-    if tick_num % 500 == 0:
-        enemies.append(create_enemy())
+    new_enemy = create_enemy()
+    enemies.append(new_enemy)
+    window.ontimer(add_enemy, 3000)
 
 
 def bind_keys():
-    global window
-
     window.listen()  # make the window listen for key presses
     window.onkey(left, 'Left')
     window.onkey(right, 'Right')
@@ -182,8 +165,21 @@ def bind_keys():
     window.onkey(down, 'Down')
 
 
+def game_loop():
+    while True:
+        if stopped:
+            break
+
+        move_player()
+        move_enemies()
+        check_collision()
+        window.update()
+        time.sleep(0.001)
+
+
 window = turtle.Screen()
 player = turtle.Turtle()
+score = turtle.Turtle()
 
 # 1. Set up game window
 setup_window()
@@ -199,18 +195,10 @@ bind_keys()
 # 4. Animate game objects
 animate_enemies()
 
+window.ontimer(update_score, 1000)
+window.ontimer(add_enemy, 3000)
+
 # 5. Start game loop
-while True:
-    if stopped:
-        break
-
-    move_player()
-    move_enemies()
-    check_for_collision()
-    update_score()
-    add_enemy()
-    window.update()
-    time.sleep(0.001)
-
+game_loop()
 
 window.mainloop()
