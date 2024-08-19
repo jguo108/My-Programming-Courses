@@ -21,14 +21,11 @@ import time
 # - add game over screen
 # - add replay button
 
-SCREEN_WIDTH = 600
-SCREEN_HEIGHT = 600
-INITIAL_ENEMIES = 5
-NUM_OF_ENEMY_COSTUMES = 31
+screen_width = 600
+screen_height = 600
+initial_enemies = 5
+num_of_enemy_costumes = 31
 
-window = None
-
-player = None
 player_speed = 2
 
 enemies = []
@@ -40,30 +37,23 @@ score_pen = None
 score = 0
 
 tick_num = 1
-game_ended = False
+stopped = False
 
 
 def setup_window():
-    global window
-    window = turtle.Screen()
     window.title('Dodge It!')
-    window.bgpic('5_dodge_it/Resources/bg.gif')
-    # window.bgcolor('gray10')
-    window.setup(SCREEN_WIDTH, SCREEN_HEIGHT)
+    window.bgpic('5_dodge_it/Resources/Background/background.gif')
+    window.setup(screen_width, screen_height)
 
     # Disable screen update. We will update it manually using the 'update' method
-    # window.tracer(0)
+    window.tracer(0)
 
 
 def create_player():
-    global player
-
     register_player_costume()
 
-    player = turtle.Turtle()
     player.color('green')
-    # player.shape('square')
-    player.shape('5_dodge_it/Resources/player.gif')
+    player.shape('5_dodge_it/Resources/Player/player.gif')
     player.penup()
     player.speed(0)  # TODO: what does this do?
 
@@ -74,38 +64,37 @@ def create_score():
     score_pen.penup()
     score_pen.hideturtle()
     score_pen.color('gray80')
-    score_pen.goto(-SCREEN_WIDTH/2 + 10, SCREEN_HEIGHT/2 - 30)
+    score_pen.goto(-screen_width/2 + 10, screen_height/2 - 30)
     score_pen.write(f'Score: {score}', False, align='left',
                     font=('Courier', 14, 'normal'))
 
 
 def create_enemy():
     enemy = turtle.Turtle()
-    # enemy.color('red')
     enemy.shape(enemy_costumes[enemy_costume_index % len(enemy_costumes)])
     enemy.penup()
     enemy.speed(0)
     enemy.goto(
-        random.randint(-SCREEN_WIDTH/2+100, SCREEN_WIDTH/2-100),
-        random.randint(-SCREEN_HEIGHT/2+100, SCREEN_HEIGHT/2-100))
+        random.randint(-screen_width/2, screen_width/2),
+        random.randint(-screen_height/2, screen_height/2))
     enemy.setheading(random.randint(0, 360))
     return enemy
 
 
 def create_enemies():
     register_enemy_costumes()
-    for _ in range(INITIAL_ENEMIES):
+    for _ in range(initial_enemies):
         enemies.append(create_enemy())
 
 
 def register_player_costume():
-    gif = f'5_dodge_it/Resources/player.gif'
+    gif = f'5_dodge_it/Resources/Player/player.gif'
     turtle.register_shape(gif)
 
 
 def register_enemy_costumes():
-    for i in range(NUM_OF_ENEMY_COSTUMES):
-        gif = f'5_dodge_it/Resources/enemy/{i+1}.gif'
+    for i in range(num_of_enemy_costumes):
+        gif = f'5_dodge_it/Resources/Enemy/{i+1}.gif'
         turtle.register_shape(gif)
         enemy_costumes.append(gif)
 
@@ -131,9 +120,9 @@ def collide(t1, t2):
 
 
 def bounce(t):
-    if abs(t.xcor()) > SCREEN_WIDTH/2-10 or \
-            abs(t.ycor()) > SCREEN_HEIGHT/2-10:
-        t.right(180 + random.randint(-90, 90))
+    if abs(t.xcor()) > screen_width/2 or \
+            abs(t.ycor()) > screen_height/2:
+        t.right(180 + random.randint(-45, 45))
 
 
 def update_score():
@@ -149,7 +138,7 @@ def update_score():
 def animate_enemies():
     global enemy_costume_index
 
-    if game_ended:
+    if stopped:
         return
 
     enemy_costume_index += 1
@@ -171,35 +160,16 @@ def move_enemies():
 
 
 def check_for_collision():
-    global game_ended
+    global stopped
     for enemy in enemies:
         if collide(player, enemy):
-            game_ended = True
+            stopped = True
             break
 
 
 def add_enemy():
     if tick_num % 500 == 0:
         enemies.append(create_enemy())
-
-
-'''
-def tick():
-    global tick_num
-
-    if game_ended:
-        return
-
-    move_player()
-    move_enemies()
-    check_for_collision()
-    update_score()
-    add_enemy()
-    tick_num += 1
-
-    window.update()  # maunall update the screen
-    window.ontimer(tick, 10)  # update the screen every 10 milliseconds
-'''
 
 
 def bind_keys():
@@ -211,6 +181,9 @@ def bind_keys():
     window.onkey(up, 'Up')
     window.onkey(down, 'Down')
 
+
+window = turtle.Screen()
+player = turtle.Turtle()
 
 # 1. Set up game window
 setup_window()
@@ -227,10 +200,8 @@ bind_keys()
 animate_enemies()
 
 # 5. Start game loop
-# window.ontimer(tick, 0)
-
 while True:
-    if game_ended:
+    if stopped:
         break
 
     move_player()
@@ -238,8 +209,8 @@ while True:
     check_for_collision()
     update_score()
     add_enemy()
-    # window.update()
-    # time.sleep(0.0001)
+    window.update()
+    time.sleep(0.001)
 
 
 window.mainloop()
