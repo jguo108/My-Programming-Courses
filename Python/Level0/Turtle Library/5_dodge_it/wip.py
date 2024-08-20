@@ -20,7 +20,9 @@ def setup_player():
 
 
 def move_left():
-    print("Moving left!")
+    # print("Moving left!")
+    player.setheading(180)
+    player.forward(10)
 
 
 def move_right():
@@ -36,7 +38,8 @@ def move_down():
 
 
 def bind_keys():
-    window.onkey(move_left, "Left")
+    # window.onkey(move_left, "Left")
+    window.onkeypress(move_left, "Left")
     window.onkey(move_right, "Right")
     window.onkey(move_up, "Up")
     window.onkey(move_down, "Down")
