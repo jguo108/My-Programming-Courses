@@ -26,7 +26,7 @@ def setup_window():
     # window.tracer(0)
 
 
-def create_jellyfish():
+def setup_jellyfish():
     for i in range(num_of_jellyfish_costumes):
         path = f'4_bouncing_around/Resources/Jellyfish/{i+1}_small.gif'
         window.addshape(path)
@@ -109,7 +109,7 @@ window.listen()
 '''
 bind_keys()
 
-create_jellyfish()
+setup_jellyfish()
 
 switch_jellyfish_costume()
 

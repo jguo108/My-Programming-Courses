@@ -41,17 +41,15 @@ stopped = False
 
 def setup_window():
     window.title('Dodge It!')
-    window.bgpic('5_dodge_it/Resources/Background/background.gif')
     window.setup(screen_width, screen_height)
+    window.bgpic('5_dodge_it/Resources/Background/background.gif')
 
     # Disable screen update. We will update it manually using the 'update' method
     window.tracer(0)
 
 
 def create_player():
-    window.addshape(f'5_dodge_it/Resources/Player/player.gif')
-
-    player.color('green')
+    window.addshape('5_dodge_it/Resources/Player/player.gif')
     player.shape('5_dodge_it/Resources/Player/player.gif')
     player.penup()
 
@@ -117,6 +115,9 @@ def bounce(t):
 
 def update_score():
     global points
+
+    if stopped:
+        return
     points += 1
     score.clear()
     score.write(f'Score: {points}', False, align='left',
@@ -154,17 +155,19 @@ def check_collision():
 
 
 def add_enemy():
+    if stopped:
+        return
     new_enemy = create_enemy()
     enemies.append(new_enemy)
     window.ontimer(add_enemy, 5000)
 
 
 def bind_keys():
-    window.listen()  # make the window listen for key presses
     window.onkeypress(left, 'Left')
     window.onkeypress(right, 'Right')
     window.onkeypress(up, 'Up')
     window.onkeypress(down, 'Down')
+    window.listen()  # make the window listen for key presses
 
 
 def game_loop():
