@@ -21,8 +21,9 @@ def setup_player():
 
 def move_left():
     # print("Moving left!")
-    player.setheading(180)
-    player.forward(10)
+    if player.xcor() > -window_width/2:
+        player.setheading(180)
+        player.forward(10)
 
 
 def move_right():
