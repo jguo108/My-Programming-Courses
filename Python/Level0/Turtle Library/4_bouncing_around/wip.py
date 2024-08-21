@@ -33,7 +33,7 @@ def setup_jellyfish():
         jellyfish_costumes.append(path)
 
     # jellyfish.shape(jellyfish_costumes[0])
-    jellyfish.shape("4_bouncing_around/Resources/Jellyfish/1_small.gif")
+    jellyfish.shape(jellyfish_costumes[0])
     jellyfish.penup()
     jellyfish.speed(0)
     '''

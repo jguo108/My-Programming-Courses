@@ -92,7 +92,7 @@ def create_face():
         face_costumes.append(path)
 
     # face.shape("turtle")
-    face.shape("3_ghostface/Resources/Faces/1.gif")
+    face.shape(face_costumes[0])
     face.speed(0)
     face.penup()
     face.goto(0, face_height)

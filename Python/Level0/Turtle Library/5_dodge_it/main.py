@@ -50,8 +50,6 @@ def setup_window():
 
 def create_player():
     window.addshape(f'5_dodge_it/Resources/Player/player.gif')
-
-    player.color('green')
     player.shape('5_dodge_it/Resources/Player/player.gif')
     player.penup()
 

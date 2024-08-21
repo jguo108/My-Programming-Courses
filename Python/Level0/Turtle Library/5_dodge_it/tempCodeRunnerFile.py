@@ -1,1 +1,2 @@
-window.mainloop()
+()
+        # time.sleep(0.
