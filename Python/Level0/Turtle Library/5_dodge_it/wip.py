@@ -15,6 +15,8 @@ enemy_speed = 1
 
 i = 0
 
+stopped = False
+
 
 def setup_window():
     window.title("Dodge It!")
@@ -61,6 +63,12 @@ def setup_enemies():
         enemies.append(enemy)
 
 
+def setup_score():
+    score.color("gray80")
+    score.penup()
+    score.goto(-window_width/2, window_height/2)
+
+
 def switch_enemy_costume():
     global i
     if i == num_of_enemy_costumes:
@@ -69,7 +77,6 @@ def switch_enemy_costume():
     for enemy in enemies:
         enemy.shape(enemy_costumes[i])
     i += 1
-    window.update()
 
     # window.ontimer(switch_jellyfish_costume, 500)
     window.ontimer(switch_enemy_costume, 100)
@@ -127,12 +134,35 @@ def move_enemies():
             enemy.left(180+random.randint(-45, 45))
 
 
+def check_collision():
+    global stopped
+    for enemy in enemies:
+        if player.distance(enemy) < 20:
+            stopped = True
+            break
+
+
 def game_loop():
+    # global stopped
     while True:
+        if stopped:
+            break
+
         move_player()
         # move_enemy()
         move_enemies()
+
+        '''
+        for enemy in enemies:
+            if player.distance(enemy) < 20:
+                stopped = True
+                break
+        '''
+        check_collision()
+
         window.update()
+        # time.sleep(1)
+        # time.sleep(0.1)
         time.sleep(0.01)
 
 
@@ -140,11 +170,13 @@ window = turtle.Screen()
 player = turtle.Turtle()
 # enemy = turtle.Turtle()
 enemies = []
+score = turtle.Turtle()
 
 setup_window()
 setup_player()
 # setup_enemy()
 setup_enemies()
+setup_score()
 
 bind_keys()
 
