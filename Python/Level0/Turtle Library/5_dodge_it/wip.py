@@ -16,6 +16,7 @@ enemy_speed = 1
 i = 0
 
 stopped = False
+points = 0
 
 
 def setup_window():
@@ -64,9 +65,11 @@ def setup_enemies():
 
 
 def setup_score():
+    score.hideturtle()
     score.color("gray80")
     score.penup()
-    score.goto(-window_width/2, window_height/2)
+    score.goto(-window_width/2 + 10, window_height/2 - 30)
+    score.write(f"Score: {points}", font=("Courier", 14, "normal"))
 
 
 def switch_enemy_costume():
