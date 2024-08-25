@@ -33,7 +33,20 @@ def setup_player():
     player.penup()
 
 
-# def setup_enemy():
+def create_enemy():
+    enemy = turtle.Turtle()
+    enemy.shape(enemy_costumes[0])
+    enemy.penup()
+    enemy.speed(0)
+
+    enemy.goto(
+        random.randint(-window_width/2, window_width/2),
+        random.randint(-window_height/2, window_height/2))
+    enemy.setheading(random.randint(0, 360))
+
+    return enemy
+
+
 def setup_enemies():
     for i in range(num_of_enemy_costumes):
         path = f'5_dodge_it/Resources/Enemy/{i+1}.gif'
@@ -52,6 +65,7 @@ def setup_enemies():
     '''
     # for _ in range(10):
     for _ in range(3):
+        '''
         enemy = turtle.Turtle()
         enemy.shape(enemy_costumes[0])
         enemy.penup()
@@ -61,6 +75,8 @@ def setup_enemies():
             random.randint(-window_width/2, window_width/2),
             random.randint(-window_height/2, window_height/2))
         enemy.setheading(random.randint(0, 360))
+        '''
+        enemy = create_enemy()
         enemies.append(enemy)
 
 
@@ -145,6 +161,24 @@ def check_collision():
             break
 
 
+def update_score():
+    global points
+    points += 1
+
+    score.clear()
+    score.write(f"Score: {points}", font=("Courier", 14, "normal"))
+
+    # print(f"Current point: {points}")
+
+    window.ontimer(update_score, 1000)
+
+
+def increase_enemy():
+    enemy = create_enemy()
+    enemies.append(enemy)
+    window.ontimer(increase_enemy, 3000)
+
+
 def game_loop():
     # global stopped
     while True:
@@ -184,6 +218,10 @@ setup_score()
 bind_keys()
 
 switch_enemy_costume()
+
+# update_score()
+window.ontimer(update_score, 1000)
+window.ontimer(increase_enemy, 3000)
 
 game_loop()
 
