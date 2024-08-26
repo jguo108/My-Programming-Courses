@@ -41,7 +41,7 @@ def setup_window():
     global window
     window = turtle.Screen()
     window.title('Space Invaders')
-    window.bgpic('6_space_invaders/Resources/bg.gif')
+    window.bgpic('6_space_invaders/Resources/Background/background.gif')
     # window.bgcolor('gray10')
     window.setup(SCREEN_WIDTH, SCREEN_HEIGHT)
 
@@ -57,7 +57,7 @@ def create_player():
     player = turtle.Turtle()
     # player.color('green')
     # player.shape('square')
-    player.shape('6_space_invaders/Resources/spaceship.gif')
+    player.shape('6_space_invaders/Resources/Spaceship/spaceship.gif')
     player.penup()
     player.setheading(90)
     player.goto(0, -(SCREEN_HEIGHT/2-100))
@@ -72,7 +72,7 @@ def create_bullet():
     bullet = turtle.Turtle()
     bullet.color('yellow')
     # bullet.shape('triangle')
-    bullet.shape('6_space_invaders/Resources/bullet.gif')
+    bullet.shape('6_space_invaders/Resources/Spaceship/bullet.gif')
     bullet.penup()
     bullet.setheading(90)
     bullet.shapesize(0.5, 0.5)
@@ -113,16 +113,16 @@ def create_invaders():
 
 
 def register_player_costume():
-    turtle.register_shape('6_space_invaders/Resources/spaceship.gif')
+    turtle.register_shape('6_space_invaders/Resources/Spaceship/spaceship.gif')
 
 
 def register_bullet_costume():
-    turtle.register_shape('6_space_invaders/Resources/bullet.gif')
+    turtle.register_shape('6_space_invaders/Resources/Spaceship/bullet.gif')
 
 
 def register_invader_costumes():
     for i in range(NUM_OF_INVADER_COSTUMES):
-        gif = f'6_space_invaders/Resources/invader/{i+1}.gif'
+        gif = f'6_space_invaders/Resources/Invader/invader/{i+1}.gif'
         turtle.register_shape(gif)
         invader_costumes.append(gif)
 

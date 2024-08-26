@@ -17,7 +17,6 @@ screen_width = 600
 screen_height = 600
 tile_size = 24
 
-window = None
 
 snake = []
 
@@ -30,8 +29,6 @@ game_ended = False
 
 
 def setup_window():
-    global window
-    window = turtle.Screen()
     window.title('Hungry Snake')
     # window.bgpic('7_hungry_snake/Resources/bg.gif')
     window.bgcolor('gray10')
@@ -171,6 +168,8 @@ def bind_keys():
     window.onkey(up, 'Up')
     window.onkey(down, 'Down')
 
+
+window = turtle.Screen()
 
 # 1. Set up game window
 setup_window()
