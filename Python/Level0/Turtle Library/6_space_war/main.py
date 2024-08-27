@@ -20,7 +20,7 @@ points = 0
 
 
 def setup_window():
-    window.title("Virus Dodge")
+    window.title("Dodge It!")
     window.setup(window_width, window_height)
     window.bgpic("5_virus_dodge/Resources/Background/background.gif")
     window.tracer(0)
@@ -49,7 +49,7 @@ def create_enemy():
 
 def setup_enemies():
     for i in range(num_of_enemy_costumes):
-        path = f'5_virus_dodge/Resources/Enemy/Virus3/{i+1}.gif'
+        path = f'5_virus_dodge/Resources/Virus/Virus3/{i+1}.gif'
         window.addshape(path)
         enemy_costumes.append(path)
 
