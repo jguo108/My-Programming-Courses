@@ -27,7 +27,7 @@ def setup_window():
 
 
 def setup_player():
-    path = "5_virus_dodge/Resources/Player/player.gif"
+    path = "5_virus_dodge/Resources/Player/spaceship.gif"
     window.addshape(path)
     player.shape(path)
     player.penup()
@@ -102,19 +102,27 @@ def switch_enemy_costume():
 
 
 def left():
-    player.setheading(180)
+    # player.setheading(180)
+    player.left(5)
+    player.settiltangle(player.heading())
 
 
 def right():
-    player.setheading(0)
+    # player.setheading(0)
+    player.right(5)
+    player.settiltangle(player.heading())
 
 
 def up():
-    player.setheading(90)
+    # player.setheading(90)
+    # player.settiltangle(player.heading())
+    pass
 
 
 def down():
-    player.setheading(270)
+    # player.setheading(270)
+    # player.settiltangle(player.heading())
+    pass
 
 
 def bind_keys():

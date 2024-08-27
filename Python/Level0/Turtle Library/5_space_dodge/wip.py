@@ -9,7 +9,7 @@ window_height = 600
 
 player_speed = 2
 
-num_of_enemy_costumes = 19
+num_of_enemy_costumes = 31
 enemy_costumes = []
 enemy_speed = 1
 
@@ -20,14 +20,14 @@ points = 0
 
 
 def setup_window():
-    window.title("Dodge It!")
+    window.title("Space Dodge")
     window.setup(window_width, window_height)
-    window.bgpic("5_virus_dodge/Resources/Background/background.gif")
+    window.bgpic("5_space_dodge/Resources/Background/background.gif")
     window.tracer(0)
 
 
 def setup_player():
-    path = "5_virus_dodge/Resources/Player/player.gif"
+    path = "5_space_dodge/Resources/Player/player.gif"
     window.addshape(path)
     player.shape(path)
     player.penup()
@@ -49,7 +49,7 @@ def create_enemy():
 
 def setup_enemies():
     for i in range(num_of_enemy_costumes):
-        path = f'5_virus_dodge/Resources/Virus/Virus3/{i+1}.gif'
+        path = f'5_space_dodge/Resources/Enemy/{i+1}.gif'
         window.addshape(path)
         enemy_costumes.append(path)
 
@@ -102,19 +102,23 @@ def switch_enemy_costume():
 
 
 def left():
-    player.setheading(180)
+    # player.setheading(180)
+    player.left(30)
 
 
 def right():
-    player.setheading(0)
+    # player.setheading(0)
+    player.right(30)
 
 
 def up():
-    player.setheading(90)
+    # player.setheading(90)
+    pass
 
 
 def down():
-    player.setheading(270)
+    # player.setheading(270)
+    pass
 
 
 def bind_keys():

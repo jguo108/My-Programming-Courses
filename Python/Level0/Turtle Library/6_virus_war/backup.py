@@ -9,7 +9,7 @@ window_height = 600
 
 player_speed = 2
 
-num_of_enemy_costumes = 31
+num_of_enemy_costumes = 19
 enemy_costumes = []
 enemy_speed = 1
 
@@ -18,16 +18,19 @@ i = 0
 stopped = False
 points = 0
 
+bullets = []
+bullet_speed = 5
+
 
 def setup_window():
-    window.title("Dodge It!")
+    window.title("Virus War")
     window.setup(window_width, window_height)
-    window.bgpic("5_dodge_it/Resources/Background/background.gif")
+    window.bgpic("6_virus_war/Resources/Background/background.gif")
     window.tracer(0)
 
 
 def setup_player():
-    path = "5_dodge_it/Resources/Player/player.gif"
+    path = "6_virus_war/Resources/Player/player.gif"
     window.addshape(path)
     player.shape(path)
     player.penup()
@@ -49,33 +52,11 @@ def create_enemy():
 
 def setup_enemies():
     for i in range(num_of_enemy_costumes):
-        path = f'5_dodge_it/Resources/Enemy/{i+1}.gif'
+        path = f'6_virus_war/Resources/Enemy/Virus3/{i+1}.gif'
         window.addshape(path)
         enemy_costumes.append(path)
 
-    '''
-    enemy.shape(enemy_costumes[0])
-    enemy.penup()
-    enemy.speed(0)
-
-    enemy.goto(
-        random.randint(-window_width/2, window_width/2),
-        random.randint(-window_height/2, window_height/2))
-    enemy.setheading(random.randint(0, 360))
-    '''
-    # for _ in range(10):
     for _ in range(3):
-        '''
-        enemy = turtle.Turtle()
-        enemy.shape(enemy_costumes[0])
-        enemy.penup()
-        enemy.speed(0)
-
-        enemy.goto(
-            random.randint(-window_width/2, window_width/2),
-            random.randint(-window_height/2, window_height/2))
-        enemy.setheading(random.randint(0, 360))
-        '''
         enemy = create_enemy()
         enemies.append(enemy)
 
@@ -92,29 +73,51 @@ def switch_enemy_costume():
     global i
     if i == num_of_enemy_costumes:
         i = 0
-    # enemy.shape(enemy_costumes[i])
     for enemy in enemies:
         enemy.shape(enemy_costumes[i])
     i += 1
 
-    # window.ontimer(switch_jellyfish_costume, 500)
     window.ontimer(switch_enemy_costume, 100)
 
 
+def update_score():
+    global points
+    points += 10
+
+    score.clear()
+    score.write(f"Score: {points}", font=("Courier", 14, "normal"))
+
+
 def left():
-    player.setheading(180)
+    player.left(30)
 
 
 def right():
-    player.setheading(0)
+    player.right(30)
 
 
 def up():
-    player.setheading(90)
+    global player_speed
+    player_speed += 1
 
 
 def down():
-    player.setheading(270)
+    global player_speed
+    player_speed -= 1
+
+
+def fire():
+    bullet = turtle.Turtle()
+
+    bullet.color('DarkOliveGreen2')
+    bullet.shape('circle')
+    bullet.penup()
+    bullet.shapesize(0.3, 0.3)
+    bullet.speed(0)
+
+    bullet.goto(player.xcor(), player.ycor())
+    bullet.setheading(player.heading())
+    bullets.append(bullet)
 
 
 def bind_keys():
@@ -122,6 +125,7 @@ def bind_keys():
     window.onkey(right, "Right")
     window.onkey(up, "Up")
     window.onkey(down, "Down")
+    window.onkey(fire, 'space')
     window.listen()
 
 
@@ -134,16 +138,17 @@ def move_player():
         player.left(180+random.randint(-45, 45))
 
 
-# def move_enemy():
+def move_bullets():
+    for bullet in bullets:
+        bullet.forward(bullet_speed)
+        if bullet.xcor() < -window_width/2 or \
+                bullet.xcor() > window_width/2 or \
+                bullet.ycor() < -window_height/2 or \
+                bullet.ycor() > window_height/2:
+            bullet.hideturtle()
+
+
 def move_enemies():
-    '''
-    enemy.forward(enemy_speed)
-    if enemy.xcor() >= window_width/2 or \
-            enemy.xcor() <= -window_width/2 or \
-            enemy.ycor() >= window_height/2 or \
-            enemy.ycor() <= -window_height/2:
-        enemy.left(180+random.randint(-45, 45))
-    '''
     for enemy in enemies:
         enemy.forward(enemy_speed)
         if enemy.xcor() >= window_width/2 or \
@@ -158,60 +163,53 @@ def check_collision():
     for enemy in enemies:
         if player.distance(enemy) < 20:
             stopped = True
-            break
+            return
 
+    enemies_to_removed = []
+    bullets_to_removed = []
+    for bullet in bullets:
+        for enemy in enemies:
+            if bullet.distance(enemy) < 20:
+                enemies_to_removed.append(enemy)
+                bullets_to_removed.append(bullet)
+                update_score()
 
-def update_score():
-    global points
-    points += 1
+    for enemy in enemies_to_removed:
+        enemy.hideturtle()
+        enemies.remove(enemy)
 
-    score.clear()
-    score.write(f"Score: {points}", font=("Courier", 14, "normal"))
-
-    # print(f"Current point: {points}")
-
-    window.ontimer(update_score, 1000)
+    for bullet in bullets_to_removed:
+        bullet.hideturtle()
+        bullets.remove(bullet)
 
 
 def increase_enemy():
     enemy = create_enemy()
     enemies.append(enemy)
-    window.ontimer(increase_enemy, 3000)
+    window.ontimer(increase_enemy, 5000)
 
 
 def game_loop():
-    # global stopped
     while True:
         if stopped:
             break
 
         move_player()
-        # move_enemy()
         move_enemies()
-
-        '''
-        for enemy in enemies:
-            if player.distance(enemy) < 20:
-                stopped = True
-                break
-        '''
+        move_bullets()
         check_collision()
 
         window.update()
-        # time.sleep(1)
-        # time.sleep(0.1)
         time.sleep(0.01)
 
 
-window = turtle.Screen()
+window = turtle.Screen() 
 player = turtle.Turtle()
-# enemy = turtle.Turtle()
 enemies = []
 score = turtle.Turtle()
 
 setup_window()
 setup_player()
-# setup_enemy()
 setup_enemies()
 setup_score()
 
@@ -219,9 +217,7 @@ bind_keys()
 
 switch_enemy_costume()
 
-# update_score()
-window.ontimer(update_score, 1000)
-window.ontimer(increase_enemy, 3000)
+window.ontimer(increase_enemy, 5000)
 
 game_loop()
 
