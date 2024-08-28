@@ -1,10 +1,7 @@
 ﻿import pygame
-import playsound
 import time
 import random
 import turtle
-0.1, 0.1  # https: // www.tcl.tk/man/tcl8.4/TkCmd/keysyms.htm
-
 
 window_width = 600
 window_height = 600
@@ -12,7 +9,8 @@ window_height = 600
 player_speed = 1
 
 num_of_enemy_costumes = 19
-enemy_costumes = []
+num_of_enemy_kinds = 7
+enemy_costumes = {}
 enemy_speed = 1
 
 i = 0
@@ -52,7 +50,10 @@ def setup_player():
 
 def create_enemy():
     enemy = turtle.Turtle()
-    enemy.shape(enemy_costumes[0])
+    kind = random.randint(1, num_of_enemy_kinds)
+    enemies[enemy] = kind
+    enemy.shape(enemy_costumes[kind][0])
+
     enemy.penup()
     enemy.speed(0)
 
@@ -61,18 +62,18 @@ def create_enemy():
         random.randint(-window_height/2, window_height/2))
     enemy.setheading(random.randint(0, 360))
 
-    return enemy
-
 
 def setup_enemies():
-    for i in range(num_of_enemy_costumes):
-        path = f'6_virus_war/Resources/Enemy/Virus3/{i+1}.gif'
-        window.addshape(path)
-        enemy_costumes.append(path)
+    for i in range(num_of_enemy_kinds):
+        costumes = []
+        for j in range(num_of_enemy_costumes):
+            path = f'6_virus_war/Resources/Enemy/Virus{i+1}/{j+1}.gif'
+            window.addshape(path)
+            costumes.append(path)
+        enemy_costumes[i+1] = costumes
 
     for _ in range(3):
-        enemy = create_enemy()
-        enemies.append(enemy)
+        create_enemy()
 
 
 def setup_score():
@@ -108,8 +109,8 @@ def switch_enemy_costume():
     global i
     if i == num_of_enemy_costumes:
         i = 0
-    for enemy in enemies:
-        enemy.shape(enemy_costumes[i])
+    for enemy, kind in enemies.items():
+        enemy.shape(enemy_costsumes[kind][i])
     i += 1
 
     window.ontimer(switch_enemy_costume, 100)
@@ -153,10 +154,10 @@ def fire():
 
 
 def bind_keys():
-    window.onkey(left, "Left")
-    window.onkey(right, "Right")
-    window.onkey(up, "Up")
-    window.onkey(down, "Down")
+    window.onkey(left, 'Left')
+    window.onkey(right, 'Right')
+    window.onkey(up, 'Up')
+    window.onkey(down, 'Down')
     window.onkey(fire, 'space')
     window.listen()
 
@@ -224,8 +225,7 @@ def check_collision():
 
 
 def increase_enemy():
-    enemy = create_enemy()
-    enemies.append(enemy)
+    create_enemy()
     window.ontimer(increase_enemy, 5000)
 
 
@@ -248,7 +248,7 @@ def game_loop():
 
 window = turtle.Screen()
 player = turtle.Turtle()
-enemies = []
+enemies = {}
 score = turtle.Turtle()
 sounds = {}
 particles = []

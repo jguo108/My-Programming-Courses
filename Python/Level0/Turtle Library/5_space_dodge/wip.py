@@ -35,6 +35,7 @@ def setup_player():
 
 def create_enemy():
     enemy = turtle.Turtle()
+    enemies.append(enemy)
     enemy.shape(enemy_costumes[0])
     enemy.penup()
     enemy.speed(0)
@@ -43,8 +44,6 @@ def create_enemy():
         random.randint(-window_width/2, window_width/2),
         random.randint(-window_height/2, window_height/2))
     enemy.setheading(random.randint(0, 360))
-
-    return enemy
 
 
 def setup_enemies():
@@ -76,8 +75,7 @@ def setup_enemies():
             random.randint(-window_height/2, window_height/2))
         enemy.setheading(random.randint(0, 360))
         '''
-        enemy = create_enemy()
-        enemies.append(enemy)
+        create_enemy()
 
 
 def setup_score():
@@ -102,23 +100,19 @@ def switch_enemy_costume():
 
 
 def left():
-    # player.setheading(180)
-    player.left(30)
+    player.setheading(180)
 
 
 def right():
-    # player.setheading(0)
-    player.right(30)
+    player.setheading(0)
 
 
 def up():
-    # player.setheading(90)
-    pass
+    player.setheading(90)
 
 
 def down():
-    # player.setheading(270)
-    pass
+    player.setheading(270)
 
 
 def bind_keys():
@@ -178,8 +172,7 @@ def update_score():
 
 
 def increase_enemy():
-    enemy = create_enemy()
-    enemies.append(enemy)
+    create_enemy()
     window.ontimer(increase_enemy, 3000)
 
 
