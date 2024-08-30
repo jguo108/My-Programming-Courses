@@ -18,6 +18,9 @@ i = 0
 stopped = False
 points = 0
 
+firing = False
+bullet_speed = 5
+
 
 def setup_window():
     window.title("Space Dodge")
@@ -109,9 +112,13 @@ def slowdown():
 
 
 def fire():
+    global firing
     # print("Space pressed!")
-    bullet.goto(player.xcor(), player.ycor())
-    bullet.showturtle()
+    if not firing:
+        bullet.goto(player.xcor(), player.ycor())
+        bullet.setheading(player.heading())
+        bullet.showturtle()
+        firing = True
 
 
 def bind_keys():
@@ -123,12 +130,22 @@ def bind_keys():
     window.listen()
 
 
+def collide_with_edge(sprite):
+    return sprite.xcor() >= window_width/2 or \
+        sprite.xcor() <= -window_width/2 or \
+        sprite.ycor() >= window_height/2 or \
+        sprite.ycor() <= -window_height
+
+
 def move_player():
     player.forward(player_speed)
+    '''
     if player.xcor() >= window_width/2 or \
             player.xcor() <= -window_width/2 or \
             player.ycor() >= window_height/2 or \
             player.ycor() <= -window_height/2:
+    '''
+    if collide_with_edge(player):
         player.left(180+random.randint(-45, 45))
 
 
@@ -136,11 +153,27 @@ def move_player():
 def move_enemies():
     for enemy in enemies:
         enemy.forward(enemy_speed)
+        '''
         if enemy.xcor() >= window_width/2 or \
                 enemy.xcor() <= -window_width/2 or \
                 enemy.ycor() >= window_height/2 or \
                 enemy.ycor() <= -window_height/2:
+        '''
+        if collide_with_edge(enemy):
             enemy.left(180+random.randint(-45, 45))
+
+
+def move_bullet():
+    global firing
+    bullet.forward(bullet_speed)
+    '''
+    if bullet.xcor() >= window_width/2 or \
+            bullet.xcor() <= -window_width/2 or \
+            bullet.ycor() >= window_height/2 or \
+            bullet.ycor() <= -window_height/2:
+    '''
+    if collide_with_edge(bullet):
+        firing = False
 
 
 def check_collision():
@@ -148,7 +181,12 @@ def check_collision():
     for enemy in enemies:
         if player.distance(enemy) < 20:
             stopped = True
-            break
+            return
+
+    for enemy in enemies:
+        if bullet.distance(enemy) < 20:
+            enemies.remove(enemy)
+            enemy.hideturtle()
 
 
 def update_score():
@@ -173,6 +211,7 @@ def game_loop():
 
         move_player()
         move_enemies()
+        move_bullet()
         check_collision()
 
         window.update()

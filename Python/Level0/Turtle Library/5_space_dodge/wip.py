@@ -156,7 +156,8 @@ def check_collision():
     for enemy in enemies:
         if player.distance(enemy) < 20:
             stopped = True
-            break
+            # break
+            return
 
 
 def update_score():
