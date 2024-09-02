@@ -3,6 +3,7 @@
 import turtle
 import random
 import time
+import pygame
 
 window_width = 600
 window_height = 600
@@ -20,6 +21,8 @@ points = 0
 
 firing = False
 bullet_speed = 5
+
+sounds = []
 
 
 def setup_window():
@@ -60,10 +63,10 @@ def setup_enemies():
 
 def setup_score():
     score.hideturtle()
-    score.color("gray80")
+    score.color('gray80')
     score.penup()
     score.goto(-window_width/2 + 10, window_height/2 - 30)
-    score.write(f"Score: {points}", font=("Courier", 14, "normal"))
+    score.write(f'Score: {points}', font=('Courier', 14, 'normal'))
 
 
 def setup_bullet():
@@ -76,6 +79,31 @@ def setup_bullet():
     bullet.penup()
     bullet.speed(0)
     bullet.hideturtle()
+
+
+def setup_sounds():
+    pygame.mixer.init()
+
+    '''
+    pygame.mixer.Sound('Resources/Sounds/fire.mp3')
+    pygame.mixer.Sound('Resources/Sounds/killed.mp3')
+    pygame.mixer.Sound('Resources/Sounds/gameover.mp3')
+    '''
+
+    '''
+    sound = pygame.mixer.Sound('Resources/Sounds/fire.mp3')
+    sounds.append(sound)
+    sound = pygame.mixer.Sound('Resources/Sounds/killed.mp3')
+    sounds.append(sound)
+    sound = pygame.mixer.Sound('Resources/Sounds/gameover.mp3')
+    sounds.append(sound)
+    '''
+
+    sounds.append(pygame.mixer.Sound('6_virus_war/Resources/Sounds/fire.mp3'))
+    sounds.append(pygame.mixer.Sound(
+        '6_virus_war/Resources/Sounds/killed.mp3'))
+    sounds.append(pygame.mixer.Sound(
+        '6_virus_war/Resources/Sounds/gameover.mp3'))
 
 
 def switch_enemy_costume():
@@ -115,6 +143,7 @@ def fire():
     global firing
     # print("Space pressed!")
     if not firing:
+        sounds[0].play()
         bullet.goto(player.xcor(), player.ycor())
         bullet.setheading(player.heading())
         bullet.showturtle()
@@ -165,19 +194,23 @@ def move_enemies():
 
 def move_bullet():
     global firing
+    '''
     bullet.forward(bullet_speed)
-    '''
-    if bullet.xcor() >= window_width/2 or \
-            bullet.xcor() <= -window_width/2 or \
-            bullet.ycor() >= window_height/2 or \
-            bullet.ycor() <= -window_height/2:
-    '''
+    #if bullet.xcor() >= window_width/2 or \
+    #        bullet.xcor() <= -window_width/2 or \
+    #        bullet.ycor() >= window_height/2 or \
+    #        bullet.ycor() <= -window_height/2:
     if collide_with_edge(bullet):
         firing = False
+    '''
+    if firing:
+        bullet.forward(bullet_speed)
+        if collide_with_edge(bullet):
+            firing = False
 
 
 def check_collision():
-    global stopped
+    global stopped, firing
     for enemy in enemies:
         if player.distance(enemy) < 20:
             stopped = True
@@ -187,16 +220,20 @@ def check_collision():
         if bullet.distance(enemy) < 20:
             enemies.remove(enemy)
             enemy.hideturtle()
+            firing = False
+            bullet.hideturtle()
+            update_score()
 
 
 def update_score():
     global points
-    points += 1
+    # points += 1
+    points += 10
 
     score.clear()
     score.write(f"Score: {points}", font=("Courier", 14, "normal"))
 
-    window.ontimer(update_score, 1000)
+    # window.ontimer(update_score, 1000)
 
 
 def increase_enemy():
@@ -229,12 +266,13 @@ setup_player()
 setup_enemies()
 setup_score()
 setup_bullet()
+setup_sounds()
 
 bind_keys()
 
 switch_enemy_costume()
 
-window.ontimer(update_score, 1000)
+# window.ontimer(update_score, 1000)
 window.ontimer(increase_enemy, 3000)
 
 game_loop()
