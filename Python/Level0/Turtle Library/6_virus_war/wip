@@ -22,7 +22,11 @@ points = 0
 firing = False
 bullet_speed = 5
 
-sounds = []
+# sounds = []
+sounds = {}
+
+num_of_particles = 20
+particle_speed = 5
 
 
 def setup_window():
@@ -99,11 +103,32 @@ def setup_sounds():
     sounds.append(sound)
     '''
 
+    '''
     sounds.append(pygame.mixer.Sound('6_virus_war/Resources/Sounds/fire.mp3'))
     sounds.append(pygame.mixer.Sound(
         '6_virus_war/Resources/Sounds/killed.mp3'))
     sounds.append(pygame.mixer.Sound(
         '6_virus_war/Resources/Sounds/gameover.mp3'))
+    '''
+
+    sounds['fire'] = pygame.mixer.Sound(
+        '6_virus_war/Resources/Sounds/fire.mp3')
+    sounds['killed'] = pygame.mixer.Sound(
+        '6_virus_war/Resources/Sounds/killed.mp3')
+    sounds['gameover'] = pygame.mixer.Sound(
+        '6_virus_war/Resources/Sounds/gameover.mp3')
+
+
+def setup_particles():
+    for _ in range(num_of_particles):
+        particle = turtle.Turtle()
+        particle.shape('circle')
+        particle.shapesize(stretch_wid=0.1, stretch_len=0.1)
+        particle.color(random.choice(
+            ['orange', 'red3', 'goldenrod', 'salmon2', 'orchid2']))
+        particle.penup()
+        particle.hideturtle()
+        particles.append(particle)
 
 
 def switch_enemy_costume():
@@ -143,7 +168,8 @@ def fire():
     global firing
     # print("Space pressed!")
     if not firing:
-        sounds[0].play()
+        # sounds[0].play()
+        sounds['fire'].play()
         bullet.goto(player.xcor(), player.ycor())
         bullet.setheading(player.heading())
         bullet.showturtle()
@@ -209,6 +235,11 @@ def move_bullet():
             firing = False
 
 
+def move_particles():
+    for particle in particles:
+        particle.forward(particle_speed)
+
+
 def check_collision():
     global stopped, firing
     for enemy in enemies:
@@ -218,10 +249,16 @@ def check_collision():
 
     for enemy in enemies:
         if bullet.distance(enemy) < 20:
+            # sounds[1].play()
+            sounds['killed'].play()
             enemies.remove(enemy)
             enemy.hideturtle()
             firing = False
             bullet.hideturtle()
+            for particle in particles:
+                particle.goto(enemy.xcor(), enemy.ycor())
+                particle.setheading(random.randint(0, 360))
+                particle.showturtle()
             update_score()
 
 
@@ -250,9 +287,12 @@ def game_loop():
         move_enemies()
         move_bullet()
         check_collision()
+        move_particles()
 
         window.update()
         time.sleep(0.01)
+    # sounds[2].play()
+    sounds['gameover'].play()
 
 
 window = turtle.Screen()
@@ -260,6 +300,7 @@ player = turtle.Turtle()
 enemies = []
 score = turtle.Turtle()
 bullet = turtle.Turtle()
+particles = []
 
 setup_window()
 setup_player()
@@ -267,6 +308,7 @@ setup_enemies()
 setup_score()
 setup_bullet()
 setup_sounds()
+setup_particles()
 
 bind_keys()
 
