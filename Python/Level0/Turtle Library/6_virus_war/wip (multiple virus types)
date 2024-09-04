@@ -12,7 +12,8 @@ player_speed = 2
 
 num_of_enemy_costumes = 19
 num_of_enemy_types = 7
-enemy_costumes = []
+# enemy_costumes = []
+enemy_costumes = {}
 enemy_speed = 1
 
 i = 0
@@ -46,8 +47,13 @@ def setup_player():
 
 def create_enemy():
     enemy = turtle.Turtle()
-    enemies.append(enemy)
-    enemy.shape(enemy_costumes[0])
+    enemy_type = random.randint(1, num_of_enemy_types)
+    # enemies.append(enemy)
+    enemies[enemy] = enemy_type
+    # enemy.shape(enemy_costumes[0])
+    # enemy.shape(enemy_costumes[(enemy_type-1)*num_of_enemy_costumes])
+    enemy.shape(enemy_costumes[enemy_type][0])
+
     enemy.penup()
     enemy.speed(0)
 
@@ -59,10 +65,13 @@ def create_enemy():
 
 def setup_enemies():
     for t in range(num_of_enemy_types):
+        costumes = []
         for i in range(num_of_enemy_costumes):
             path = f'6_virus_war/Resources/Enemy/Virus{t+1}/{i+1}.gif'
             window.addshape(path)
-            enemy_costumes.append(path)
+            # enemy_costumes.append(path)
+            costumes.append(path)
+        enemy_costumes[t+1] = costumes
 
     for _ in range(3):
         create_enemy()
@@ -138,8 +147,13 @@ def switch_enemy_costume():
     global i
     if i == num_of_enemy_costumes:
         i = 0
+    '''
     for enemy in enemies:
         enemy.shape(enemy_costumes[i])
+    '''
+    for enemy, enemy_type in enemies.items():
+        enemy.shape(enemy_costumes[enemy_type][i])
+
     i += 1
 
     window.ontimer(switch_enemy_costume, 100)
@@ -300,7 +314,8 @@ def game_loop():
 
 window = turtle.Screen()
 player = turtle.Turtle()
-enemies = []
+# enemies = []
+enemies = {}
 score = turtle.Turtle()
 bullet = turtle.Turtle()
 particles = []
