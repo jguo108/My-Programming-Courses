@@ -14,7 +14,7 @@ def pick_student(from_list, to_list):
 
 
 students = ["Harry", "Alice", "William",
-            "Mary", "James", "Alex", "Sara", "Jenifer", "Mark", "Tim"]
+            "Mary", "James", "Alex", "Sara", "Jenifer", "Mark"]
 
 team_A = []
 team_B = []
