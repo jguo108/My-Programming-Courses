@@ -1,9 +1,10 @@
 {
-  "baseFontSize": 26,
+  "baseFontSize": 25,
   "cssTheme": "Things",
   "baseFontSizeAction": true,
   "theme": "obsidian",
   "enabledCssSnippets": [
     "text color"
-  ]
+  ],
+  "nativeMenus": false
 }
