@@ -1,0 +1,9 @@
+{
+  "baseFontSize": 23,
+  "cssTheme": "Things",
+  "baseFontSizeAction": true,
+  "theme": "obsidian",
+  "enabledCssSnippets": [
+    "text color"
+  ]
+}
